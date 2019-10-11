@@ -6,10 +6,15 @@
     <!-- Add your page content here -->
     <ScrollView class="page">
         <StackLayout class="home-panel">
-            <Label text="To get money press button: " fontSize="30"></Label>
-            <Label text="Your account balance: {{balance}} $" fontSize="20"></Label>
+            <Label text="To get money press button: " textWrap="true" fontSize="30"></Label>
+            <Label text="Your account balance: {{balance}} $" textWrap="true" fontSize="20"></Label>
             <Button text="Money button" (tap)="onButtonTap()"></Button>
+            <Label text="{{name}}" textWrap="true" fontSize="30" backgroundColor="{{color}}" style="color: #fafafa;"></Label>
+            <Label text="{{rarity}}" textWrap="true" fontSize="15" ></Label>
+            <Label text="{{description}}" textWrap="true" fontSize="15"></Label>
             <Image src="{{img_src}}" loadMode="async" stretch="aspectFit" class="img"></Image>
+            
+            
         </StackLayout>
     </ScrollView>
 </GridLayout>
