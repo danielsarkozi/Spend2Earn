@@ -1,15 +1,9 @@
-<ActionBar class="action-bar">
-    <Label class="action-bar-title" text="Home"></Label>
-</ActionBar>
-
-<GridLayout class="page">
-    <!-- Add your page content here -->
-    <ScrollView class="page">
-        <StackLayout class="home-panel">
-            <Label text="To get money press button: " fontSize="30"></Label>
-            <Label text="Your account balance: {{balance}} $" fontSize="20"></Label>
-            <Button text="Money button" (tap)="onButtonTap()"></Button>
-            <Image src="{{img_src}}" loadMode="async" stretch="aspectFit" class="img"></Image>
-        </StackLayout>
-    </ScrollView>
-</GridLayout>
+<StackLayout style="vertical-align: center; padding: 0 30; text-align: center">
+    <Label text="S2E" style="height: 150; width: 150; background: lightseagreen; border-radius: 75; color: white; text-align: center; font-size: 60"></Label>
+    <Label text="Spend2Earn" style="font-size: 40; margin: 30 0 120"></Label>
+    <Button text="Log In"></Button>
+    <StackLayout orientation="horizontal" horizontalAlignment="center">
+        <Label text="or "></Label>
+        <Label text="Register" class="link"></Label>
+    </StackLayout>
+</StackLayout>

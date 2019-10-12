@@ -15,6 +15,16 @@ refer to http://docs.nativescript.org/ui/theme.
 For example, the following CSS rule changes the font size of all UI
 components that have the btn class name.
 */
-.btn {
-    font-size: 18;
+Button {
+    background: lightseagreen;
+    border-radius: 5;
+    color: white;
+    font-size: 20;
+    margin-bottom: 10;
+    padding: 20;
+}
+
+.link {
+    color: lightseagreen;
+    text-decoration: underline;
 }
