@@ -17,5 +17,9 @@ https://www.zenhub.com/
 ## Backend 
 Django:
 https://www.djangoproject.com/
+
 Django REST Framework:
 https://www.django-rest-framework.org/
+
+## Autenthication
+https://jwt.io/introduction/
