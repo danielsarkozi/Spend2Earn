@@ -6,6 +6,7 @@ import { AppComponent } from "./app.component";
 import { HomeComponent } from "./home/home.component";
 import { LogoComponent } from "./logo/logo.component";
 import { LoginComponent } from "./login/login.component";
+import { LandingComponent } from "./landing/landing.component";
 
 @NgModule({
     bootstrap: [
@@ -19,7 +20,8 @@ import { LoginComponent } from "./login/login.component";
         AppComponent,
         HomeComponent,
         LogoComponent,
-        LoginComponent
+        LoginComponent,
+        LandingComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
