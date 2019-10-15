@@ -2,11 +2,11 @@
     <Logo size="100"></Logo>
     <Label text="Spend2Earn" style="text-align: center" fontSize="30" marginTop="20"></Label>
     <StackLayout verticalAlignment="center" flexGrow="1">
-        <Label textWrap="true" text="The username and/or password is incorrect" color="white" background="#b2331f" padding="10" borderRadius="5" marginBottom="20"></Label>
+        <Error *ngIf="incorrectCredentials" message="The username or password is incorrect"  marginBottom="20"></Error>
         <Label text="Username"></Label>
-        <TextField borderRadius="5" borderColor="silver" padding="10" borderWidth="1" autocorrect="false" returnKeyType="next"></TextField>
+        <TextField [(ngModel)]="username" borderRadius="5" borderColor="silver" padding="10" borderWidth="1" autocorrect="false" returnKeyType="next" autocapitalizationType="none"></TextField>
         <Label text="Password" marginTop="20"></Label>
-        <TextField borderRadius="5" borderColor="silver" padding="10" borderWidth="1" autocorrect="false" returnKeyType="go"></TextField>
+        <TextField [(ngModel)]="password" borderRadius="5" borderColor="silver" padding="10" borderWidth="1" autocorrect="false" returnKeyType="go"></TextField>
     </StackLayout>
-    <Button text="Log In" [nsRouterLink]="['/home']"></Button>
+    <Button text="Log In" (tap)="logIn()"></Button>
 </FlexboxLayout>
