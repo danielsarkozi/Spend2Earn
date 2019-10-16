@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
         this.validatePassword();
 
         if(!this.usernameEmpty && !this.passwordEmpty) {
-            let userAuthenticated = await confirm('Logging in with credentials: ' + this.username + ' ' + this.password + '\nAuthenticate user?');
+            let userAuthenticated = this.username === 'admin' && this.password === 'admin';
             if (userAuthenticated) {
                 this.routerExtensions.navigate(['/home'], { clearHistory: true });
             }
