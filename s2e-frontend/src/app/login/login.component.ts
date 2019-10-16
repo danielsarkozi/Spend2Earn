@@ -6,10 +6,11 @@ import { RouterExtensions } from "nativescript-angular/router";
     templateUrl: "./login.component.html"
 })
 export class LoginComponent implements OnInit {
-
-    private username: string;
-    private password: string;
+    private username: string = '';
+    private password: string = '';
     private incorrectCredentials: boolean;
+    private usernameEmpty: boolean;
+    private passwordEmpty: boolean;
 
     constructor(private routerExtensions: RouterExtensions) {
         // Use the component constructor to inject providers.
@@ -20,12 +21,25 @@ export class LoginComponent implements OnInit {
     }
 
     async logIn() {
-        let userAuthenticated = await confirm('Logging in with credentials: ' + this.username + ' ' + this.password + '\nAuthenticate user?');
-        if (userAuthenticated) {
-            this.routerExtensions.navigate(['/home'], { clearHistory: true });
+        this.validateUsername();
+        this.validatePassword();
+
+        if(!this.usernameEmpty && !this.passwordEmpty) {
+            let userAuthenticated = await confirm('Logging in with credentials: ' + this.username + ' ' + this.password + '\nAuthenticate user?');
+            if (userAuthenticated) {
+                this.routerExtensions.navigate(['/home'], { clearHistory: true });
+            }
+            else {
+                this.incorrectCredentials = true;
+            }
         }
-        else {
-            this.incorrectCredentials = true;
-        }
+    }
+
+    validateUsername() {
+        this.usernameEmpty = this.username.length === 0;
+    }
+
+    validatePassword() {
+        this.passwordEmpty = this.password.length === 0;
     }
 }

@@ -4,9 +4,11 @@
     <StackLayout verticalAlignment="center" flexGrow="1">
         <Error *ngIf="incorrectCredentials" message="The username or password is incorrect"  marginBottom="20"></Error>
         <Label text="Username"></Label>
-        <TextField [(ngModel)]="username" borderRadius="5" borderColor="silver" padding="10" borderWidth="1" autocorrect="false" returnKeyType="next" autocapitalizationType="none"></TextField>
+        <TextField [(ngModel)]="username" borderRadius="5" borderColor="silver" padding="10" borderWidth="1" autocorrect="false" returnKeyType="next" (returnPress)="focusOnPassword()" autocapitalizationType="none" (blur)="validateUsername()"></TextField>
+        <Label *ngIf="usernameEmpty" text="Please enter your username" color="red"></Label>
         <Label text="Password" marginTop="20"></Label>
-        <TextField [(ngModel)]="password" borderRadius="5" borderColor="silver" padding="10" borderWidth="1" autocorrect="false" returnKeyType="go"></TextField>
+        <TextField [(ngModel)]="password" borderRadius="5" borderColor="silver" padding="10" borderWidth="1" autocorrect="false" returnKeyType="go" autocapitalizationType="none" secure="true" (blur)="validatePassword()"></TextField>
+        <Label *ngIf="passwordEmpty" text="Please enter your password" color="red"></Label>
     </StackLayout>
     <Button text="Log In" (tap)="logIn()"></Button>
 </FlexboxLayout>
