@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     async logIn() {
         let userAuthenticated = await confirm('Logging in with credentials: ' + this.username + ' ' + this.password + '\nAuthenticate user?');
         if (userAuthenticated) {
-            this.routerExtensions.navigate(['/home']);
+            this.routerExtensions.navigate(['/home'], { clearHistory: true });
         }
         else {
             this.incorrectCredentials = true;
