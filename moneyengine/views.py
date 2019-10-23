@@ -1,10 +1,7 @@
 from rest_framework import viewsets
 
-from .serializers import TransactionSerializer
-from .models import Transaction
-
-from .serializers import UserSerializer
-from .models import User
+from .serializers import TransactionSerializer, AlternativeUserSerializer
+from .models import Transaction, AlternativeUser
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
@@ -15,10 +12,10 @@ class TransactionViewSet(viewsets.ModelViewSet):
         kwargs['partial'] = True
         return self.update(transaction, *args, **kwargs)
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all().order_by('user_id')
-    serializer_class = UserSerializer
+class AlternativeUserViewSet(viewsets.ModelViewSet):
+    queryset = AlternativeUser.objects.all().order_by('user_id')
+    serializer_class = AlternativeUserSerializer
 
-    def partial_update(self, user, *args, **kwargs):
+    def partial_update(self, alt_user, *args, **kwargs):
         kwargs['partial'] = True
-        return self.update(user, *args, **kwargs)
+        return self.update(alt_user, *args, **kwargs)

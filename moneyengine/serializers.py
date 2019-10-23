@@ -1,13 +1,13 @@
 from rest_framework import serializers
 
-from .models import Transaction, User
+from .models import Transaction, AlternativeUser
 
 class TransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Transaction
         fields = ('transaction_id', 'payee', 'payer', 'amount', 'savings', 'status')
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class AlternativeUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = User
+        model = AlternativeUser
         fields = ('user_id')
