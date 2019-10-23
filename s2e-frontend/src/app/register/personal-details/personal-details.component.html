@@ -1,0 +1,27 @@
+<ScrollView>
+    <FlexboxLayout flexDirection="column" padding="30">
+        <Logo size="100"></Logo>
+        <Label text="Spend2Earn" style="text-align: center" fontSize="30" margin="20 0"></Label>
+        <Stepper step="1"></Stepper>
+        <StackLayout verticalAlignment="center" flexGrow="1" marginBottom="20">
+            <Label text="Email address" marginTop="20"></Label>
+            <TextField [(ngModel)]="email" class="input" autocorrect="false" returnKeyType="next"
+                autocapitalizationType="none" (blur)="validateEmail()" keyboardType="email"></TextField>
+            <Label *ngIf="emailEmpty" text="Please enter your email address" color="red"></Label>
+
+            <Label text="Username" marginTop="20"></Label>
+            <TextField [(ngModel)]="username" class="input" autocorrect="false" returnKeyType="next"
+                autocapitalizationType="none" (blur)="validateUsername()"></TextField>
+            <Label *ngIf="usernameEmpty" text="Please enter your username" color="red"></Label>
+
+            <Label text="Password" marginTop="20"></Label>
+            <TextField [(ngModel)]="password" class="input" autocorrect="false" returnKeyType="go"
+                autocapitalizationType="none" secure="true" (blur)="validatePassword()" (returnPress)="continue()">
+            </TextField>
+            <Label *ngIf="passwordEmpty" text="Please enter your password" color="red"></Label>
+        </StackLayout>
+        <Label *ngIf="incorrectCredentials" text="The username or password is incorrect" color="red" marginBottom="10"
+            style="text-align: center"></Label>
+        <Button class="btn" text="Continue" (tap)="continue()"></Button>
+    </FlexboxLayout>
+</ScrollView>
