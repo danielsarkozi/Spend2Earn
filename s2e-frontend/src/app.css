@@ -21,7 +21,7 @@ ActionBar {
     color: lightseagreen;
 }
 
-Button {
+.btn {
     background: lightseagreen;
     border-radius: 5;
     color: white;
@@ -32,4 +32,12 @@ Button {
 .link {
     color: lightseagreen;
     text-decoration: underline;
+}
+
+.input {
+    background: white;
+    border-color: silver;
+    border-radius: 5;
+    border-width: 1;
+    padding: 10;
 }

@@ -3,12 +3,12 @@
     <Label text="Spend2Earn" style="text-align: center" fontSize="30" marginTop="20"></Label>
     <StackLayout verticalAlignment="center" flexGrow="1">
         <Label text="Username"></Label>
-        <TextField [(ngModel)]="username" borderRadius="5" borderColor="silver" padding="10" borderWidth="1" autocorrect="false" returnKeyType="next" (returnPress)="focusOnPassword()" autocapitalizationType="none" (blur)="validateUsername()"></TextField>
+        <TextField [(ngModel)]="username" class="input" autocorrect="false" returnKeyType="next" (returnPress)="focusOnPassword()" autocapitalizationType="none" (blur)="validateUsername()"></TextField>
         <Label *ngIf="usernameEmpty" text="Please enter your username" color="red"></Label>
         <Label text="Password" marginTop="20"></Label>
-        <TextField [(ngModel)]="password" borderRadius="5" borderColor="silver" padding="10" borderWidth="1" autocorrect="false" returnKeyType="go" autocapitalizationType="none" secure="true" (blur)="validatePassword()" (returnPress)="logIn()"></TextField>
+        <TextField [(ngModel)]="password" class="input" autocorrect="false" returnKeyType="go" autocapitalizationType="none" secure="true" (blur)="validatePassword()" (returnPress)="logIn()"></TextField>
         <Label *ngIf="passwordEmpty" text="Please enter your password" color="red"></Label>
     </StackLayout>
     <Label *ngIf="incorrectCredentials" text="The username or password is incorrect" color="red" marginBottom="10" style="text-align: center"></Label>
-    <Button text="Log In" (tap)="logIn()"></Button>
+    <Button class="btn" text="Log In" (tap)="logIn()"></Button>
 </FlexboxLayout>
