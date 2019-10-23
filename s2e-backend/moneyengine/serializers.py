@@ -10,4 +10,4 @@ class TransactionSerializer(serializers.HyperlinkedModelSerializer):
 class AlternativeUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AlternativeUser
-        fields = ('user_id')
+        fields = '__all__'
