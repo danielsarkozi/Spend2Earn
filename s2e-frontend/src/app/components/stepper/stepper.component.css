@@ -1,0 +1,30 @@
+Label {
+    text-align: center;
+}
+
+FlexboxLayout {
+    align-items: center;
+    margin-bottom: 10;
+}
+
+.dot {
+    background: lightseagreen;
+    border-radius: 50%;
+    height: 20;
+    width: 20;
+    flex: 0;
+}
+
+.line {
+    background: lightseagreen;
+    flex: 1;
+    height: 5;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.translucent {
+    opacity: .25;
+}
