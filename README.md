@@ -6,10 +6,10 @@
 
 ## Deploying
 
-- After cloning the main repo, add the heroku app *protected-citadel-34073* as a remote. (https://stackoverflow.com/questions/5129598/how-to-link-a-folder-with-an-existing-heroku-app)
+- After cloning the main repo, add the heroku app to it as a remote. App name: *protected-citadel-34073*. (https://stackoverflow.com/questions/5129598/how-to-link-a-folder-with-an-existing-heroku-app)
 - Do not push the whole repository to heroku! Use git-subtree, run:
 
- $ git subtree push --prefix s2e-backend heroku master
+    $ git subtree push --prefix s2e-backend heroku master
 
 
 ## Further Reading
