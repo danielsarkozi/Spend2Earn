@@ -1,0 +1,11 @@
+StackLayout {
+    color: lightseagreen;
+}
+
+Label {
+    font-family: IcoFont, 'IcoFont Regular';
+}
+
+Button {
+    text-align: left;
+}
