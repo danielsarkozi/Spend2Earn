@@ -1,0 +1,35 @@
+<ScrollView>
+    <FlexboxLayout flexDirection="column" padding="30">
+        <Logo size="100"></Logo>
+        <Label text="Spend2Earn" style="text-align: center" fontSize="30" margin="20 0"></Label>
+        <Stepper step="2"></Stepper>
+        <StackLayout>
+            <StackLayout *ngFor="let iban of ibans; let i = index" style="margin-top: 20; background: #eee; padding: 10">
+                <Label text="IBAN"></Label>
+                <StackLayout>
+                    <FlexboxLayout>
+                        <TextField [(ngModel)]="iban.number" flexGrow="1" class="input" autocorrect="false"
+                            returnKeyType="next" autocapitalizationType="none" (blur)="validateIban(iban)"></TextField>
+                        <Button text="X" *ngIf="ibans.length > 1" (tap)="removeIban(i)" color="red"></Button>
+                    </FlexboxLayout>
+                    <Label [text]="iban.error" color="red"></Label>
+                </StackLayout>
+                <Label [text]="iban.cards.length  + ' Linked Card' + (iban.cards.length === 1 ? '' : 's')"
+                    marginTop="20"></Label>
+                <StackLayout *ngFor="let card of iban.cards; let j = index">
+                    <FlexboxLayout>
+                        <TextField flexGrow="1" [(ngModel)]="card.number" class="input" autocorrect="false"
+                            returnKeyType="next" autocapitalizationType="none" keyboardType="phone" (blur)="validateCard(card)"></TextField>
+                        <Button text="X" (tap)="removeCard(iban, j)" color="red"></Button>
+                    </FlexboxLayout>
+                    <Label [text]="card.error" color="red"></Label>
+                </StackLayout>
+                <AddButton (tap)="addCard(iban)" text="Add Linked Card"></AddButton>
+            </StackLayout>
+            <AddButton text="Add IBAN" (tap)="addIban()"></AddButton>
+        </StackLayout>
+        <Label *ngIf="incorrectCredentials" text="The username or password is incorrect" color="red" marginBottom="10"
+            style="text-align: center"></Label>
+        <Button class="btn" text="Continue" (tap)="continue()" flexShrink="0" marginTop="30"></Button>
+    </FlexboxLayout>
+</ScrollView>
