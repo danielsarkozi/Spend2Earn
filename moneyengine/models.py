@@ -29,7 +29,7 @@ class Transaction(models.Model):
     payer = models.ForeignKey(User, on_delete = models.CASCADE)
     amount = models.PositiveIntegerField()
     savings = models.PositiveIntegerField()
-    status = payer = models.CharField( choices=Status.choices() )
+    status = models.CharField( max_length=255, choices=Status.choices() )
 
     def __str__(self):
         pass
