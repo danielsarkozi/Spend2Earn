@@ -25,8 +25,8 @@ class Transaction(models.Model):
 
     '''
     transaction_id = models.AutoField(primary_key=True)
-    payee = models.ForeignKey(User, on_delete = models.CASCADE)
-    payer = models.ForeignKey(User, on_delete = models.CASCADE)
+    payee = models.ForeignKey(User, on_delete = models.CASCADE, related_name='%(class)s_payee')
+    payer = models.ForeignKey(User, on_delete = models.CASCADE, related_name='%(class)s_payer')
     amount = models.PositiveIntegerField()
     savings = models.PositiveIntegerField()
     status = models.CharField( max_length=255, choices=Status.choices() )
