@@ -9,6 +9,11 @@ import { LogoComponent } from "./logo/logo.component";
 import { LoginComponent } from "./login/login.component";
 import { LandingComponent } from "./landing/landing.component";
 import { ErrorComponent } from "./error/error.component";
+import { PersonalDetailsComponent } from "./register/personal-details/personal-details.component";
+import { BankAccountsComponent } from "./register/bank-accounts/bank-accounts.component";
+import { AddButtonComponent } from "./components/add-button/add-button.component";
+import { StepperComponent } from "./components/stepper/stepper.component";
+import { AgreementComponent } from "./register/agreement/agreement.component";
 
 @NgModule({
     bootstrap: [
@@ -25,7 +30,12 @@ import { ErrorComponent } from "./error/error.component";
         LogoComponent,
         LoginComponent,
         LandingComponent,
-        ErrorComponent
+        ErrorComponent,
+        PersonalDetailsComponent,
+        BankAccountsComponent,
+        AddButtonComponent,
+        StepperComponent,
+        AgreementComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
