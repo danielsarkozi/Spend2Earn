@@ -4,7 +4,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'transactions', views.TransactionViewSet)
-router.register(r'users', views.UserViewSet)
+router.register(r'users', views.AlternativeUserViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
