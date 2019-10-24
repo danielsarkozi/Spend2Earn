@@ -6,6 +6,8 @@ router = routers.DefaultRouter()
 router.register(r'transactions', views.TransactionViewSet)
 router.register(r'alternativeusers', views.AlternativeUserViewSet)
 router.register(r'transactionstatuschanges', views.TransactionStatusChangeViewSet)
+router.register(r'ibans', views.IbanViewSet)
+router.register(r'cards', views.CardViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
