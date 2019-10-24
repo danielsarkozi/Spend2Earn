@@ -45,7 +45,7 @@ class CardViewSet(viewsets.ModelViewSet):
         return self.update(card, *args, **kwargs)
 
 class SessionViewSet(viewsets.ModelViewSet):
-    queryset = models.Session.objects.all().order_by('number')
+    queryset = models.Session.objects.all().order_by('creation')
     serializer_class = serializers.SessionSerializer
 
     def partial_update(self, session, *args, **kwargs):
