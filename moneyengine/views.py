@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from .serializers import TransactionSerializer, AlternativeUserSerializer, TransactionStatusChangeSerializer
-from .models import Transaction, AlternativeUser, TransactionStatusChange
+from .serializers import TransactionSerializer, AlternativeUserSerializer, TransactionStatusChangeSerializer, IbanSerializer, CardSerializer
+from .models import Transaction, AlternativeUser, TransactionStatusChange, Iban, Card
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
@@ -27,3 +27,19 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
     def partial_update(self, status_change, *args, **kwargs):
         kwargs['partial'] = True
         return self.update(status_change, *args, **kwargs)
+
+class IbanViewSet(viewsets.ModelViewSet):
+    queryset = Iban.objects.all().order_by('iban_id')
+    serializer_class = IbanSerializer
+
+    def partial_update(self, iban, *args, **kwargs):
+        kwargs['partial'] = True
+        return self.update(iban, *args, **kwargs)
+
+class CardViewSet(viewsets.ModelViewSet):
+    queryset = Card.objects.all().order_by('number')
+    serializer_class = CardSerializer
+
+    def partial_update(self, card, *args, **kwargs):
+        kwargs['partial'] = True
+        return self.update(card, *args, **kwargs)

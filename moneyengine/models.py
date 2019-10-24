@@ -36,4 +36,16 @@ class TransactionStatusChange(models.Model):
     new_status = models.CharField(max_length=255, choices=Status.choices())
     timestamp = models.DateTimeField(auto_now=True)
 
+class Iban(models.Model):
+	iban_id = models.AutoField(primary_key=True)
+	account_owner = models.CharField(max_length=255)
+	alias = models.CharField(max_length=255)
+	country = models.CharField(max_length=2)
+	check_digit = models.CharField(max_length=2)
+	bank = models.IntegerField()
+	number = models.CharField(max_length=30)
+	owner = models.ForeignKey(AlternativeUser, on_delete=models.CASCADE)
 
+class Card(models.Model):
+	number = models.CharField(max_length=255)
+	iban = models.ForeignKey(Iban, on_delete=models.CASCADE)
