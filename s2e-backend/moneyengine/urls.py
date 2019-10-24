@@ -8,6 +8,7 @@ router.register(r'alternativeusers', views.AlternativeUserViewSet)
 router.register(r'transactionstatuschanges', views.TransactionStatusChangeViewSet)
 router.register(r'ibans', views.IbanViewSet)
 router.register(r'cards', views.CardViewSet)
+router.register(r'sessions', views.SessionViewSet)
 
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
