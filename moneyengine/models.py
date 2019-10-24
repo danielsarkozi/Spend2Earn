@@ -39,7 +39,7 @@ class Iban(models.Model):
     owner = models.ForeignKey(AlternativeUser, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.account_owner.user_name) + "'s " + self.alias + " account"
+        return str(self.owner.user_name) + "'s " + self.alias + " account"
 
 class Transaction(models.Model):
     transaction_id = models.AutoField(primary_key=True)
