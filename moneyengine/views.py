@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
-from .serializers import TransactionSerializer, AlternativeUserSerializer
-from .models import Transaction, AlternativeUser
+from .serializers import TransactionSerializer, AlternativeUserSerializer, TransactionStatusChangeSerializer
+from .models import Transaction, AlternativeUser, TransactionStatusChange
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
@@ -19,3 +19,11 @@ class AlternativeUserViewSet(viewsets.ModelViewSet):
     def partial_update(self, alt_user, *args, **kwargs):
         kwargs['partial'] = True
         return self.update(alt_user, *args, **kwargs)
+
+class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
+    queryset = TransactionStatusChange.objects.all().order_by('timestamp')
+    serializer_class = TransactionStatusChangeSerializer
+
+    def partial_update(self, status_change, *args, **kwargs):
+        kwargs['partial'] = True
+        return self.update(status_change, *args, **kwargs)
