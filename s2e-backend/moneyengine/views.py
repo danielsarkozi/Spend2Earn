@@ -5,7 +5,7 @@ from .models import Transaction, AlternativeUser, TransactionStatusChange, Iban,
 
 
 class TransactionViewSet(viewsets.ModelViewSet):
-    queryset = Transaction.objects.all().order_by('status')
+    queryset = Transaction.objects.all().order_by('transaction_id')
     serializer_class = TransactionSerializer
 
     def partial_update(self, transaction, *args, **kwargs):

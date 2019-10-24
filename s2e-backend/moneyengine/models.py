@@ -17,7 +17,7 @@ class AlternativeUser(models.Model):
     user_name = models.CharField(max_length=255)
     password_hash = models.CharField(max_length=60)
     email = models.EmailField()
-    pin = models.CharField(max_length=40) #should we hash this?
+    pin_hash = models.CharField(max_length=40) #should we hash this?
     user_registration_date = models.DateTimeField(auto_now=True)
 
 class Transaction(models.Model):
