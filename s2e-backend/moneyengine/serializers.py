@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Transaction, AlternativeUser
+from .models import Transaction, AlternativeUser, TransactionStatusChange
 
 class TransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -10,4 +10,9 @@ class TransactionSerializer(serializers.HyperlinkedModelSerializer):
 class AlternativeUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AlternativeUser
+        fields = '__all__'
+
+class TransactionStatusChangeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = TransactionStatusChange
         fields = '__all__'
