@@ -20,6 +20,13 @@ class AlternativeUser(models.Model):
     pin_hash = models.CharField(max_length=40) #should we hash this?
     user_registration_date = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return "(" + self.user_id + ") " + self.username
+
+class Session(models.Model):
+    session_id = models.CharField(max_length=60, primary_key=True)
+    user =models.ForeignKey(AlternativeUser, on_delete=models.CASCADE, related_name='%(class)s_userofsession')
+
 class Transaction(models.Model):
     transaction_id = models.AutoField(primary_key=True)
     payee = models.ForeignKey(AlternativeUser, on_delete = models.CASCADE, related_name='%(class)s_payee')
@@ -28,8 +35,7 @@ class Transaction(models.Model):
     savings = models.DecimalField(decimal_places=2, max_digits=14)
 
     def __str__(self):
-        pass
-        #return self.status + ": " + self.amount + "$ from " + self.receiverID + ", to " + self.senderID
+        return "transaction no. " + self.transaction_id + ": " + self.amount + "$ from " + self.payer + ", to " + self.payee
 
 class TransactionStatusChange(models.Model):
     subject_transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='%(class)s_subjecttransaction')
