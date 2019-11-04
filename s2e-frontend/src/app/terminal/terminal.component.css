@@ -1,0 +1,29 @@
+Button {
+    background: lightgray;
+    border-radius: 10;
+    color: black;
+    margin: 10;
+    padding: 20;
+}
+
+Button.red {
+    background: #d82626;
+    color: white;
+}
+
+Button.yellow {
+    background: #d8d826;
+}
+
+Button.green {
+    background: #136c13;
+    color: white;
+}
+
+Button:highlighted {
+    background: yellow;
+}
+
+Button.disabled {
+    opacity: .5;
+}

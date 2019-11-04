@@ -7,15 +7,17 @@ import { LandingComponent } from "./landing/landing.component";
 import { PersonalDetailsComponent } from "./register/personal-details/personal-details.component";
 import { BankAccountsComponent } from "./register/bank-accounts/bank-accounts.component";
 import { AgreementComponent } from "./register/agreement/agreement.component";
+import { TerminalComponent } from "./terminal/terminal.component";
 
 const routes: Routes = [
-    { path: "", redirectTo: "/landing", pathMatch: "full" },
+    { path: "", redirectTo: "/terminal", pathMatch: "full" },
     { path: "home", component: HomeComponent },
     { path: "login", component: LoginComponent },
     { path: "landing", component: LandingComponent },
     { path: "register", component: PersonalDetailsComponent },
     { path: "bank-accounts", component: BankAccountsComponent },
-    { path: "agreement", component: AgreementComponent }
+    { path: "agreement", component: AgreementComponent },
+    { path: "terminal", component: TerminalComponent }
 ];
 
 @NgModule({
