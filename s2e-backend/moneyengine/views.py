@@ -12,9 +12,9 @@ class TransactionViewSet(viewsets.ModelViewSet):
         kwargs['partial'] = True
         return self.update(transaction, *args, **kwargs)
 
-class AlternativeUserViewSet(viewsets.ModelViewSet):
-    queryset = models.AlternativeUser.objects.all().order_by('user_id')
-    serializer_class = serializers.AlternativeUserSerializer
+class CustomUserViewSet(viewsets.ModelViewSet):
+    queryset = models.CustomUser.objects.all().order_by('user_id')
+    serializer_class = serializers.CustomUserSerializer
 
     def partial_update(self, alt_user, *args, **kwargs):
         kwargs['partial'] = True
@@ -43,11 +43,3 @@ class CardViewSet(viewsets.ModelViewSet):
     def partial_update(self, card, *args, **kwargs):
         kwargs['partial'] = True
         return self.update(card, *args, **kwargs)
-
-class SessionViewSet(viewsets.ModelViewSet):
-    queryset = models.Session.objects.all().order_by('creation')
-    serializer_class = serializers.SessionSerializer
-
-    def partial_update(self, session, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(session, *args, **kwargs)

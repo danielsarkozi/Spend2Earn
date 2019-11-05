@@ -1,15 +1,15 @@
 from rest_framework import serializers
 
-from .models import Transaction, AlternativeUser, TransactionStatusChange, Iban, Card, Session
+from .models import Transaction, CustomUser, TransactionStatusChange, Iban, Card
 
 class TransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Transaction
         fields = '__all__'
 
-class AlternativeUserSerializer(serializers.HyperlinkedModelSerializer):
+class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = AlternativeUser
+        model = CustomUser
         fields = '__all__'
 
 class TransactionStatusChangeSerializer(serializers.HyperlinkedModelSerializer):
@@ -25,9 +25,4 @@ class IbanSerializer(serializers.HyperlinkedModelSerializer):
 class CardSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Card
-        fields = '__all__'
-
-class SessionSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Session
         fields = '__all__'
