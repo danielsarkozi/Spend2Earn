@@ -24,12 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.save()
         Profile.objects.update_or_create(user=user,**profile_data)
-     
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = '__all__'
 
 class TransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
