@@ -1,6 +1,11 @@
 from rest_framework import serializers
-
+from django.contrib.auth.models import User
 from .models import Transaction, TransactionStatusChange, Iban, Card
+
+class UserSerializer(serializers.Serializer):
+    class Meta:
+        model = User
+        fields = '__all__'
 
 class TransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -13,6 +18,8 @@ class TransactionStatusChangeSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 class IbanSerializer(serializers.HyperlinkedModelSerializer):
+    owner = UserSerializer()
+
     class Meta:
         model = Iban
         fields = '__all__'
