@@ -4,7 +4,6 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'transactions', views.TransactionViewSet)
-router.register(r'customuser', views.CustomUserViewSet)
 router.register(r'transactionstatuschanges', views.TransactionStatusChangeViewSet)
 router.register(r'ibans', views.IbanViewSet)
 router.register(r'cards', views.CardViewSet)

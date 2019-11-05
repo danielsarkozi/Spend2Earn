@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # custom
 
-AUTH_USER_MODEL = 'moneyengine.CustomUser'
+
 
 
 # Internationalization

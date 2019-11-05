@@ -1,16 +1,10 @@
 from rest_framework import serializers
 
-from .models import Transaction, CustomUser, TransactionStatusChange, Iban, Card
+from .models import Transaction, TransactionStatusChange, Iban, Card
 
 class TransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Transaction
-        fields = '__all__'
-
-class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = CustomUser
-        lookup_field = 'user_id'
         fields = '__all__'
 
 class TransactionStatusChangeSerializer(serializers.HyperlinkedModelSerializer):
