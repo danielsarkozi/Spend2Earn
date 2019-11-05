@@ -1,3 +1,4 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 from enum import Enum, auto
 
@@ -12,22 +13,15 @@ class Status(Enum):
     def choices( cls ):
         return tuple( ( i.name, i.value ) for i in cls )
 
-class AlternativeUser(models.Model):
+class CustomUser(AbstractUser):
     user_id = models.AutoField(primary_key=True)
-    user_name = models.CharField(max_length=255)
-    password_hash = models.CharField(max_length=60)
     email = models.EmailField()
     pin_hash = models.CharField(max_length=40) #should we hash this?
     user_registration_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return "(" + str(self.user_id) + ") " + self.user_name
-
-class Session(models.Model):
-    session_id = models.CharField(max_length=60, primary_key=True)
-    user = models.ForeignKey(AlternativeUser, on_delete=models.CASCADE, related_name='%(class)s_userofsession')
-    creation = models.DateTimeField(auto_now=True)
-
+        
 class Iban(models.Model):
     iban_id = models.AutoField(primary_key=True)
     account_owner = models.CharField(max_length=255)
@@ -36,7 +30,7 @@ class Iban(models.Model):
     check_digit = models.CharField(max_length=2)
     bank = models.IntegerField()
     number = models.CharField(max_length=30)
-    owner = models.ForeignKey(AlternativeUser, on_delete=models.CASCADE)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.owner.user_name) + "'s " + self.alias + " account"
