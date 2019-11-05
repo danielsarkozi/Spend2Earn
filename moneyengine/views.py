@@ -1,17 +1,16 @@
 from rest_framework import viewsets
+from django.contrib.auth.models import User
 
 from . import serializers
 from . import models
 
 class UserViewSet(viewsets.ModelViewSet):
-    @list_route(methods=['get', 'post'], permission_classes=[permissions.IsAuthenticated])
     def profile(self, request):
         u = User.objects.filter(pk=request.user.pk)[0]
         p = Profile.objects.filter(user=u)[0]
         return Response({"id": u.id, "first_name": u.first_name, "last_name": u.last_name, "email": u.email,
                      "city": p.city, "country": p.country, "bio": p.bio})
 
-    permission_classes = [permissions.IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
