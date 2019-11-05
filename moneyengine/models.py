@@ -20,7 +20,7 @@ class CustomUser(AbstractUser):
     user_registration_date = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return "(" + str(self.user_id) + ") " + self.user_name
+        return "(" + str(self.user_id) + ") " + self.username
         
 class Iban(models.Model):
     iban_id = models.AutoField(primary_key=True)
@@ -33,7 +33,7 @@ class Iban(models.Model):
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.owner.user_name) + "'s " + self.alias + " account"
+        return str(self.owner.username) + "'s " + self.alias + " account"
 
 class Transaction(models.Model):
     transaction_id = models.AutoField(primary_key=True)
