@@ -6,7 +6,7 @@ from . import models
 from . import serializers
 
 class CustomUserViewSet(viewsets.ModelViewSet):
-    queryset = models.CustomUser.objects.all().order_by('url')
+    queryset = models.CustomUser.objects.all()
     serializer_class = serializers.CustomUserSerializer
 
 class TransactionViewSet(viewsets.ModelViewSet):
