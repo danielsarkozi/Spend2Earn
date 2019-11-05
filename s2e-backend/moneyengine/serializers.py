@@ -18,7 +18,6 @@ class TransactionStatusChangeSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 class IbanSerializer(serializers.HyperlinkedModelSerializer):
-    owner = UserSerializer()
 
     class Meta:
         model = Iban
