@@ -10,6 +10,7 @@ class TransactionSerializer(serializers.HyperlinkedModelSerializer):
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = CustomUser
+        lookup_field = 'user_id'
         fields = '__all__'
 
 class TransactionStatusChangeSerializer(serializers.HyperlinkedModelSerializer):
