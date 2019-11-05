@@ -1,21 +1,15 @@
-from django.contrib.auth.models import User
 from django.db import models
-from django.db.models.signals import post_save
-from django.dispatch import receiver
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.hashers import make_password
 from enum import Enum, auto
 
-class Profile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    pin = models.IntegerField()
+class CustomUser(AbstractUser):
+    pin = models.CharField(max_length=256, blank = True)
 
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        Profile.objects.create(user=instance)
-
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    def save(self, **kwargs):
+        some_salt = 's2e-backend-special-high-mountain-salt' 
+        self.pin = make_password(self.pin, some_salt)
+        super().save(**kwargs)
 
 class Status(Enum):
     created             = auto()
@@ -36,7 +30,7 @@ class Iban(models.Model):
     check_digit = models.CharField(max_length=2)
     bank = models.IntegerField()
     number = models.CharField(max_length=30)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.owner.username) + "'s " + self.alias + " account"

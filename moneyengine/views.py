@@ -1,47 +1,43 @@
 from rest_framework import viewsets
-from django.contrib.auth.models import User
-
-from . import serializers
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from . import models
+from . import serializers
 
-class UserViewSet(viewsets.ModelViewSet):
-    def profile(self, request):
-        u = User.objects.filter(pk=request.user.pk)[0]
-        p = Profile.objects.filter(user=u)[0]
-        return Response({"id": u.id, "first_name": u.first_name, "last_name": u.last_name, "email": u.email,
-                     "city": p.city, "country": p.country, "bio": p.bio})
-
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class CustomUserViewSet(viewsets.ModelViewSet):
+    queryset = models.CustomUser.objects.all().order_by('url')
+    serializer_class = serializers.CustomUserSerializer
 
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset = models.Transaction.objects.all().order_by('transaction_id')
     serializer_class = serializers.TransactionSerializer
-
-    def partial_update(self, transaction, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(transaction, *args, **kwargs)
+    permission_classes = (IsAuthenticated,)
 
 class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
     queryset = models.TransactionStatusChange.objects.all().order_by('timestamp')
     serializer_class = serializers.TransactionStatusChangeSerializer
+    permission_classes = (IsAuthenticated,)    
 
-    def partial_update(self, status_change, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(status_change, *args, **kwargs)
+    # Working example for custom logic on POST method
+    # def create(self, request):
+    #     if request.data['thingname'] == "kiskutya": # also request.META for header dictionary
+    #         serializer = TransactionStatusChangeSerializer(data=request.data, context={'request': request})
+    #         if serializer.is_valid():
+    #             serializer.save()
+    #             return Response(serializer.data, status=status.HTTP_201_CREATED)
+    #         else:
+    #             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    #     else:
+    #         content = "only kiskutya"
+    #         return Response(content, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
 class IbanViewSet(viewsets.ModelViewSet):
     queryset = models.Iban.objects.all().order_by('iban_id')
     serializer_class = serializers.IbanSerializer
-
-    def partial_update(self, iban, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(iban, *args, **kwargs)
+    permission_classes = (IsAuthenticated,)
 
 class CardViewSet(viewsets.ModelViewSet):
     queryset = models.Card.objects.all().order_by('number')
     serializer_class = serializers.CardSerializer
-
-    def partial_update(self, card, *args, **kwargs):
-        kwargs['partial'] = True
-        return self.update(card, *args, **kwargs)
+    permission_classes = (IsAuthenticated,)
