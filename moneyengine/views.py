@@ -12,12 +12,12 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset = models.Transaction.objects.all().order_by('transaction_id')
     serializer_class = serializers.TransactionSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
 class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
     queryset = models.TransactionStatusChange.objects.all().order_by('timestamp')
     serializer_class = serializers.TransactionStatusChangeSerializer
-    permission_classes = (IsAuthenticated,)    
+    # permission_classes = (IsAuthenticated,)    
 
     # Working example for custom logic on POST method
     # def create(self, request):
@@ -35,9 +35,9 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
 class IbanViewSet(viewsets.ModelViewSet):
     queryset = models.Iban.objects.all().order_by('iban_id')
     serializer_class = serializers.IbanSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
 class CardViewSet(viewsets.ModelViewSet):
     queryset = models.Card.objects.all().order_by('number')
     serializer_class = serializers.CardSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
