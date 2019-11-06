@@ -23,7 +23,8 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
         serializer = serializers.TransactionStatusChangeSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            return Response(request.META, status=status.HTTP_201_CREATED)
+            str_meta = str(request.META)
+            return Response(str_meta, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
