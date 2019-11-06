@@ -23,8 +23,9 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
         serializer = serializers.TransactionStatusChangeSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
-            str_meta = str(request.META)
-            return Response(str_meta, status=status.HTTP_201_CREATED)
+            user_fromtoken_str = str(request.user)
+            user_fromtransaction_str = str(request.data['subject_transaction'].source_iban.owner)
+            return Response(user_fromtoken_str + user_fromtransaction_str, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
