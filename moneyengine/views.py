@@ -25,7 +25,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
             user_fromdata_str = str(serializer.validated_data['subject_transaction'])
             user_fromtoken_str = str(request.user)
             serializer.save()
-            return Response(user_fromtoken_str + user_fromtransaction_str, status=status.HTTP_201_CREATED)
+            return Response(user_fromtoken_str + user_fromdata_str, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
