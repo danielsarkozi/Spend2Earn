@@ -20,7 +20,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
     # permission_classes = (IsAuthenticated,)    
 
     def create(self, request):
-        serializer = TransactionStatusChangeSerializer(data=request.data, context={'request': request})
+        serializer = serializers.TransactionStatusChangeSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             serializer.save()
             return Response(request.META, status=status.HTTP_201_CREATED)
