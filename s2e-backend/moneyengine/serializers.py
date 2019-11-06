@@ -5,11 +5,12 @@ class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
     password = serializers.CharField(write_only=True)
     pin = serializers.CharField(write_only=True)
 
-    def create(self, validated_data):
-        user = CustomUser.objects.create(username=validated_data['username'])
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
+    # this way email and is_staff field did not get saved, but I just commented it out
+    # def create(self, validated_data):
+    #     user = CustomUser.objects.create(username=validated_data['username'])
+    #     user.set_password(validated_data['password'])
+    #     user.save()
+    #     return user
 
     class Meta:
         model = CustomUser
