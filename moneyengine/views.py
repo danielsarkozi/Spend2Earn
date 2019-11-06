@@ -22,7 +22,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
     def create(self, request):
         serializer = serializers.TransactionStatusChangeSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            user_fromdata_str = str(serializer.validated_data['subject_transaction'].source_iban.owner)
+            user_fromdata_str = str(serializer.validated_data['subject_transaction'])
             user_fromtoken_str = str(request.user)
             serializer.save()
             return Response(user_fromtoken_str + user_fromtransaction_str, status=status.HTTP_201_CREATED)
