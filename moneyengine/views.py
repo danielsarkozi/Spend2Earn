@@ -19,18 +19,13 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.TransactionStatusChangeSerializer
     # permission_classes = (IsAuthenticated,)    
 
-    # Working example for custom logic on POST method
-    # def create(self, request):
-    #     if request.data['thingname'] == "kiskutya": # also request.META for header dictionary
-    #         serializer = TransactionStatusChangeSerializer(data=request.data, context={'request': request})
-    #         if serializer.is_valid():
-    #             serializer.save()
-    #             return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #         else:
-    #             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    #     else:
-    #         content = "only kiskutya"
-    #         return Response(content, status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+    def create(self, request):
+        serializer = TransactionStatusChangeSerializer(data=request.data, context={'request': request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response(request.META, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class IbanViewSet(viewsets.ModelViewSet):
     queryset = models.Iban.objects.all().order_by('iban_id')
