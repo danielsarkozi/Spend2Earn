@@ -9,6 +9,7 @@ class CustomUser(AbstractUser):
     def save(self, **kwargs):
         some_salt = 's2e-backend-special-high-mountain-salt' 
         self.pin = make_password(self.pin, some_salt)
+        self.set_password(self.password)
         super().save(**kwargs)
 
 class Status(Enum):
