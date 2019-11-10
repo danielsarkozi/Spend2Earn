@@ -45,7 +45,7 @@ class Payment:
         if status == Status.approved_by_bank:
             raise Exception('request already approved by bank')
 
-        success = random.choices([True, False], [0.95, 0.05])
+        success = random.choices([True, False], [0.95, 0.05])[0]
         if success:
             status = Status.approved_by_bank
         else:
