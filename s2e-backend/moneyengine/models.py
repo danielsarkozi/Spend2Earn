@@ -13,11 +13,11 @@ class CustomUser(AbstractUser):
         super().save(**kwargs)
 
 class Status(Enum):
-    created             = auto()
-    approved_by_payer   = auto()
-    denied_by_payer     = auto()
-    approved_by_bank    = auto()
-    denied_by_bank      = auto()
+    created             = "created"
+    approved_by_payer   = "approved_by_payer"
+    denied_by_payer     = "denied_by_payer"
+    approved_by_bank    = "approved_by_bank"
+    denied_by_bank      = "denied_by_bank"
 
     @classmethod
     def choices( cls ):
