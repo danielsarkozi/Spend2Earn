@@ -33,7 +33,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
 class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
     queryset = models.TransactionStatusChange.objects.all().order_by('timestamp')
     serializer_class = serializers.TransactionStatusChangeSerializer
-    permission_classes = (IsAuthenticated,)    
+    #permission_classes = (IsAuthenticated,)    
 
     def create(self, request):
 
@@ -42,7 +42,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
             requested_status = serializer.validated_data['new_status']
             print(requested_status)
             print(models.Status.denied_by_payer)
-            if requested_status == models.Status.denied_by_payer or requested_status == models.Status.approved_by_payer:
+            if requested_status == models.Status.denied_by_payer.value or requested_status == models.Status.approved_by_payer.value:
 
                 payer_user_id_in_transaction = serializer.validated_data['subject_transaction'].source_iban.owner.id
                 user_in_token = request.user
@@ -52,7 +52,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
                     pin_in_request_hashed = make_password(request.headers['pin'], some_salt)                
                 if (payer_user_id_in_transaction == user_in_token.id and pin_in_request_hashed == user_in_token.pin):
                     p = PaymentIban(None, None, None, serializer.validated_data['subject_transaction'])
-                    p.updateStatus(requested_status)
+                    p.updateStatus(models.Status(requested_status))
                     # ugly, we make the payment any way, it will eb denied if user did not approve
                     return Response(p.makePayment(), status=status.HTTP_201_CREATED)
                 else:

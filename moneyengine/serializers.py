@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Transaction, TransactionStatusChange, Iban, Card, CustomUser
+from .models import Transaction, TransactionStatusChange, Iban, Card, CustomUser, Status
 
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
     #password = serializers.CharField(write_only=True)
@@ -22,6 +22,7 @@ class TransactionSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 class TransactionStatusChangeSerializer(serializers.HyperlinkedModelSerializer):
+
     class Meta:
         model = TransactionStatusChange
         fields = '__all__'
