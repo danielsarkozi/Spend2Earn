@@ -13,4 +13,6 @@ router.register(r'cards', views.CardViewSet)
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
     path('', include(router.urls)),
+    path('create_transaction/', views.CreateTransactionView.as_view()),
+    path('validate_payer/', views.ValidatePayer.as_view())
 ]

@@ -2,26 +2,27 @@ import random
 from .models import Transaction, TransactionStatusChange, Iban, Status
 
 class PaymentIban:
-    def __init__(self, source_iban, destination_iban, amount, created_transaction = None):
-        if created_transaction is None:
-            if amount < 0:
-                raise Exception("amount must be nonnegative")
+    def create(source_iban, destination_iban, amount):
+        if amount < 0:
+            raise Exception("amount must be nonnegative")
 
-            self.transaction = Transaction(
-                source_iban = source_iban,
-                destination_iban = destination_iban,
-                amount = amount,
-                savings = 0
-            )
-            self.transaction.save()
+        transaction = Transaction(
+            source_iban = source_iban,
+            destination_iban = destination_iban,
+            amount = amount,
+            savings = 0
+        )
+        transaction.save()
 
-            TransactionStatusChange(
-                subject_transaction = self.transaction,
-                new_status = Status.created
-            ).save()
-            
-        else:
-            self.transaction = created_transaction
+        TransactionStatusChange(
+            subject_transaction = transaction,
+            new_status = Status.created
+        ).save()
+
+        return PaymentIban(transaction)
+
+    def __init__(self, transaction):
+        self.transaction = transaction
 
     def status(self):
         return TransactionStatusChange.objects \
@@ -38,10 +39,8 @@ class PaymentIban:
     def makePayment(self):
         status = self.status()
         if status in {Status.created, Status.denied_by_payer}:
-            raise Exception('payer not validated')
             return False
         if status == Status.approved_by_bank:
-            raise Exception('request already approved by bank')
             return False
 
         success = random.choices([True, False], [0.95, 0.05])[0]
