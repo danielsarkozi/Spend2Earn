@@ -1,13 +1,11 @@
-<FLexboxLayout flexDirection="column">
-    <FlexboxLayout flexGrow="1" flexDirection="column">
-        <ListPicker [items]="listItems" selectedIndex="0" flex="1" style="color: black" [(ngModel)]="selectedIndex"
-            [isUserInteractionEnabled]="!awaitingPayment" [isEnabled]="!awaitingPayment"
-            [ngClass]="{disabled: awaitingPayment}"></ListPicker>
-        <FlexboxLayout margin="0 20">
-            <Label [text]="bankAccounts[selectedIndex].currency"></Label>
-            <TextField marginLeft="20" flexGrow="1" class="input" editable="false" [ngModel]="amount"></TextField>
-            <ActivityIndicator *ngIf="awaitingPayment" marginLeft="20" busy="true" color="lightseagreen"></ActivityIndicator>
-        </FlexboxLayout>
+<FlexboxLayout flexDirection="column">
+    <ListPicker [items]="listItems" selectedIndex="0" flexGrow="1" flexShrink="1" style="color: black" [(ngModel)]="selectedIndex"
+        [isUserInteractionEnabled]="!awaitingPayment" [isEnabled]="!awaitingPayment"
+        [ngClass]="{disabled: awaitingPayment}"></ListPicker>
+    <FlexboxLayout margin="0 20">
+        <Label [text]="bankAccounts[selectedIndex].currency"></Label>
+        <TextField marginLeft="20" flexGrow="1" class="input" editable="false" [ngModel]="amount"></TextField>
+        <ActivityIndicator *ngIf="awaitingPayment" marginLeft="20" busy="true" color="lightseagreen"></ActivityIndicator>
     </FlexboxLayout>
     <GridLayout columns="*,*,*" rows="auto,auto,auto,auto,auto" margin="10">
         <Button *ngFor="let symbol of ['1','2','3','4','5','6','7','8','9','.','0']; let i = index" [text]="symbol"
@@ -21,4 +19,4 @@
         <Button text="Delete" row="4" col="1" class="yellow" (tap)="clear()" [isEnabled]="!awaitingPayment && amount.length"
             [ngClass]="{disabled: awaitingPayment || !amount.length}"></Button>
     </GridLayout>
-</FLexboxLayout>
+</FlexboxLayout>
