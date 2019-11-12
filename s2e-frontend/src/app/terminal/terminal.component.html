@@ -17,8 +17,8 @@
 
         <Button text="Request" row="3" col="2" class="green" rowSpan="2" (tap)="enter()" [isEnabled]="!awaitingPayment && isAmountValid()"
             [ngClass]="{disabled: awaitingPayment || !isAmountValid()}"></Button>
-        <Button [text]="awaitingPayment ? 'Cancel' : 'Clear'" row="4" col="0" class="red" (tap)="cancel()"></Button>
-        <Button text="Delete" row="4" col="1" class="yellow" (tap)="clear()" [isEnabled]="!awaitingPayment"
-            [ngClass]="{disabled: awaitingPayment}"></Button>
+        <Button [text]="awaitingPayment ? 'Cancel' : 'Clear'" row="4" col="0" class="red" (tap)="cancel()" [isEnabled]="amount.length" [ngClass]="{disabled: !amount.length}"></Button>
+        <Button text="Delete" row="4" col="1" class="yellow" (tap)="clear()" [isEnabled]="!awaitingPayment && amount.length"
+            [ngClass]="{disabled: awaitingPayment || !amount.length}"></Button>
     </GridLayout>
 </FLexboxLayout>
