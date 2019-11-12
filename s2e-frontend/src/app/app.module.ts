@@ -2,6 +2,8 @@ import { NgModule, NO_ERRORS_SCHEMA } from "@angular/core";
 import { NativeScriptModule } from "nativescript-angular/nativescript.module";
 import { NativeScriptFormsModule } from "nativescript-angular/forms";
 import { DropDownModule } from "nativescript-drop-down/angular";
+import { NativeScriptUIChartModule } from "nativescript-ui-chart/angular";
+import { NativeScriptUISideDrawerModule } from "nativescript-ui-sidedrawer/angular";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -16,6 +18,8 @@ import { AddButtonComponent } from "./components/add-button/add-button.component
 import { StepperComponent } from "./components/stepper/stepper.component";
 import { AgreementComponent } from "./register/agreement/agreement.component";
 import { TerminalComponent } from "./terminal/terminal.component";
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
     bootstrap: [
@@ -25,7 +29,10 @@ import { TerminalComponent } from "./terminal/terminal.component";
         NativeScriptModule,
         AppRoutingModule,
         NativeScriptFormsModule,
-        DropDownModule
+        DropDownModule,
+        NativeScriptUIChartModule,
+        NativeScriptUISideDrawerModule
+        
     ],
     declarations: [
         AppComponent,
@@ -39,7 +46,9 @@ import { TerminalComponent } from "./terminal/terminal.component";
         AddButtonComponent,
         StepperComponent,
         AgreementComponent,
-        TerminalComponent
+        TerminalComponent,
+        DashboardComponent,
+        MenuComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

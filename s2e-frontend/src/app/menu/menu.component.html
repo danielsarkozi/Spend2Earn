@@ -1,0 +1,18 @@
+<RadSideDrawer tkExampleTitle tkToggleNavButton>
+    <GridLayout tkDrawerContent rows="56, *" class="sideStackLayout">
+        <StackLayout class="sideTitleStackLayout">
+            <Label text="Navigation Menu"></Label>
+        </StackLayout>
+        <ScrollView row="1">
+            <StackLayout class="sideStackLayout">
+                <StackLayout *ngFor="let item of menuItems" (tap)="onItemTap(item)">
+                    <Label [text]="item" class="sideLabel"></Label>
+                    <StackLayout class="hr-light m-10"></StackLayout>
+                </StackLayout>
+            </StackLayout>
+        </ScrollView>
+    </GridLayout>
+    <StackLayout tkMainContent (swipe)="openDrawer($event)">
+        <Dashboard></Dashboard>
+    </StackLayout>
+</RadSideDrawer>

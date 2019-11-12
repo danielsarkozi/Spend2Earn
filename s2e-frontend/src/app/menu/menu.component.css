@@ -1,0 +1,16 @@
+.sideStackLayout {
+    background-color: rgb(252, 250, 249);
+}
+
+.sideTitleStackLayout {
+    text-align: center;
+    vertical-align: center;
+}
+
+.sideLabel {
+    padding: 10;
+}
+
+.sideLightGrayLabel {
+    background-color: lightgray;
+}
