@@ -111,8 +111,8 @@ class CreateTransactionView(APIView):
             user_in_token = request.user
             user_in_destination = di.owner
 
-            #if user_in_token.id != user_in_destination.id:
-            #    return Response("Authenticated user is not the same as the requested owner.", status=status.HTTP_401_UNAUTHORIZED)
+            if user_in_token.id != user_in_destination.id:
+                return Response("Authenticated user is not the same as the requested owner.", status=status.HTTP_401_UNAUTHORIZED)
 
             p = PaymentIban.create(si, di, request.data['amount'])
             return Response(p.transaction.transaction_id, status = status.HTTP_201_CREATED)
