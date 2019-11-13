@@ -1,18 +1,15 @@
 from django.urls import include, path
 from rest_framework import routers
-from . import views
+from .views import CustomUserView, IbanView, CardView, CreateTransactionView, SpendingsView, EarningsView, ValidatePayerView
 
 router = routers.DefaultRouter()
-router.register(r'customusers', views.CustomUserViewSet)
-router.register(r'transactions', views.TransactionViewSet)
-router.register(r'transactionstatuschanges', views.TransactionStatusChangeViewSet)
-router.register(r'ibans', views.IbanViewSet)
-router.register(r'cards', views.CardViewSet)
 
-# Wire up our API using automatic URL routing.
-# Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    path('', include(router.urls)),
-    path('create_transaction/', views.CreateTransactionView.as_view()),
-    path('validate_payer/', views.ValidatePayer.as_view())
+    path(r'', include(router.urls)),
+    path('ibans/', IbanView.as_view()),
+    path('cards/', CardView.as_view()),
+    path('transactions/', CreateTransactionView.as_view()),
+    path('transactions/validate/', ValidatePayerView.as_view()),
+    path('transactions/myearnings/', EarningsView.as_view()),
+    path('transactions/myspendings/', SpendingsView.as_view()),
 ]

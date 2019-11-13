@@ -4,7 +4,7 @@ from django.contrib.auth.hashers import make_password
 from enum import Enum, auto
 
 class CustomUser(AbstractUser):
-    pin = models.CharField(max_length=256, blank = True)
+    pin = models.CharField(max_length=256, blank=True)
 
     def save(self, **kwargs):
         some_salt = 's2e-backend-special-high-mountain-salt' 
@@ -12,7 +12,7 @@ class CustomUser(AbstractUser):
         self.set_password(self.password)
         super().save(**kwargs)
 
-class Status(Enum):
+class TransactionStatus(Enum):
     created             = "created"
     approved_by_payer   = "approved_by_payer"
     denied_by_payer     = "denied_by_payer"
@@ -48,7 +48,7 @@ class Transaction(models.Model):
 
 class TransactionStatusChange(models.Model):
     subject_transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='%(class)s_subjecttransaction')
-    new_status = models.CharField(max_length=255, choices=Status.choices())
+    new_status = models.CharField(max_length=255, choices=TransactionStatus.choices())
     timestamp = models.DateTimeField(auto_now=True)
 
 class Card(models.Model):

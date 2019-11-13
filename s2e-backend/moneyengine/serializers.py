@@ -1,20 +1,13 @@
 from rest_framework import serializers
-from .models import Transaction, TransactionStatusChange, Iban, Card, CustomUser, Status
+from .models import Transaction, TransactionStatusChange, Iban, Card, CustomUser, TransactionStatus
 
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
-    #password = serializers.CharField(write_only=True)
-    #pin = serializers.CharField(write_only=True)
-
-    # this way email and is_staff field did not get saved, but I just commented it out
-    # def create(self, validated_data):
-    #     user = CustomUser.objects.create(username=validated_data['username'])
-    #     user.set_password(validated_data['password'])
-    #     user.save()
-    #     return user
+    password = serializers.CharField(write_only=True)
+    pin = serializers.CharField(write_only=True)
 
     class Meta:
         model = CustomUser
-        fields = ['url', 'pin', 'password', 'username', 'email', 'is_staff']
+        fields = ['id', 'pin', 'password', 'username', 'email']
 
 class TransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -22,13 +15,11 @@ class TransactionSerializer(serializers.HyperlinkedModelSerializer):
         fields = '__all__'
 
 class TransactionStatusChangeSerializer(serializers.HyperlinkedModelSerializer):
-
     class Meta:
         model = TransactionStatusChange
         fields = '__all__'
 
 class IbanSerializer(serializers.HyperlinkedModelSerializer):
-
     class Meta:
         model = Iban
         fields = '__all__'

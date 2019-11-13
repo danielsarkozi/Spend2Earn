@@ -1,8 +1,9 @@
 import random
-from .models import Transaction, TransactionStatusChange, Iban, Status
+from .models import Transaction, TransactionStatusChange, Iban, TransactionStatus
 
 class PaymentIban:
-    def create(source_iban, destination_iban, amount):
+    def create(source_iban, destination_iban, amount, savings):
+        # "alternative constructor"
         if amount < 0:
             raise Exception("amount must be nonnegative")
 
@@ -10,13 +11,13 @@ class PaymentIban:
             source_iban = source_iban,
             destination_iban = destination_iban,
             amount = amount,
-            savings = 0
+            savings = savings
         )
         transaction.save()
 
         TransactionStatusChange(
             subject_transaction = transaction,
-            new_status = Status.created
+            new_status = TransactionStatus.created
         ).save()
 
         return PaymentIban(transaction)
@@ -38,16 +39,16 @@ class PaymentIban:
 
     def makePayment(self):
         status = self.status()
-        if status in {Status.created, Status.denied_by_payer}:
-            return False
-        if status == Status.approved_by_bank:
+        # only possible if status is approved by payer, or denied by bank (try again)
+        if status in {TransactionStatus.created, TransactionStatus.denied_by_payer, TransactionStatus.approved_by_bank}:
+            # maybe we should return more than a boolean
             return False
 
         success = random.choices([True, False], [0.95, 0.05])[0]
         if success:
-            status = Status.approved_by_bank
+            status = TransactionStatus.approved_by_bank
         else:
-            status = Status.denied_by_bank
+            status = TransactionStatus.denied_by_bank
 
         TransactionStatusChange(
             subject_transaction = self.transaction,
