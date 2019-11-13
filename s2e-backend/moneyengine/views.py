@@ -68,7 +68,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        users_ibans = Iban.objects.filter(owner=request.user)
+        users_ibans = Iban.objects.filter(owner=self.request.user)
         return Transaction.objects.filter(Q(source_iban__in=users_ibans) | Q(destination_iban__in=users_ibans))
 
     def create(self, request):
@@ -105,7 +105,13 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,) 
     
     def get_queryset(self):
-        return []
+        if 'transaction_id' not in self.request.data:
+            return []
+        else:
+            transaction = Transaction.objects.get(transaction_id=self.request.data['transaction_id'])
+            if self.request.user != transaction.source_iban.owner and self.request.user != transaction.destination_iban.owner:
+               return []
+            return [TransactionStatusChange.objects.filter(subject_transaction=transaction).latest('timestamp'),]
 
     def create(self, request):
         if 'pin' not in request.headers:
@@ -116,7 +122,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
             if requested_status != TransactionStatus.denied_by_payer.value and requested_status != TransactionStatus.approved_by_payer.value:
                 return Response("only payer approvement / deniement should be requested here", status=http_codes.HTTP_400_BAD_REQUEST)                
             
-            transaction = Transaction.objects.get(transaction_id = request.data['subject_transaction'])
+            transaction = serializer.validated_data['subject_transaction']
             payer_user_id_in_transaction = transaction.source_iban.owner.id
             user_in_token = request.user
             some_salt = 's2e-backend-special-high-mountain-salt'
@@ -125,5 +131,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
                 return Response("User id or pin mismatch", status=http_codes.HTTP_401_UNAUTHORIZED)
 
             p = PaymentIban(transaction)
-            p.updateStatus(TransactionStatus(requested_status))
+            p.updateStatus(requested_status)
             return Response(p.makePayment(), status=http_codes.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)

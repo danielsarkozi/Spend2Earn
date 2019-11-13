@@ -9,6 +9,6 @@ router.register(r'cards', CardViewSet)
 router.register(r'transactions', TransactionViewSet)
 router.register(r'validation', TransactionStatusChangeViewSet)
 
-urlpatterns = [
+urlpatterns = [ 
     path('', include(router.urls)),
 ]

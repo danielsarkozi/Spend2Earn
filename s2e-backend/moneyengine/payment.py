@@ -39,8 +39,9 @@ class PaymentIban:
 
     def makePayment(self):
         status = self.status()
+        print(status)
         # only possible if status is approved by payer, or denied by bank (try again)
-        if status in {TransactionStatus.created, TransactionStatus.denied_by_payer, TransactionStatus.approved_by_bank}:
+        if status in {TransactionStatus.created.value, TransactionStatus.denied_by_payer.value, TransactionStatus.approved_by_bank.value}:
             # maybe we should return more than a boolean
             return False
 
