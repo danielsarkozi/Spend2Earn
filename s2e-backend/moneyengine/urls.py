@@ -1,15 +1,14 @@
 from django.urls import include, path
 from rest_framework import routers
-from .views import CustomUserView, IbanView, CardView, CreateTransactionView, SpendingsView, EarningsView, ValidatePayerView
+from .views import CustomUserViewSet, IbanViewSet, CardViewSet, TransactionViewSet, TransactionStatusChangeViewSet
 
 router = routers.DefaultRouter()
+router.register(r'customusers', CustomUserViewSet)
+router.register(r'ibans', IbanViewSet)
+router.register(r'cards', CardViewSet)
+router.register(r'transactions', TransactionViewSet)
+router.register(r'validation', TransactionStatusChangeViewSet)
 
 urlpatterns = [
-    path(r'', include(router.urls)),
-    path('ibans/', IbanView.as_view()),
-    path('cards/', CardView.as_view()),
-    path('transactions/', CreateTransactionView.as_view()),
-    path('transactions/validate/', ValidatePayerView.as_view()),
-    path('transactions/myearnings/', EarningsView.as_view()),
-    path('transactions/myspendings/', SpendingsView.as_view()),
+    path('', include(router.urls)),
 ]

@@ -3,50 +3,27 @@ from rest_framework import status as http_codes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from .models import Transaction, TransactionStatusChange, Iban, Card, CustomUser, TransactionStatus
 from .serializers import CustomUserSerializer, TransactionSerializer, TransactionStatusChangeSerializer, IbanSerializer, CardSerializer
 from .payment import PaymentIban
 
 
-class RegistrationView(APIView):
-    # no authentication required, GET method not allowed
-
-    @classmethod
-    def get_extra_actions(cls):
-        return []
-    def post(self, request):        
-        serializer = CustomUserSerializer(data=request.data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=http_codes.HTTP_201_CREATED)
-        else:
-            return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)
+class CustomUserViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
 
 
-class UserDataView(APIView):
+class IbanViewSet(viewsets.ModelViewSet):
+    queryset = Iban.objects.all().order_by('iban_id')
+    serializer_class = IbanSerializer
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request):
-        if request.user.is_authenticated: # only returns true if a valid token was given
-            serializer = CustomUserSerializer(request.user, context={'request': request})
-            return Response(serializer.data, status=http_codes.HTTP_201_CREATED)
-        else:
-            return Response("Invalid authentication token", status=http_codes.HTTP_401_UNAUTHORIZED)
+    def get_queryset(self):
+        return Iban.objects.filter(owner=self.request.user)
 
-
-class IbanView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request):
-        if request.user.is_authenticated: # only returns true if a valid token was given
-            users_ibans = Iban.objects.filter(owner=request.user)
-            serializer = IbanSerializer(users_ibans, many=True, context={'request': request})
-            return Response(serializer.data, status=http_codes.HTTP_201_CREATED)
-        else:
-            return Response("Invalid authentication token", status=http_codes.HTTP_401_UNAUTHORIZED)
-
-    def post(self, request):
+    def create(self, request):
         serializer = IbanSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             user_in_token = request.user
@@ -61,19 +38,16 @@ class IbanView(APIView):
             return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)           
 
 
-class CardView(APIView):
+class CardViewSet(viewsets.ModelViewSet):
+    queryset = Card.objects.all().order_by('number')
+    serializer_class = CardSerializer
     permission_classes = (IsAuthenticated,)
 
-    def get(self, request):
-        if request.user.is_authenticated: # only returns true if a valid token was given
-            users_ibans = Iban.objects.filter(owner=request.user)
-            users_cards = Card.objects.filter(iban_in=users_ibans)
-            serializer = CardSerializer(users_cards, many=True, context={'request': request})
-            return Response(serializer.data, status=http_codes.HTTP_201_CREATED)
-        else:
-            return Response("Invalid authentication token", status=http_codes.HTTP_401_UNAUTHORIZED)
+    def get_queryset(self):
+            users_ibans = Iban.objects.filter(owner=self.request.user)
+            return Card.objects.filter(iban__in=users_ibans)
 
-    def post(self, request):        
+    def create(self, request):        
         serializer = CardSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             user_in_token = request.user
@@ -88,10 +62,16 @@ class CardView(APIView):
             return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)
 
 
-class CreateTransactionView(APIView):
+class TransactionViewSet(viewsets.ModelViewSet):
+    queryset = Transaction.objects.all().order_by('transaction_id')
+    serializer_class = TransactionSerializer
     permission_classes = (IsAuthenticated,)
-    
-    def post(self, request):
+
+    def get_queryset(self):
+        users_ibans = Iban.objects.filter(owner=request.user)
+        return Transaction.objects.filter(Q(source_iban__in=users_ibans) | Q(destination_iban__in=users_ibans))
+
+    def create(self, request):
         if 'source_card' in request.data:
             if Card.objects.all().filter(pk=request.data['source_card']).exists():
                 request_data['source_iban'] = request.data['source_card'].Iban
@@ -113,41 +93,23 @@ class CreateTransactionView(APIView):
                     serializer.validated_data['destination_iban'], \
                     serializer.validated_data['amount'], \
                     serializer.validated_data['savings'])
+                # Payment class should work with serializers so that we can return a url
                 return Response(p.transaction.transaction_id, status=http_codes.HTTP_201_CREATED)  
         else:
             return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)
 
 
-class SpendingsView(APIView):
-    permission_classes = (IsAuthenticated,)
+class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
+    queryset = TransactionStatusChange.objects.all().order_by('timestamp')
+    serializer_class = TransactionStatusChangeSerializer
+    permission_classes = (IsAuthenticated,) 
+    
+    def get_queryset(self):
+        return []
 
-    def get(self, request):
-        if request.user.is_authenticated: # only returns true if a valid token was given
-            users_ibans = Iban.objects.filter(owner=request.user)
-            transactions = Transaction.objects.filter(source_iban_in=users_ibans)
-            serializer = TransactionSerializer(transactions, many=True, context={'request': request})
-            return Response(serializer.data, status=http_codes.HTTP_201_CREATED)
-        else:
-            return Response("Invalid authentication token", status=http_codes.HTTP_401_UNAUTHORIZED)
-
-
-class EarningsView(APIView):
-    permission_classes = (IsAuthenticated,)
-
-    def get(self, request):
-        if request.user.is_authenticated: # only returns true if a valid token was given
-            users_ibans = Iban.objects.filter(owner=request.user)
-            transactions = Transaction.objects.filter(destination_iban_in=users_ibans)
-            serializer = TransactionSerializer(transactions, many=True, context={'request': request})
-            return Response(serializer.data, status=http_codes.HTTP_201_CREATED)
-        else:
-            return Response("Invalid authentication token", status=http_codes.HTTP_401_UNAUTHORIZED)
-
-
-class ValidatePayerView(APIView):
-    def post(self, request):
+    def create(self, request):
         if 'pin' not in request.headers:
-            return Response("pin required", status=status.HTTP_400_BAD_REQUEST)
+            return Response("pin required", status=http_codes.HTTP_401_UNAUTHORIZED)
         serializer = TransactionStatusChangeSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             requested_status = request.data['new_status']
