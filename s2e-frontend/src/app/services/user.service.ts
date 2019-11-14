@@ -11,7 +11,7 @@ export class UserService {
   public url: string;
   public token: string;
 
-  public async register(username: string, password: string, email: string): Promise<any> {
+  public async register(username: string, password: string, email: string, pin: string): Promise<any> {
     const response = await fetch('https://spend2earn.herokuapp.com/customusers/', {
       method:'POST',
       headers: {
@@ -20,7 +20,8 @@ export class UserService {
       body: JSON.stringify({
         username,
         password,
-        email
+        email,
+        pin
       })
     });
     const userData = await response.json();
