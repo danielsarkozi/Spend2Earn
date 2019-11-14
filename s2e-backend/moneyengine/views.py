@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from .models import Transaction, TransactionStatusChange, Iban, Card, CustomUser, TransactionStatus
-from .serializers import CustomUserSerializer, TransactionSerializer, TransactionStatusChangeSerializer, IbanSerializer, CardSerializer
+from .serializers import CustomUserSerializer, TransactionSerializer, TransactionStatusChangeSerializer, IbanSerializer, CardSerializer, CreateTransactionSerializer
 from .payment import PaymentIban
 
 
@@ -44,7 +44,7 @@ class CardViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-            users_ibans = Iban.objects.filter(owner=self.request.user)
+            users_ibans = Iban.objects.filter(owner=self.request.user.id)
             return Card.objects.filter(iban__in=users_ibans)
 
     def create(self, request):        
@@ -61,43 +61,28 @@ class CardViewSet(viewsets.ModelViewSet):
         else:
             return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)
 
-
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transaction.objects.all().order_by('transaction_id')
-    serializer_class = TransactionSerializer
-    permission_classes = (IsAuthenticated,)
-
-    def get_queryset(self):
-        users_ibans = Iban.objects.filter(owner=self.request.user)
-        return Transaction.objects.filter(Q(source_iban__in=users_ibans) | Q(destination_iban__in=users_ibans))
+    serializer_class = CreateTransactionSerializer
 
     def create(self, request):
-        if 'source_card' in request.data:
-            if Card.objects.all().filter(pk=request.data['source_card']).exists():
-                request_data['source_iban'] = request.data['source_card'].Iban
-                del request.data['source_card']
-            else:
-                # this is the case when the card is not registered in our system
-                return Response("OK this was a regular POS transaction", status=http_codes.HTTP_200_OK)
-
-        # now we have a regular Iban - Iban Transaction
-        serializer = TransactionSerializer(data=request.data, context={'request': request})
-        if serializer.is_valid():
-            user_in_token = request.user
-            user_in_destination = serializer.validated_data['destination_iban'].owner
-
-            if user_in_token.id != user_in_destination.id:
-                return Response("Authenticated user is not the same as the requested receiver.", status=http_codes.HTTP_401_UNAUTHORIZED)
-            else:
-                p = PaymentIban.create(serializer.validated_data['source_iban'], \
-                    serializer.validated_data['destination_iban'], \
-                    serializer.validated_data['amount'], \
-                    serializer.validated_data['savings'])
-                # Payment class should work with serializers so that we can return a url
-                return Response(p.transaction.transaction_id, status=http_codes.HTTP_201_CREATED)  
-        else:
+        serializer = CreateTransactionSerializer(data=request.data, context={'request' : request})
+        if not serializer.is_valid():
             return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)
 
+        data = serializer.validated_data
+        if data["is_pos"]:
+            # this is the case when the card is not registered in our system
+            return Response("OK this was a regular POS transaction", status=http_codes.HTTP_200_OK)
+
+        user_in_token = request.user
+        user_in_destination = data["destination_iban"].owner
+
+        if user_in_token.id == user_in_destination.id:
+            return Response("Authenticated user is not the same as the requested receiver.", status=http_codes.HTTP_401_UNAUTHORIZED)
+        else:
+            transaction = serializer.save()
+            return Response(transaction.transaction_id, status=http_codes.HTTP_201_CREATED)  
 
 class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
     queryset = TransactionStatusChange.objects.all().order_by('timestamp')
