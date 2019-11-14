@@ -1,16 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
-
-interface Iban {
-    number: string,
-    cards: Card[],
-    error?: string
-}
-
-interface Card {
-    number: string,
-    error?: string
-}
+import { UserService } from "~/app/services/user.service";
+import { Card, Iban } from '../../interfaces';
 
 @Component({
     selector: "BankAccounts",
@@ -24,7 +15,7 @@ export class BankAccountsComponent implements OnInit {
         },
     ];
 
-    constructor(private routerExtensions: RouterExtensions) {
+    constructor(private routerExtensions: RouterExtensions, private userService: UserService) {
         // Use the component constructor to inject providers.
     }
 
@@ -53,26 +44,71 @@ export class BankAccountsComponent implements OnInit {
         iban.cards.splice(index, 1);
     }
 
-    continue() {
+    private async continue(): Promise<void> {
         let invalidData = false;
-        for(let iban of this.ibans) {
+        for (let iban of this.ibans) {
             invalidData = !this.validateIban(iban) || invalidData;
-            for(let card of iban.cards) {
+            for (let card of iban.cards) {
                 invalidData = !this.validateCard(card) || invalidData;
             }
         }
 
-        if(!invalidData) {
+        if (!invalidData) {
+            await this.saveIbans(this.ibans);
             this.routerExtensions.navigate(['/agreement']);
         }
     }
 
+    private async saveIbans(ibans: Iban[]): Promise<void> {
+        const requests = [];
+        for (let iban of this.ibans) {
+            const request = fetch('https://spend2earn.herokuapp.com/ibans/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `token ${this.userService.token}`
+                },
+                body: JSON.stringify({
+                    account_owner: 'teszt',
+                    alias: 'abcdefg',
+                    bank: 69,
+                    check_digit: 96,
+                    country: 'RO',
+                    number: iban.number,
+                    owner: this.userService.url
+                })
+            });
+            request.then(response => response.json()).then(json => this.saveCards(iban.cards, json.url));
+            requests.push(request);
+        }
+        await Promise.all(requests);
+    }
+
+    private async saveCards(cards: Card[], iban: string): Promise<void> {
+        const requests = [];
+        for (let card of cards) {
+            const request = fetch('https://spend2earn.herokuapp.com/cards/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `token ${this.userService.token}`
+                },
+                body: JSON.stringify({
+                    number: card.number,
+                    iban: iban
+                })
+            });
+            requests.push(request);
+        }
+        await Promise.all(requests);
+    }
+
     validateIban(iban: Iban) {
-        if(!iban.number.length) {
+        if (!iban.number.length) {
             iban.error = 'The IBAN is empty';
             return false;
         }
-        if(!(/^[A-Za-z]{2}[0-9]{2}[A-Za-z0-9]{0,30}$/).test(iban.number)) {
+        if (!(/^[A-Za-z]{2}[0-9]{2}[A-Za-z0-9]{0,30}$/).test(iban.number)) {
             iban.error = 'The IBAN is in an incorrect format';
             return false;
         }
@@ -81,11 +117,11 @@ export class BankAccountsComponent implements OnInit {
     }
 
     validateCard(card: Card) {
-        if(!card.number.length) {
+        if (!card.number.length) {
             card.error = 'The card number is empty';
             return false;
         }
-        if(!(/^[0-9]{10,19}$/).test(card.number)) {
+        if (!(/^[0-9]{10,19}$/).test(card.number)) {
             card.error = 'The card number is in an incorrect format';
             return false;
         }
