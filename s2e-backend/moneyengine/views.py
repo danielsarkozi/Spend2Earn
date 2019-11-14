@@ -64,6 +64,11 @@ class CardViewSet(viewsets.ModelViewSet):
 class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transaction.objects.all().order_by('transaction_id')
     serializer_class = CreateTransactionSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+         users_ibans = Iban.objects.filter(owner=self.request.user)
+         return Transaction.objects.filter(Q(source_iban__in=users_ibans) | Q(destination_iban__in=users_ibans))
 
     def create(self, request):
         serializer = CreateTransactionSerializer(data=request.data, context={'request' : request})
