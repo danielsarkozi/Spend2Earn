@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import Transaction, TransactionStatusChange, Iban, Card, CustomUser, TransactionStatus
-from .payment import PaymentIban
 
 class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
     #password = serializers.CharField(write_only=True)
@@ -70,9 +69,9 @@ class CreateTransactionSerializer(serializers.Serializer):
         if validated_attrs["is_pos"]:
             raise NotImplementedError("can't create POS transaction")
 
-        return PaymentIban.create (
+        return Transaction.objects.createTransaction (
             validated_attrs["source_iban"],
             validated_attrs["destination_iban"],
             validated_attrs["amount"],
             validated_attrs["savings"]
-        ).transaction
+        )

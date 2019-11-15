@@ -7,7 +7,6 @@ from django.db.models import Q
 from django.contrib.auth.hashers import make_password
 from .models import Transaction, TransactionStatusChange, Iban, Card, CustomUser, TransactionStatus
 from .serializers import CustomUserSerializer, TransactionSerializer, TransactionStatusChangeSerializer, IbanSerializer, CardSerializer, CreateTransactionSerializer
-from .payment import PaymentIban
 
 
 class CustomUserViewSet(viewsets.ModelViewSet):
@@ -16,7 +15,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
 
 class IbanViewSet(viewsets.ModelViewSet):
-    queryset = Iban.objects.all().order_by('iban_id')
+    queryset = Iban.objects.all().order_by('id')
     serializer_class = IbanSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -62,7 +61,7 @@ class CardViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)
 
 class TransactionViewSet(viewsets.ModelViewSet):
-    queryset = Transaction.objects.all().order_by('transaction_id')
+    queryset = Transaction.objects.all().order_by('id')
     serializer_class = CreateTransactionSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -108,7 +107,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
             return Response("pin required", status=http_codes.HTTP_401_UNAUTHORIZED)
         serializer = TransactionStatusChangeSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
-            requested_status = request.data['new_status']
+            requested_status = serializer.validated_data['new_status']
             if requested_status != TransactionStatus.denied_by_payer.value and requested_status != TransactionStatus.approved_by_payer.value:
                 return Response("only payer approvement / deniement should be requested here", status=http_codes.HTTP_400_BAD_REQUEST)                
             
@@ -120,8 +119,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
             if (payer_user_id_in_transaction != user_in_token.id or pin_in_request_hashed != user_in_token.pin):
                 return Response("User id or pin mismatch", status=http_codes.HTTP_401_UNAUTHORIZED)
 
-            p = PaymentIban(transaction)
-            p.updateStatus(requested_status)
-            return Response(p.makePayment(), status=http_codes.HTTP_201_CREATED)
+            transaction.updateStatus(requested_status)
+            return Response(transaction.makePayment(), status=http_codes.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)
