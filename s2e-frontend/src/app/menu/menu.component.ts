@@ -11,14 +11,16 @@ import { SwipeGestureEventData } from 'tns-core-modules/ui/gestures/gestures';
 
 export class MenuComponent implements OnInit {
 
-  public menuItems = [
-    "Personal details",
-    "Bank account",
-    "History",
-    "Statistics",
-    "Map",
-    "Logout"
-  ]
+    public menuItems = [
+      "Dashboard",
+      "Profile",
+      "Finances",
+      "History",
+      "Statistics",
+      "Logout"
+    ]
+
+    private currentPage = 'Dashboard';
 
     constructor(private _changeDetectionRef: ChangeDetectorRef) {
     }
@@ -47,6 +49,8 @@ export class MenuComponent implements OnInit {
 
     public onItemTap( item: string ){
       console.log(item);
+      this.currentPage = item;
+      this.drawer.closeDrawer();
     }
 
 }

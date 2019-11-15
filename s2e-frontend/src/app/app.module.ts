@@ -20,6 +20,10 @@ import { AgreementComponent } from "./register/agreement/agreement.component";
 import { TerminalComponent } from "./terminal/terminal.component";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MenuComponent } from './menu/menu.component';
+import { ProfileComponent } from './profile/profile.component';
+import { FinancesComponent } from './finances/finances.component';
+import { HistoryComponent } from './history/history.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
     bootstrap: [
@@ -48,7 +52,11 @@ import { MenuComponent } from './menu/menu.component';
         AgreementComponent,
         TerminalComponent,
         DashboardComponent,
-        MenuComponent
+        MenuComponent,
+        ProfileComponent,
+        FinancesComponent,
+        HistoryComponent,
+        StatisticsComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

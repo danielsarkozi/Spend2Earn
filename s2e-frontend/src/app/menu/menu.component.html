@@ -12,7 +12,16 @@
             </StackLayout>
         </ScrollView>
     </GridLayout>
+    <StackLayout [ngSwitch]="currentPage" tkMainContent (swipe)="openDrawer($event)">
+        <Dashboard *ngSwitchCase="'Dashboard'"></Dashboard>
+        <Profile *ngSwitchCase="'Profile'"></Profile>
+        <Finances *ngSwitchCase="'Finances'"></Finances>
+        <History *ngSwitchCase="'History'"></History>
+        <Statistics *ngSwitchCase="'Statistics'"></Statistics>
+    </StackLayout>
+    <!--
     <StackLayout tkMainContent (swipe)="openDrawer($event)">
         <Dashboard></Dashboard>
     </StackLayout>
+    -->
 </RadSideDrawer>
