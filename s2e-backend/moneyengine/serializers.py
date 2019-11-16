@@ -36,6 +36,7 @@ class CardSerializer(serializers.HyperlinkedModelSerializer):
         model = Card
         fields = '__all__'
 
+
 class CreateTransactionSerializer(serializers.Serializer):
     source_card = serializers.CharField(max_length=255, required=False)
     source_iban = serializers.CharField(max_length=255, required=False)
@@ -57,19 +58,24 @@ class CreateTransactionSerializer(serializers.Serializer):
         elif 'source_iban' in attrs:
             attrs["source_iban"] = Iban.objects.get(number=attrs["source_iban"])
         else:
-                raise serializers.ValidationError('source_card or source_iban is required')
+            raise serializers.ValidationError('source_card or source_iban is required')
         attrs["destination_iban"] = Iban.objects.get(number=attrs["destination_iban"])
 
         if 'source_iban' in attrs and attrs['source_iban'] == attrs['destination_iban']:
             raise serializers.ValidationError('source_iban and destination_iban cannot be the same')
 
+        user_in_token = self.context["request"].user
+        user_in_destination = attrs["destination_iban"].owner
+
+        if user_in_token.id != user_in_destination.id:
+            raise serializers.ValidationError('Authenticated user is not the same as the requested receiver.')
         return attrs
 
     def create(self, validated_attrs):
         if validated_attrs["is_pos"]:
             raise NotImplementedError("can't create POS transaction")
 
-        return Transaction.objects.createTransaction (
+        return Transaction.objects.createTransaction(
             validated_attrs["source_iban"],
             validated_attrs["destination_iban"],
             validated_attrs["amount"],
