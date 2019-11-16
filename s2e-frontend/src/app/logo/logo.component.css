@@ -1,4 +1,9 @@
-Label {
+.circle {
     background: lightseagreen;
     opacity: .25;
+}
+
+.name {
+    font-weight: bold;
+    text-align: center;
 }
