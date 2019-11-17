@@ -1,27 +1,32 @@
 Button {
-    background: lightgray;
+    background: #d4d4d4;
     border-radius: 10;
     color: black;
     margin: 10;
     padding: 20;
+    border-bottom-width: 1;
+    border-color: gray;
 }
 
 Button.red {
-    background: #d82626;
+    border-color: #4a0d0d;
+    background: #EE6352;
     color: white;
 }
 
 Button.yellow {
-    background: #d8d826;
+    border-color: #4a4a0d;
+    background: #FAC05E;
 }
 
 Button.green {
-    background: #136c13;
+    border-color: #000000;
+    background: #59CD90;
     color: white;
 }
 
 Button:highlighted {
-    background: yellow;
+    background: hsl(0, 0%, 50%);
 }
 
 Button.disabled {
