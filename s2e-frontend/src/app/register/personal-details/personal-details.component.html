@@ -15,13 +15,18 @@
             <Label *ngIf="usernameEmpty" text="Please enter your username" color="red"></Label>
 
             <Label text="Password" marginTop="20"></Label>
-            <TextField [(ngModel)]="password" class="input" autocorrect="false" returnKeyType="go"
-                autocapitalizationType="none" secure="true" (blur)="validatePassword()" (returnPress)="continue()">
+            <TextField [(ngModel)]="password" class="input" autocorrect="false" returnKeyType="next"
+                autocapitalizationType="none" secure="true" (blur)="validatePassword()">
             </TextField>
             <Label *ngIf="passwordEmpty" text="Please enter your password" color="red"></Label>
+
+            <Label text="PIN" marginTop="20"></Label>
+            <TextField [(ngModel)]="pin" class="input" autocorrect="false" returnKeyType="go"
+                autocapitalizationType="none" secure="true" (blur)="validatePin()" (returnPress)="continue()"
+                keyboardType="phone">
+            </TextField>
+            <Label *ngIf="pinEmpty" text="Please enter your PIN" color="red"></Label>
         </StackLayout>
-        <Label *ngIf="incorrectCredentials" text="The username or password is incorrect" color="red" marginBottom="10"
-            style="text-align: center"></Label>
         <Button class="btn" text="Continue" (tap)="continue()"></Button>
     </FlexboxLayout>
 </ScrollView>

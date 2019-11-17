@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
+import { UserService } from "../services/user.service";
 
 @Component({
     selector: "Login",
@@ -11,27 +12,26 @@ export class LoginComponent implements OnInit {
     private incorrectCredentials: boolean;
     private usernameEmpty: boolean;
     private passwordEmpty: boolean;
+    private isLoggingIn: boolean = false;
 
-    constructor(private routerExtensions: RouterExtensions) {
-        // Use the component constructor to inject providers.
-    }
+    constructor(private routerExtensions: RouterExtensions, private userService: UserService) {}
 
-    ngOnInit(): void {
-        // Init your component properties here.
-    }
+    ngOnInit(): void {}
 
-    async logIn() {
+    async logIn(): Promise<void> {
         this.validateUsername();
         this.validatePassword();
 
         if(!this.usernameEmpty && !this.passwordEmpty) {
-            let userAuthenticated = this.username === 'admin' && this.password === 'admin';
-            if (userAuthenticated) {
+            this.isLoggingIn = true;
+            const success = await this.userService.logIn(this.username, this.password);
+            if (success) {
                 this.routerExtensions.navigate(['/home'], { clearHistory: true });
             }
             else {
                 this.incorrectCredentials = true;
             }
+            this.isLoggingIn = false;
         }
     }
 
