@@ -1,9 +1,8 @@
-<StackLayout style="vertical-align: center; padding: 0 30; text-align: center">
-    <Logo size="150"></Logo>
-    <Label text="Spend2Earn" style="font-size: 40; margin: 30 0 120"></Label>
+<FlexboxLayout style="flex-direction: column; padding: 30">
+    <Logo size="150" style="flex-grow: 1"></Logo>
     <Button class="btn" [nsRouterLink]="['/login']" text="Log In" marginBottom="10"></Button>
     <StackLayout orientation="horizontal" horizontalAlignment="center">
         <Label text="or "></Label>
         <Label text="Register" class="link" [nsRouterLink]="['/register']"></Label>
     </StackLayout>
-</StackLayout>
+</FlexboxLayout>
