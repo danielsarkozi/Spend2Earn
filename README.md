@@ -13,3 +13,13 @@ https://market.nativescript.org/?tab=samples&framework=angular&category=all_samp
 ## Scrum board
 Just login and connect to the github repo
 https://www.zenhub.com/
+
+## Backend 
+Django:
+https://www.djangoproject.com/
+
+Django REST Framework:
+https://www.django-rest-framework.org/
+
+## Autenthication
+https://jwt.io/introduction/
