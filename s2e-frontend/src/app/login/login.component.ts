@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { UserService } from "../services/user.service";
+import * as dialogs from "tns-core-modules/ui/dialogs";
 
 @Component({
     selector: "Login",
@@ -9,7 +10,6 @@ import { UserService } from "../services/user.service";
 export class LoginComponent implements OnInit {
     private username: string = '';
     private password: string = '';
-    private incorrectCredentials: boolean;
     private usernameEmpty: boolean;
     private passwordEmpty: boolean;
     private isLoggingIn: boolean = false;
@@ -29,7 +29,11 @@ export class LoginComponent implements OnInit {
                 this.routerExtensions.navigate(['/home'], { clearHistory: true });
             }
             else {
-                this.incorrectCredentials = true;
+                dialogs.alert({
+                    title: 'Login unsuccessful',
+                    message: 'You have supplied invalid credentials',
+                    okButtonText: 'Close'
+                });
             }
             this.isLoggingIn = false;
         }

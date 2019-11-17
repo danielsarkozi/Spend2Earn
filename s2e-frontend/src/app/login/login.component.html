@@ -1,6 +1,5 @@
 <FlexboxLayout flexDirection="column" padding="30">
     <Logo size="100"></Logo>
-    <Label text="Spend2Earn" style="text-align: center" fontSize="30" marginTop="20"></Label>
     <StackLayout verticalAlignment="center" flexGrow="1">
         <Label text="Username"></Label>
         <TextField [(ngModel)]="username" class="input" autocorrect="false" returnKeyType="next"
@@ -13,8 +12,5 @@
             [editable]="!isLoggingIn"></TextField>
         <Label *ngIf="passwordEmpty" text="Please enter your password" color="red"></Label>
     </StackLayout>
-    <Label *ngIf="incorrectCredentials" text="The username or password is incorrect" color="red" marginBottom="10"
-        style="text-align: center"></Label>
-    <ActivityIndicator busy="true" color="lightseagreen" *ngIf="isLoggingIn"></ActivityIndicator>
-    <Button class="btn" text="Log In" (tap)="logIn()" [isEnabled]="!isLoggingIn"></Button>
+    <LoadingButton text="Log In" [isLoading]="isLoggingIn" (tap)="logIn()"></LoadingButton>
 </FlexboxLayout>
