@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FinancesComponent implements OnInit {
 
+  text = "You got 17$, nigga!"
+
   constructor() { }
 
   ngOnInit() {

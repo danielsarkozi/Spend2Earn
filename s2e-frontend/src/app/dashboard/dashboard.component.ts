@@ -17,8 +17,6 @@ export class DashboardComponent implements OnInit {
   ]
 
   constructor() {
-    //this.gen_data()
-    //console.log(this.data)
   }
 
   ngOnInit() {

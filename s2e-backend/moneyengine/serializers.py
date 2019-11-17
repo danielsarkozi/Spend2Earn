@@ -1,0 +1,83 @@
+from rest_framework import serializers
+from .models import Transaction, TransactionStatusChange, Iban, Card, CustomUser, TransactionStatus
+
+class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
+    #password = serializers.CharField(write_only=True)
+    #pin = serializers.CharField(write_only=True)
+
+    # this way email and is_staff field did not get saved, but I just commented it out
+    # def create(self, validated_data):
+    #     user = CustomUser.objects.create(username=validated_data['username'])
+    #     user.set_password(validated_data['password'])
+    #     user.save()
+    #     return user
+
+    class Meta:
+        model = CustomUser
+        fields = ['url', 'pin', 'password', 'username', 'email', 'is_staff']
+
+class TransactionSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Transaction
+        fields = '__all__'
+
+class TransactionStatusChangeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = TransactionStatusChange
+        fields = '__all__'
+
+class IbanSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Iban
+        fields = '__all__'
+
+class CardSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Card
+        fields = '__all__'
+
+
+class CreateTransactionSerializer(serializers.Serializer):
+    source_card = serializers.CharField(max_length=255, required=False)
+    source_iban = serializers.CharField(max_length=255, required=False)
+    destination_iban = serializers.CharField(max_length=255)
+    amount = serializers.DecimalField(decimal_places=2, max_digits=14)
+    savings = serializers.DecimalField(decimal_places=2, max_digits=14)
+
+    def validate(self, attrs):
+        attrs["is_pos"] = False
+
+        if 'source_card' in attrs:
+            if 'source_iban' in attrs:
+                raise serializers.ValidationError('source_card and source_iban cannot be both set')
+            if Card.objects.all().filter(number=attrs['source_card']).exists():
+                attrs["source_iban"] = Card.objects.get(number=attrs['source_card']).iban
+                del attrs["source_card"]
+            else:
+                attrs["is_pos"] = True
+        elif 'source_iban' in attrs:
+            attrs["source_iban"] = Iban.objects.get(number=attrs["source_iban"])
+        else:
+            raise serializers.ValidationError('source_card or source_iban is required')
+        attrs["destination_iban"] = Iban.objects.get(number=attrs["destination_iban"])
+
+        if 'source_iban' in attrs and attrs['source_iban'] == attrs['destination_iban']:
+            raise serializers.ValidationError('source_iban and destination_iban cannot be the same')
+
+        user_in_token = self.context["request"].user
+        user_in_destination = attrs["destination_iban"].owner
+
+        if user_in_token.id != user_in_destination.id:
+            raise serializers.ValidationError('Authenticated user is not the same as the requested receiver.')
+        return attrs
+
+    def create(self, validated_attrs):
+        if validated_attrs["is_pos"]:
+            raise NotImplementedError("can't create POS transaction")
+
+        return Transaction.objects.createTransaction(
+            validated_attrs["source_iban"],
+            validated_attrs["destination_iban"],
+            validated_attrs["amount"],
+            validated_attrs["savings"]
+        )

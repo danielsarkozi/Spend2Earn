@@ -47,7 +47,7 @@ export class MenuComponent implements OnInit {
         this.drawer.closeDrawer();
     }
 
-    public onItemTap( item: string ){
+    async onItemTap( item: string ){
       console.log(item);
       this.currentPage = item;
       this.drawer.closeDrawer();

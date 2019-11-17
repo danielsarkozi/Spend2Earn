@@ -1,11 +1,11 @@
 {
   "nativescript": {
     "id": "org.nativescript.Spend2Earn",
-    "tns-android": {
-      "version": "6.1.2"
-    },
     "tns-ios": {
       "version": "6.1.0"
+    },
+    "tns-android": {
+      "version": "6.2.0"
     }
   },
   "description": "NativeScript Application",
