@@ -1,4 +1,4 @@
-<StackLayout>
+<FlexboxLayout [style]="style || ''">
     <GridLayout flexShrink="0" [width]="size" [height]="size">
         <Label
             [borderRadius]="size/2"
@@ -26,4 +26,4 @@
         ></Label>
     </GridLayout>
     <Label text="Spend2Earn" class="name" [fontSize]="size/4" [marginTop]="size/5" *ngIf="!hideText"></Label>
-</StackLayout>
+</FlexboxLayout>

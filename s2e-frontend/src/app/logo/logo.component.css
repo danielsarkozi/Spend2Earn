@@ -1,3 +1,8 @@
+FlexboxLayout {
+    flex-direction: column;
+    justify-content: center;
+}
+
 .circle {
     background: lightseagreen;
     opacity: .25;

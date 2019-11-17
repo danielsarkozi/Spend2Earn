@@ -8,4 +8,5 @@ import { Component, Input } from "@angular/core";
 export class LogoComponent {
     @Input() size: number;
     @Input() hideText: boolean;
+    @Input() style: string;
 }
