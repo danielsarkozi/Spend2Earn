@@ -1,0 +1,16 @@
+FlexboxLayout {
+    background: lightseagreen;
+    border-radius: 5;
+    color: white;
+    font-size: 20;
+    justify-content: center;
+    padding: 20;
+}
+
+FlexboxLayout.loading {
+    background: silver;
+}
+
+ActivityIndicator {
+    margin-left: 10;
+}

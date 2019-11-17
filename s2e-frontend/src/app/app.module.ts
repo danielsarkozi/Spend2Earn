@@ -15,6 +15,7 @@ import { AddButtonComponent } from "./components/add-button/add-button.component
 import { StepperComponent } from "./components/stepper/stepper.component";
 import { AgreementComponent } from "./register/agreement/agreement.component";
 import { TerminalComponent } from "./terminal/terminal.component";
+import { LoadingButtonComponent } from "./components/loading-button/loading-button.component";
 
 @NgModule({
     bootstrap: [
@@ -37,7 +38,8 @@ import { TerminalComponent } from "./terminal/terminal.component";
         AddButtonComponent,
         StepperComponent,
         AgreementComponent,
-        TerminalComponent
+        TerminalComponent,
+        LoadingButtonComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
