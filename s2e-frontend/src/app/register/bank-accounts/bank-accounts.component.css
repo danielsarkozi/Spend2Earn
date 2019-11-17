@@ -1,0 +1,11 @@
+.remove {
+    color: #EE6352;
+    font-family: IcoFont, 'IcoFont Regular';
+}
+
+.iban {
+    border-radius: 5;
+    margin-top: 20;
+    background: #eee;
+    padding: 10
+}

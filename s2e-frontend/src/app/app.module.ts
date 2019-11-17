@@ -17,12 +17,16 @@ import { AddButtonComponent } from "./components/add-button/add-button.component
 import { StepperComponent } from "./components/stepper/stepper.component";
 import { AgreementComponent } from "./register/agreement/agreement.component";
 import { TerminalComponent } from "./terminal/terminal.component";
+<<<<<<< HEAD
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MenuComponent } from './menu/menu.component';
 import { ProfileComponent } from './profile/profile.component';
 import { FinancesComponent } from './finances/finances.component';
 import { HistoryComponent } from './history/history.component';
 import { StatisticsComponent } from './statistics/statistics.component';
+=======
+import { LoadingButtonComponent } from "./components/loading-button/loading-button.component";
+>>>>>>> 394e2d9f7e389a0bff4cf873ca56511850a241db
 
 @NgModule({
     bootstrap: [
@@ -49,12 +53,16 @@ import { StatisticsComponent } from './statistics/statistics.component';
         StepperComponent,
         AgreementComponent,
         TerminalComponent,
+<<<<<<< HEAD
         DashboardComponent,
         MenuComponent,
         ProfileComponent,
         FinancesComponent,
         HistoryComponent,
         StatisticsComponent
+=======
+        LoadingButtonComponent
+>>>>>>> 394e2d9f7e389a0bff4cf873ca56511850a241db
     ],
     schemas: [
         NO_ERRORS_SCHEMA

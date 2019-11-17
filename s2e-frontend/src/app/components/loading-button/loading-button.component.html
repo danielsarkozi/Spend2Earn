@@ -1,0 +1,4 @@
+<FlexboxLayout (tap)="onTap($event)" [ngClass]="{loading: isLoading}">
+    <Label [text]="text"></Label>
+    <ActivityIndicator busy="true" *ngIf="isLoading"></ActivityIndicator>
+</FlexboxLayout>

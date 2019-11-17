@@ -1,22 +1,29 @@
-<GridLayout flexShrink="0" [width]="size" [height]="size">
-    <Label
-        [borderRadius]="size/2"
-        [height]="size"
-        [width]="size"
-    ></Label>
-    <Label
-        [borderRadius]="size*.85/2"
-        [height]="size*.85"
-        [width]="size*.85"
-    ></Label>
-    <Label
-        [borderRadius]="size*.5/2"
-        [height]="size*.5"
-        [width]="size*.5"
-    ></Label>
-    <Label
-        [borderRadius]="size*.5/2"
-        [height]="size*.25"
-        [width]="size*.25"
-    ></Label>
-</GridLayout>
+<FlexboxLayout [style]="style || ''">
+    <GridLayout flexShrink="0" [width]="size" [height]="size">
+        <Label
+            [borderRadius]="size/2"
+            [height]="size"
+            [width]="size"
+            class="circle"
+        ></Label>
+        <Label
+            [borderRadius]="size*.85/2"
+            [height]="size*.85"
+            [width]="size*.85"
+            class="circle"
+        ></Label>
+        <Label
+            [borderRadius]="size*.5/2"
+            [height]="size*.5"
+            [width]="size*.5"
+            class="circle"
+        ></Label>
+        <Label
+            [borderRadius]="size*.5/2"
+            [height]="size*.25"
+            [width]="size*.25"
+            class="circle"
+        ></Label>
+    </GridLayout>
+    <Label text="Spend2Earn" class="name" [fontSize]="size/4" [marginTop]="size/5" *ngIf="!hideText"></Label>
+</FlexboxLayout>
