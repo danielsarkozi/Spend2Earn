@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import AnonymousUser
 from .models import Transaction, TransactionStatusChange, Iban, Card, CustomUser, TransactionStatus
 from .serializers import CustomUserSerializer, TransactionSerializer, TransactionStatusChangeSerializer, IbanSerializer, CardSerializer, CreateTransactionSerializer
 
@@ -12,6 +13,12 @@ from .serializers import CustomUserSerializer, TransactionSerializer, Transactio
 class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
+
+    def get_queryset(self):
+        if not self.request.user.is_anonymous:
+            return [self.request.user,]
+        else:
+            return []
 
 
 class IbanViewSet(viewsets.ModelViewSet):
