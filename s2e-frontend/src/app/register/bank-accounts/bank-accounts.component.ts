@@ -5,7 +5,8 @@ import { Card, Iban } from '../../interfaces';
 
 @Component({
     selector: "BankAccounts",
-    templateUrl: "./bank-accounts.component.html"
+    templateUrl: "./bank-accounts.component.html",
+    styleUrls: ['./bank-accounts.component.css']
 })
 export class BankAccountsComponent implements OnInit {
     private ibans: Iban[] = [
@@ -14,6 +15,8 @@ export class BankAccountsComponent implements OnInit {
             cards: []
         },
     ];
+
+    private isSaving: boolean = false;
 
     constructor(private routerExtensions: RouterExtensions, private userService: UserService) {
         // Use the component constructor to inject providers.
@@ -45,6 +48,8 @@ export class BankAccountsComponent implements OnInit {
     }
 
     private async continue(): Promise<void> {
+        this.isSaving = true;
+
         let invalidData = false;
         for (let iban of this.ibans) {
             invalidData = !this.validateIban(iban) || invalidData;
@@ -57,6 +62,8 @@ export class BankAccountsComponent implements OnInit {
             await this.saveIbans(this.ibans);
             this.routerExtensions.navigate(['/agreement']);
         }
+
+        this.isSaving = false;
     }
 
     private async saveIbans(ibans: Iban[]): Promise<void> {
