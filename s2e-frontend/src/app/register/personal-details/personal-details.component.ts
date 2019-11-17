@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { UserService } from "~/app/services/user.service";
+import * as dialogs from "tns-core-modules/ui/dialogs";
 
 @Component({
     selector: "PersonalDetails",
@@ -15,20 +16,33 @@ export class PersonalDetailsComponent {
     private usernameEmpty: boolean;
     private passwordEmpty: boolean;
     private pinEmpty: boolean;
+    private isSaving: boolean = false;
 
     constructor(private routerExtensions: RouterExtensions, private userService: UserService) { }
 
-    continue() {
+    async continue() {
         this.validateEmail();
         this.validateUsername();
         this.validatePassword();
         this.validatePin();
 
         if(!this.emailEmpty && !this.usernameEmpty && !this.passwordEmpty) {
-            this.userService.register(this.username, this.password, this.email, this.pin);
-            this.userService.logIn(this.username, this.password);
+            this.isSaving = true;
 
-            this.routerExtensions.navigate(['/bank-accounts']);
+            const userData = await this.userService.register(this.username, this.password, this.email, this.pin);
+            if(userData) {
+                await this.userService.logIn(this.username, this.password);
+                this.routerExtensions.navigate(['/bank-accounts']);
+            }
+            else {
+                dialogs.alert({
+                    title: 'Registration unsuccessful',
+                    message: 'Please check your data and try again',
+                    okButtonText: 'Close'
+                });
+            }
+
+            this.isSaving = false;
         }
     }
 
