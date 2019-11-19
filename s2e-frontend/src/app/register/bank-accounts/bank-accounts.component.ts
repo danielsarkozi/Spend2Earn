@@ -76,12 +76,12 @@ export class BankAccountsComponent implements OnInit {
                     Authorization: `token ${this.userService.token}`
                 },
                 body: JSON.stringify({
-                    account_owner: 'teszt',
-                    alias: 'abcdefg',
-                    bank: 69,
-                    check_digit: 96,
-                    country: 'RO',
-                    number: bankAccount.number,
+                    account_owner: bankAccount.accountOwner,
+                    alias: bankAccount.alias,
+                    bank: 0,
+                    check_digit: bankAccount.number.substr(2, 2),
+                    country: bankAccount.number.substr(0, 2),
+                    number: bankAccount.number.substr(4),
                     owner: this.userService.url
                 })
             });
