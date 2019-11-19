@@ -1,2 +1,2 @@
 export { default as Card } from './card.interface';
-export { default as Iban } from './iban.interface';
+export { default as BankAccount } from './bank-account.interface';
