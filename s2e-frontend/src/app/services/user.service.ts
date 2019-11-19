@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Card, Iban } from '../interfaces';
+import { Card, BankAccount } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -59,7 +59,7 @@ export class UserService {
     return await response.json();
   }
 
-  public async getIbans(): Promise<Iban[]> {
+  public async getIbans(): Promise<BankAccount[]> {
     const response = await fetch('https://spend2earn.herokuapp.com/ibans/', {
       headers: {
         Authorization: `token ${this.token}`
