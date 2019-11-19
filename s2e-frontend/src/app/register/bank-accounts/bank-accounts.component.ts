@@ -24,13 +24,16 @@ export class BankAccountsComponent implements OnInit {
 
     ngOnInit(): void { }
 
-    addIban() {
-        this.bankAccounts.push({
+    addBankAccount() {
+        const bankAccount = {
             accountOwner: '',
             alias: '',
             number: '',
-            cards: []
-        });
+            cards: [],
+            showing: true,
+        };
+        this.bankAccounts.push(bankAccount);
+        setTimeout(() => bankAccount.showing = false, 500);
     }
 
     addCard(bankAccount: BankAccount) {
@@ -39,8 +42,9 @@ export class BankAccountsComponent implements OnInit {
         });
     }
 
-    removeIban(index: number) {
-        this.bankAccounts.splice(index, 1);
+    removeBankAccount(index: number) {
+        this.bankAccounts[index].hiding = true;
+        setTimeout(() => this.bankAccounts.splice(index, 1), 500);
     }
 
     removeCard(bankAccount: BankAccount, index: number) {

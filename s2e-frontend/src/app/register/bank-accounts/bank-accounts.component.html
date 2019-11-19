@@ -3,13 +3,13 @@
         <Logo size="100" style="margin-bottom: 30"></Logo>
         <Stepper step="2"></Stepper>
         <StackLayout>
-            <StackLayout *ngFor="let bankAccount of bankAccounts; let i = index" class="iban" [ngClass]="{hiding: bankAccount.hiding}">
+            <StackLayout *ngFor="let bankAccount of bankAccounts; let i = index" class="iban" [ngClass]="{hiding: bankAccount.hiding, showing: bankAccount.showing}">
                 <Label text="IBAN"></Label>
                 <StackLayout>
                     <FlexboxLayout>
                         <TextField [(ngModel)]="bankAccount.number" flexGrow="1" class="input" autocorrect="false"
                             returnKeyType="next" autocapitalizationType="none" (blur)="validateIban(bankAccount)"></TextField>
-                        <Button text="&#xef98;" class="remove" *ngIf="bankAccounts.length > 1" (tap)="removeIban(i)"></Button>
+                        <Button text="&#xef98;" class="remove" *ngIf="bankAccounts.length > 1" (tap)="removeBankAccount(i)"></Button>
                     </FlexboxLayout>
                     <Label [text]="bankAccount.error" color="red"></Label>
 
@@ -33,7 +33,7 @@
                 </StackLayout>
                 <AddButton (tap)="addCard(bankAccount)" text="Add Linked Card"></AddButton>
             </StackLayout>
-            <AddButton text="Add IBAN" (tap)="addIban()"></AddButton>
+            <AddButton text="Add Bank Account" (tap)="addBankAccount()"></AddButton>
         </StackLayout>
         <LoadingButton text="Continue" [isLoading]="isSaving" (tap)="continue()" style="flex-shrink: 0; margin-top: 30"></LoadingButton>
     </FlexboxLayout>
