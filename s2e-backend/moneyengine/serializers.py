@@ -91,5 +91,6 @@ class CreateTransactionSerializer(serializers.Serializer):
             validated_attrs["source_iban"],
             validated_attrs["destination_iban"],
             validated_attrs["amount"],
-            validated_attrs["savings"]
+            validated_attrs["savings"],
+            validated_attrs["currency"]
         )
