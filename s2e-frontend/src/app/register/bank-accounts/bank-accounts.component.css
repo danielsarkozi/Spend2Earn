@@ -7,5 +7,22 @@
     border-radius: 5;
     margin-top: 20;
     background: #eee;
-    padding: 10
+    padding: 10;
+}
+
+@keyframes show {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.showing {
+    animation-name: show;
+    animation-duration: 500ms;
+    animation-fill-mode: forwards;
+}
+
+.hiding {
+    animation-name: show;
+    animation-duration: 500ms;
+    animation-direction: reverse;
 }

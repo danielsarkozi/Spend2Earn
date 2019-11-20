@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { UserService } from "~/app/services/user.service";
-import { Card, Iban } from '../../interfaces';
+import { BankAccountListItem, BankAccount, Card, CardListItem } from '../../interfaces';
 
 @Component({
     selector: "BankAccounts",
@@ -9,8 +9,10 @@ import { Card, Iban } from '../../interfaces';
     styleUrls: ['./bank-accounts.component.css']
 })
 export class BankAccountsComponent implements OnInit {
-    private ibans: Iban[] = [
+    private bankAccounts: BankAccountListItem[] = [
         {
+            accountOwner: '',
+            alias: '',
             number: '',
             cards: []
         },
@@ -18,57 +20,59 @@ export class BankAccountsComponent implements OnInit {
 
     private isSaving: boolean = false;
 
-    constructor(private routerExtensions: RouterExtensions, private userService: UserService) {
-        // Use the component constructor to inject providers.
-    }
+    constructor(private routerExtensions: RouterExtensions, private userService: UserService) { }
 
-    ngOnInit(): void {
-        // Init your component properties here.
-    }
+    ngOnInit(): void { }
 
-    addIban() {
-        this.ibans.push({
+    addBankAccount() {
+        const bankAccount = {
+            accountOwner: '',
+            alias: '',
             number: '',
-            cards: []
-        });
+            cards: [],
+            showing: true,
+        };
+        this.bankAccounts.push(bankAccount);
+        setTimeout(() => bankAccount.showing = false, 500);
     }
 
-    addCard(iban: Iban) {
-        iban.cards.push({
+    addCard(bankAccount: BankAccount) {
+        bankAccount.cards.push({
             number: ''
         });
     }
 
-    removeIban(index: number) {
-        this.ibans.splice(index, 1);
+    removeBankAccount(index: number) {
+        this.bankAccounts[index].hiding = true;
+        setTimeout(() => this.bankAccounts.splice(index, 1), 500);
     }
 
-    removeCard(iban: Iban, index: number) {
-        iban.cards.splice(index, 1);
+    removeCard(bankAccount: BankAccount, index: number) {
+        bankAccount.cards.splice(index, 1);
     }
 
     private async continue(): Promise<void> {
         this.isSaving = true;
 
         let invalidData = false;
-        for (let iban of this.ibans) {
-            invalidData = !this.validateIban(iban) || invalidData;
-            for (let card of iban.cards) {
+        for (let bankAccount of this.bankAccounts) {
+            invalidData = !this.validateIban(bankAccount) || invalidData;
+            for (let card of bankAccount.cards) {
                 invalidData = !this.validateCard(card) || invalidData;
             }
         }
 
         if (!invalidData) {
-            await this.saveIbans(this.ibans);
+            await this.saveIbans(this.bankAccounts);
             this.routerExtensions.navigate(['/agreement']);
         }
 
         this.isSaving = false;
     }
 
-    private async saveIbans(ibans: Iban[]): Promise<void> {
+    private async saveIbans(bankAccounts: BankAccount[]): Promise<void> {
         const requests = [];
-        for (let iban of this.ibans) {
+        for (let bankAccount of this.bankAccounts) {
             const request = fetch('https://spend2earn.herokuapp.com/ibans/', {
                 method: 'POST',
                 headers: {
@@ -76,16 +80,16 @@ export class BankAccountsComponent implements OnInit {
                     Authorization: `token ${this.userService.token}`
                 },
                 body: JSON.stringify({
-                    account_owner: 'teszt',
-                    alias: 'abcdefg',
-                    bank: 69,
-                    check_digit: 96,
-                    country: 'RO',
-                    number: iban.number,
+                    account_owner: bankAccount.accountOwner,
+                    alias: bankAccount.alias,
+                    bank: 0,
+                    check_digit: bankAccount.number.substr(2, 2),
+                    country: bankAccount.number.substr(0, 2),
+                    number: bankAccount.number.substr(4),
                     owner: this.userService.url
                 })
             });
-            request.then(response => response.json()).then(json => this.saveCards(iban.cards, json.url));
+            request.then(response => response.json()).then(json => this.saveCards(bankAccount.cards, json.url));
             requests.push(request);
         }
         await Promise.all(requests);
@@ -110,20 +114,20 @@ export class BankAccountsComponent implements OnInit {
         await Promise.all(requests);
     }
 
-    validateIban(iban: Iban) {
-        if (!iban.number.length) {
-            iban.error = 'The IBAN is empty';
+    validateIban(bankAccount: BankAccountListItem) {
+        if (!bankAccount.number.length) {
+            bankAccount.error = 'The IBAN is empty';
             return false;
         }
-        if (!(/^[A-Za-z]{2}[0-9]{2}[A-Za-z0-9]{0,30}$/).test(iban.number)) {
-            iban.error = 'The IBAN is in an incorrect format';
+        if (!(/^[A-Za-z]{2}[0-9]{2}[A-Za-z0-9]{0,30}$/).test(bankAccount.number)) {
+            bankAccount.error = 'The IBAN is in an incorrect format';
             return false;
         }
-        delete iban.error;
+        delete bankAccount.error;
         return true;
     }
 
-    validateCard(card: Card) {
+    validateCard(card: CardListItem) {
         if (!card.number.length) {
             card.error = 'The card number is empty';
             return false;

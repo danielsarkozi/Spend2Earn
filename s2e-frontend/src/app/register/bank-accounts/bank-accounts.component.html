@@ -3,29 +3,37 @@
         <Logo size="100" style="margin-bottom: 30"></Logo>
         <Stepper step="2"></Stepper>
         <StackLayout>
-            <StackLayout *ngFor="let iban of ibans; let i = index" class="iban">
+            <StackLayout *ngFor="let bankAccount of bankAccounts; let i = index" class="iban" [ngClass]="{hiding: bankAccount.hiding, showing: bankAccount.showing}">
                 <Label text="IBAN"></Label>
                 <StackLayout>
                     <FlexboxLayout>
-                        <TextField [(ngModel)]="iban.number" flexGrow="1" class="input" autocorrect="false"
-                            returnKeyType="next" autocapitalizationType="none" (blur)="validateIban(iban)"></TextField>
-                        <Button text="&#xef98;" class="remove" *ngIf="ibans.length > 1" (tap)="removeIban(i)"></Button>
+                        <TextField [(ngModel)]="bankAccount.number" flexGrow="1" class="input" autocorrect="false"
+                            returnKeyType="next" autocapitalizationType="none" (blur)="validateIban(bankAccount)"></TextField>
+                        <Button text="&#xef98;" class="remove" *ngIf="bankAccounts.length > 1" (tap)="removeBankAccount(i)"></Button>
                     </FlexboxLayout>
-                    <Label [text]="iban.error" color="red"></Label>
+                    <Label [text]="bankAccount.error" color="red"></Label>
+
+                    <Label text="Account Owner"></Label>
+                    <TextField [(ngModel)]="bankAccount.accountOwner" class="input" autocorrect="false"
+                        returnKeyType="next"></TextField>
+
+                    <Label text="Account Name"></Label>
+                    <TextField [(ngModel)]="bankAccount.alias" class="input" autocorrect="false"
+                        returnKeyType="next"></TextField>
                 </StackLayout>
-                <Label [text]="iban.cards.length  + ' Linked Card' + (iban.cards.length === 1 ? '' : 's')"
+                <Label [text]="bankAccount.cards.length  + ' Linked Card' + (bankAccount.cards.length === 1 ? '' : 's')"
                     marginTop="20"></Label>
-                <StackLayout *ngFor="let card of iban.cards; let j = index">
+                <StackLayout *ngFor="let card of bankAccount.cards; let j = index">
                     <FlexboxLayout>
                         <TextField flexGrow="1" [(ngModel)]="card.number" class="input" autocorrect="false"
                             returnKeyType="next" autocapitalizationType="none" keyboardType="phone" (blur)="validateCard(card)"></TextField>
-                        <Button text="&#xef98;" class="remove" (tap)="removeCard(iban, j)"></Button>
+                        <Button text="&#xef98;" class="remove" (tap)="removeCard(bankAccount, j)"></Button>
                     </FlexboxLayout>
                     <Label [text]="card.error" color="red"></Label>
                 </StackLayout>
-                <AddButton (tap)="addCard(iban)" text="Add Linked Card"></AddButton>
+                <AddButton (tap)="addCard(bankAccount)" text="Add Linked Card"></AddButton>
             </StackLayout>
-            <AddButton text="Add IBAN" (tap)="addIban()"></AddButton>
+            <AddButton text="Add Bank Account" (tap)="addBankAccount()"></AddButton>
         </StackLayout>
         <LoadingButton text="Continue" [isLoading]="isSaving" (tap)="continue()" style="flex-shrink: 0; margin-top: 30"></LoadingButton>
     </FlexboxLayout>
