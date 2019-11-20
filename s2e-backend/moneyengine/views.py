@@ -22,7 +22,7 @@ class CustomUserViewSet(viewsets.ModelViewSet):
 
 
 class IbanViewSet(viewsets.ModelViewSet):
-    queryset = Iban.objects.all().order_by('id')
+    queryset = Iban.objects.all()
     serializer_class = IbanSerializer
     permission_classes = (IsAuthenticated,)
 
