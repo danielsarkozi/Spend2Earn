@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
 from enum import Enum, auto
+import random
 
 class TransactionManager(models.Manager):
     def createTransaction(self, source_iban, destination_iban, amount, savings, currency):
@@ -12,7 +13,7 @@ class TransactionManager(models.Manager):
             savings=savings,
             currency=currency
         )
-        transaction.updateStatus(TransactionStatus.created)
+        transaction.updateStatus(TransactionStatus.created.value)
         return transaction
 
 class CustomUser(AbstractUser):
