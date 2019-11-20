@@ -4,12 +4,13 @@ from django.contrib.auth.hashers import make_password
 from enum import Enum, auto
 
 class TransactionManager(models.Manager):
-    def createTransaction(self, source_iban, destination_iban, amount, savings):
+    def createTransaction(self, source_iban, destination_iban, amount, savings, currency):
         transaction = self.create(
             source_iban=source_iban,
             destination_iban=destination_iban,
             amount=amount,
-            savings=savings
+            savings=savings,
+            currency=currency
         )
         transaction.updateStatus(TransactionStatus.created)
         return transaction
@@ -37,7 +38,6 @@ class TransactionStatus(Enum):
 class Iban(models.Model):
     account_owner = models.CharField(max_length=255)
     alias = models.CharField(max_length=255)
-    country = models.CharField(max_length=2)
     check_digit = models.CharField(max_length=2)
     bank = models.IntegerField()
     number = models.CharField(max_length=30)
@@ -51,6 +51,7 @@ class Transaction(models.Model):
     destination_iban = models.ForeignKey(Iban, on_delete = models.CASCADE, related_name='%(class)s_payeeiban')
     amount = models.DecimalField(decimal_places=2, max_digits=14)
     savings = models.DecimalField(decimal_places=2, max_digits=14)
+    currency = models.CharField(max_length=3)
 
     objects = TransactionManager()
 
@@ -85,7 +86,7 @@ class Transaction(models.Model):
         ).save()
 
     def __str__(self):
-        return str(self.id) + ": " + str(self.amount) + "$ from " + str(self.source_iban) + " to " + str(self.destination_iban)
+        return str(self.id) + ": " + str(self.amount) + " " + self.currency + " from " + str(self.source_iban) + " to " + str(self.destination_iban)
 
 class TransactionStatusChange(models.Model):
     subject_transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='%(class)s_subjecttransaction')

@@ -43,6 +43,7 @@ class CreateTransactionSerializer(serializers.Serializer):
     destination_iban = serializers.CharField(max_length=255)
     amount = serializers.DecimalField(decimal_places=2, max_digits=14)
     savings = serializers.DecimalField(decimal_places=2, max_digits=14)
+    currency = serializers.CharField(max_length=3)
 
     def validate(self, attrs):
         attrs["is_pos"] = False
