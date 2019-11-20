@@ -56,10 +56,21 @@ class CreateTransactionSerializer(serializers.Serializer):
             else:
                 attrs["is_pos"] = True
         elif 'source_iban' in attrs:
-            attrs["source_iban"] = Iban.objects.get(number=attrs["source_iban"])
+            try:
+                source_str = attrs['source_iban'][:-1]
+                source_id = source_str[source_str.rfind('/') + 1 : ]
+                attrs["source_iban"] = Iban.objects.get(id=source_id)
+            except Iban.DoesNotExist:
+                raise serializers.ValidationError('invalid source iban')
         else:
             raise serializers.ValidationError('source_card or source_iban is required')
-        attrs["destination_iban"] = Iban.objects.get(number=attrs["destination_iban"])
+        
+        try:
+            destination_str = attrs['destination_iban'][:-1]
+            destination_id = destination_str[destination_str.rfind('/') + 1 : ]
+            attrs["destination_iban"] = Iban.objects.get(id=destination_id)
+        except Iban.DoesNotExist:
+            raise serializers.ValidationError('invalid destination iban')
 
         if 'source_iban' in attrs and attrs['source_iban'] == attrs['destination_iban']:
             raise serializers.ValidationError('source_iban and destination_iban cannot be the same')

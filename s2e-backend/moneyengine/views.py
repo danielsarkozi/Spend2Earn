@@ -100,7 +100,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
         if 'transaction_id' not in self.request.data:
             return []
         else:
-            transaction = Transaction.objects.get(transaction_id=self.request.data['transaction_id'])
+            transaction = Transaction.objects.get(id=self.request.data['transaction_id'])
             if self.request.user != transaction.source_iban.owner and self.request.user != transaction.destination_iban.owner:
                 return []
             return [TransactionStatusChange.objects.filter(subject_transaction=transaction).latest('timestamp'),]

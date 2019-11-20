@@ -44,7 +44,7 @@ class Iban(models.Model):
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.owner.username) + "'s " + self.alias + " account"
+        return str(self.id) + ": " + str(self.owner.username) + "'s " + self.alias + " account"
 
 class Transaction(models.Model):
     source_iban = models.ForeignKey(Iban, on_delete = models.CASCADE, related_name='%(class)s_payeriban')
@@ -85,7 +85,7 @@ class Transaction(models.Model):
         ).save()
 
     def __str__(self):
-        return str(self.transaction_id) + ": " + str(self.amount) + "$ from " + str(self.source_iban) + " to " + str(self.destination_iban)
+        return str(self.id) + ": " + str(self.amount) + "$ from " + str(self.source_iban) + " to " + str(self.destination_iban)
 
 class TransactionStatusChange(models.Model):
     subject_transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='%(class)s_subjecttransaction')
