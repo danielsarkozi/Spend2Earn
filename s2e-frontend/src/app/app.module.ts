@@ -24,6 +24,7 @@ import { FinancesComponent } from './finances/finances.component';
 import { HistoryComponent } from './history/history.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { LoadingButtonComponent } from "./components/loading-button/loading-button.component";
+import { RegistrationComponent } from "./registration/registration.component";
 
 @NgModule({
     bootstrap: [
@@ -56,7 +57,8 @@ import { LoadingButtonComponent } from "./components/loading-button/loading-butt
         FinancesComponent,
         HistoryComponent,
         StatisticsComponent,
-        LoadingButtonComponent
+        LoadingButtonComponent,
+        RegistrationComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA
