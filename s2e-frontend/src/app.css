@@ -20,7 +20,7 @@ components that have the btn class name.
     font-family: Nunito-Regular, Nunito;
 }
 
-.ns-root {
+.ns-root, .ns-modal {
     --brand: lightseagreen;
 }
 
@@ -57,8 +57,9 @@ ActionBar {
 .bg-green { background: #59CD90; }
 .bg-brand, .btn { background: var(--brand); }
 .bg-silver { background: silver; }
+.bg-white { background: white; }
 
-.rounded-corners, .input { border-radius: 3 }
+.rounded-corners, .input { border-radius: 5 }
 
 .border-brand { border-color: var(--brand); }
 .border-silver { border-color: silver; }
@@ -71,3 +72,15 @@ ActionBar {
     font-weight: bold;
     border-color: var(--brand);
 }
+
+.m { margin: 20; }
+.m-t { margin-top: 20; }
+.m-r { margin-right: 20; }
+.m-b { margin-bottom: 20; }
+.m-l { margin-left: 20; }
+
+.p { padding: 20; }
+.p-t { padding-top: 20; }
+.p-r { padding-right: 20; }
+.p-b { padding-bottom: 20; }
+.p-l { padding-left: 20; }
