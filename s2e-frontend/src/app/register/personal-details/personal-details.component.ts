@@ -1,37 +1,78 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
 import { User } from "~/app/interfaces";
 
 @Component({
     selector: "PersonalDetails",
     templateUrl: "./personal-details.component.html"
 })
-export class PersonalDetailsComponent {
-    private emailEmpty: boolean;
-    private usernameEmpty: boolean;
-    private passwordEmpty: boolean;
-    private pinEmpty: boolean;
-
+export class PersonalDetailsComponent implements OnInit {
     @Input() private user;
 
     @Output() private userChanged = new EventEmitter<User>();
 
-    validateEmail() {
-        this.emailEmpty = this.user.email.length === 0;
-        this.userChanged.emit(this.user);
+    @Output() private isDataValid: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+    ngOnInit() {
+        this.isDataValid.emit(false);
     }
 
-    validateUsername() {
-        this.usernameEmpty = this.user.username.length === 0;
-        this.userChanged.emit(this.user);
+    private checkValidity(): void {
+        if (this.validateEmail(this.user.email, true) ||
+            this.validateUsername(this.user.username, true) ||
+            this.validatePassword(this.user.password, true) ||
+            this.validatePin(this.user.pin, true)) {
+            this.isDataValid.emit(false);
+        }
+        else {
+            this.isDataValid.emit(true);
+        }
     }
 
-    validatePassword() {
-        this.passwordEmpty = this.user.password.length === 0;
-        this.userChanged.emit(this.user);
+    private validateEmail(email: string, checkValidity: boolean = false): string {
+        if (!checkValidity) {
+            //this.userChanged.emit(this.user);
+            //this.checkValidity();
+        }
+        if (!email.length) {
+            return 'The field is empty';
+        }
+        const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if (!emailRegex.test(email)) {
+            return 'Your email address is in an incorrect format';
+        }
+        return null;
     }
 
-    validatePin() {
-        this.pinEmpty = this.user.pin.length === 0;
-        this.userChanged.emit(this.user);
+    private validateUsername(username: string, checkValidity: boolean = false): string {
+        if (!checkValidity) {
+            //this.userChanged.emit(this.user);
+            //this.checkValidity();
+        }
+        if (!username.length) {
+            return 'The field is empty';
+        }
+        return null;
+    }
+
+    private validatePassword(password: string, checkValidity: boolean = false): string {
+        if (!checkValidity) {
+            //this.userChanged.emit(this.user);
+            //this.checkValidity();
+        }
+        if (!password.length) {
+            return 'The field is empty';
+        }
+        return null;
+    }
+
+    private validatePin(pin: string, checkValidity: boolean = false): string {
+        if (!checkValidity) {
+            //this.userChanged.emit(this.user);
+            //this.checkValidity();
+        }
+        if (!/^\d{4,6}$/.test(pin)) {
+            return 'Your PIN must contain between 4 and 6 digits';
+        }
+        return null;
     }
 }
