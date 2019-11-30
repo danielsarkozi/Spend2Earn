@@ -26,3 +26,20 @@
     animation-duration: 500ms;
     animation-direction: reverse;
 }
+
+.bank-account {
+    background: #eee;
+    margin-top: 20;
+    padding: 20;
+}
+
+.card {
+    background: white;
+    margin-top: 20;
+    padding: 20;
+}
+
+.title {
+    font-weight: bold;
+    text-transform: uppercase;
+}

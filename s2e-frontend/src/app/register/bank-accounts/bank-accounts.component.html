@@ -1,40 +1,31 @@
-<ScrollView>
-    <FlexboxLayout flexDirection="column" padding="30">
-        <Logo size="100" style="margin-bottom: 30"></Logo>
-        <Stepper step="2"></Stepper>
-        <StackLayout>
-            <StackLayout *ngFor="let bankAccount of bankAccounts; let i = index" class="iban" [ngClass]="{hiding: bankAccount.hiding, showing: bankAccount.showing}">
-                <Label text="IBAN"></Label>
-                <StackLayout>
-                    <FlexboxLayout>
-                        <TextField [(ngModel)]="bankAccount.number" flexGrow="1" class="input" autocorrect="false"
-                            returnKeyType="next" autocapitalizationType="none" (blur)="validateIban(bankAccount)"></TextField>
-                        <Button text="&#xef98;" class="remove" *ngIf="bankAccounts.length > 1" (tap)="removeBankAccount(i)"></Button>
-                    </FlexboxLayout>
-                    <Label [text]="bankAccount.error" color="red"></Label>
+<StackLayout>
+    <DockLayout stretchLastChild="false">
+        <Label dock="left" [text]="bankAccounts.length + ' Accounts'" class="title"></Label>
+        <AddButton dock="right" text="Add New" (tap)="openBankAccountForm()"></AddButton>
+    </DockLayout>
+    <StackLayout *ngFor="let bankAccount of bankAccounts; let bankAccountIndex = index" class="border-radius bank-account">
+        <DockLayout stretchLastChild="false">
+            <Label dock="left" [text]="bankAccount.alias" class="title"></Label>
+            <AddButton dock="right" text="Remove" delete="true" (tap)="removeBankAccount(bankAccountIndex)"></AddButton>
+        </DockLayout>
 
-                    <Label text="Account Owner"></Label>
-                    <TextField [(ngModel)]="bankAccount.accountOwner" class="input" autocorrect="false"
-                        returnKeyType="next"></TextField>
+        <Label text="IBAN"></Label>
+        <Label [text]="bankAccount.number"></Label>
 
-                    <Label text="Account Name"></Label>
-                    <TextField [(ngModel)]="bankAccount.alias" class="input" autocorrect="false"
-                        returnKeyType="next"></TextField>
-                </StackLayout>
-                <Label [text]="bankAccount.cards.length  + ' Linked Card' + (bankAccount.cards.length === 1 ? '' : 's')"
-                    marginTop="20"></Label>
-                <StackLayout *ngFor="let card of bankAccount.cards; let j = index">
-                    <FlexboxLayout>
-                        <TextField flexGrow="1" [(ngModel)]="card.number" class="input" autocorrect="false"
-                            returnKeyType="next" autocapitalizationType="none" keyboardType="phone" (blur)="validateCard(card)"></TextField>
-                        <Button text="&#xef98;" class="remove" (tap)="removeCard(bankAccount, j)"></Button>
-                    </FlexboxLayout>
-                    <Label [text]="card.error" color="red"></Label>
-                </StackLayout>
-                <AddButton (tap)="addCard(bankAccount)" text="Add Linked Card"></AddButton>
-            </StackLayout>
-            <AddButton text="Add Bank Account" (tap)="addBankAccount()"></AddButton>
+        <Label text="Owner"></Label>
+        <Label [text]="bankAccount.accountOwner"></Label>
+
+        <DockLayout stretchLastChild="false">
+            <Label [text]="bankAccount.cards.length + ' Cards'" class="title"></Label>
+            <AddButton dock="right" text="Add New" (tap)="openCardForm(bankAccount)"></AddButton>
+        </DockLayout>
+        <StackLayout *ngFor="let card of bankAccount.cards; let cardIndex = index" class="border-radius card">
+            <DockLayout stretchLastChild="false">
+                <Label dock="left" text="CARD NAME" class="title"></Label>
+                <AddButton dock="right" text="Remove" delete="true" (tap)="removeCard(bankAccount, cardIndex)"></AddButton>
+            </DockLayout>
+            <Label text="Number"></Label>
+            <Label [text]="card.number"></Label>
         </StackLayout>
-        <LoadingButton text="Continue" [isLoading]="isSaving" (tap)="continue()" style="flex-shrink: 0; margin-top: 30"></LoadingButton>
-    </FlexboxLayout>
-</ScrollView>
+    </StackLayout>
+</StackLayout>

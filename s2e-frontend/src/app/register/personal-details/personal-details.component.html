@@ -1,32 +1,24 @@
-<ScrollView>
-    <FlexboxLayout flexDirection="column" padding="30">
-        <Logo size="100" style="margin-bottom: 30"></Logo>
-        <Stepper step="1"></Stepper>
-        <StackLayout verticalAlignment="center" flexGrow="1" marginBottom="20">
-            <Label text="Email address" marginTop="20"></Label>
-            <TextField [(ngModel)]="email" class="input" autocorrect="false" returnKeyType="next"
-                autocapitalizationType="none" (blur)="validateEmail()" keyboardType="email" [editable]="!isSaving">
-            </TextField>
-            <Label *ngIf="emailEmpty" text="Please enter your email address" color="red"></Label>
+<StackLayout>
+    <Label text="Email address"></Label>
+    <TextField [(ngModel)]="user.email" class="input" autocorrect="false" returnKeyType="next" autocapitalizationType="none"
+        (blur)="validateEmail()" keyboardType="email" [editable]="!isSaving">
+    </TextField>
+    <Label *ngIf="emailEmpty" text="Please enter your email address" color="red"></Label>
 
-            <Label text="Username" marginTop="20"></Label>
-            <TextField [(ngModel)]="username" class="input" autocorrect="false" returnKeyType="next"
-                autocapitalizationType="none" (blur)="validateUsername()" [editable]="!isSaving"></TextField>
-            <Label *ngIf="usernameEmpty" text="Please enter your username" color="red"></Label>
+    <Label text="Username" marginTop="20"></Label>
+    <TextField [(ngModel)]="user.username" class="input" autocorrect="false" returnKeyType="next" autocapitalizationType="none"
+        (blur)="validateUsername()" [editable]="!isSaving"></TextField>
+    <Label *ngIf="usernameEmpty" text="Please enter your username" color="red"></Label>
 
-            <Label text="Password" marginTop="20"></Label>
-            <TextField [(ngModel)]="password" class="input" autocorrect="false" returnKeyType="next"
-                autocapitalizationType="none" secure="true" (blur)="validatePassword()" [editable]="!isSaving">
-            </TextField>
-            <Label *ngIf="passwordEmpty" text="Please enter your password" color="red"></Label>
+    <Label text="Password" marginTop="20"></Label>
+    <TextField [(ngModel)]="user.password" class="input" autocorrect="false" returnKeyType="next" autocapitalizationType="none"
+        secure="true" (blur)="validatePassword()" [editable]="!isSaving">
+    </TextField>
+    <Label *ngIf="passwordEmpty" text="Please enter your password" color="red"></Label>
 
-            <Label text="PIN" marginTop="20"></Label>
-            <TextField [(ngModel)]="pin" class="input" autocorrect="false" returnKeyType="go"
-                autocapitalizationType="none" secure="true" (blur)="validatePin()" (returnPress)="continue()"
-                keyboardType="phone" [editable]="!isSaving">
-            </TextField>
-            <Label *ngIf="pinEmpty" text="Please enter your PIN" color="red"></Label>
-        </StackLayout>
-        <LoadingButton text="Continue" [isLoading]="isSaving" (tap)="continue()"></LoadingButton>
-    </FlexboxLayout>
-</ScrollView>
+    <Label text="PIN" marginTop="20"></Label>
+    <TextField [(ngModel)]="user.pin" class="input" autocorrect="false" returnKeyType="go" autocapitalizationType="none"
+        secure="true" (blur)="validatePin()" (returnPress)="continue()" keyboardType="phone" [editable]="!isSaving">
+    </TextField>
+    <Label *ngIf="pinEmpty" text="Please enter your PIN" color="red"></Label>
+</StackLayout>

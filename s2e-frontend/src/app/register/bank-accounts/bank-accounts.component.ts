@@ -1,30 +1,70 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, Input, ViewContainerRef } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { UserService } from "~/app/services/user.service";
-import { BankAccountListItem, BankAccount, Card, CardListItem } from '../../interfaces';
+import { BankAccount, Card } from '../../interfaces';
+import { ModalDialogOptions, ModalDialogService } from "nativescript-angular/modal-dialog";
+import { BankAccountFormComponent } from "../bank-account-form/bank-account-form.component";
+import { CardFormComponent } from "../card-form/card-form.component";
 
 @Component({
     selector: "BankAccounts",
     templateUrl: "./bank-accounts.component.html",
-    styleUrls: ['./bank-accounts.component.css']
+    styleUrls: ['./bank-accounts.component.css'],
+    providers: [ModalDialogService],
 })
 export class BankAccountsComponent implements OnInit {
-    private bankAccounts: BankAccountListItem[] = [
-        {
-            accountOwner: '',
-            alias: '',
-            number: '',
-            cards: []
-        },
-    ];
 
     private isSaving: boolean = false;
 
-    constructor(private routerExtensions: RouterExtensions, private userService: UserService) { }
+    @Input() private bankAccounts: BankAccount[];
+    //@Output() private bankAccountsChanged = new EventEmitter<BankAccount[]>();
+
+    constructor(private routerExtensions: RouterExtensions, private userService: UserService, private modalService: ModalDialogService, private vcRef: ViewContainerRef) { }
 
     ngOnInit(): void { }
 
-    addBankAccount() {
+    private async openBankAccountForm(): Promise<void> {
+        const options: ModalDialogOptions = {
+            viewContainerRef: this.vcRef,
+            context: {},
+            fullscreen: true
+        };
+
+        const bankAccount: BankAccount = await this.modalService.showModal(BankAccountFormComponent, options);
+        
+        if(bankAccount) {
+            this.bankAccounts.push(bankAccount);
+        }
+    }
+
+    private async openCardForm(bankAccount: BankAccount): Promise<void> {
+        const options: ModalDialogOptions = {
+            viewContainerRef: this.vcRef,
+            context: {},
+            fullscreen: true
+        };
+
+        const card: Card = await this.modalService.showModal(CardFormComponent, options);
+        
+        if(card) {
+            bankAccount.cards.push(card);
+        }
+    }
+    
+    private async removeBankAccount(index: number): Promise<void> {
+        const response = await confirm(`Are you sure you want to remove ${this.bankAccounts[index].alias}?`);
+        if(response) {
+            this.bankAccounts.splice(index, 1);
+        }
+    }
+
+    private async removeCard(bankAccount: BankAccount, index: number): Promise<void> {
+        if(await confirm(`Are you sure you want to remove CARD NAME?`)) {
+            this.bankAccounts.splice(index, 1);
+        }
+    }
+
+    /*addBankAccount() {
         const bankAccount = {
             accountOwner: '',
             alias: '',
@@ -42,14 +82,7 @@ export class BankAccountsComponent implements OnInit {
         });
     }
 
-    removeBankAccount(index: number) {
-        this.bankAccounts[index].hiding = true;
-        setTimeout(() => this.bankAccounts.splice(index, 1), 500);
-    }
-
-    removeCard(bankAccount: BankAccount, index: number) {
-        bankAccount.cards.splice(index, 1);
-    }
+    
 
     private async continue(): Promise<void> {
         this.isSaving = true;
@@ -138,5 +171,5 @@ export class BankAccountsComponent implements OnInit {
         }
         delete card.error;
         return true;
-    }
+    }*/
 }
