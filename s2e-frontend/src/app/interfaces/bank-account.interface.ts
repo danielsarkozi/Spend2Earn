@@ -5,4 +5,5 @@ export default interface BankAccount {
     alias: string,
     accountOwner: string,
     cards?: Card[],
+    url?: string
 }

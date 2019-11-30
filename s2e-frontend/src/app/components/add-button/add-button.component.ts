@@ -14,6 +14,8 @@ export class AddButtonComponent implements OnInit {
     private passwordEmpty: boolean;
 
     @Input() text: string;
+    @Input() dock: string;
+    @Input() delete: boolean;
 
     @Output() tap = new EventEmitter();
 

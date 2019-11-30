@@ -1,0 +1,15 @@
+<ScrollView>
+    <DockLayout margin="20">
+        <StackLayout dock="top" marginBottom="20">
+            <Logo size="100" style="margin-bottom: 30"></Logo>
+            <Stepper [step]="step"></Stepper>
+        </StackLayout>
+        <StackLayout dock="bottom">
+            <LoadingButton text="Continue" [isLoading]="isSaving" (tap)="continue()" style="flex-shrink: 0; margin-top: 20">
+            </LoadingButton>
+            <Label [text]="hasBankAccount"></Label>
+        </StackLayout>
+        <PersonalDetails *ngIf="step === 1" text="step1" [(user)]="user"></PersonalDetails>
+        <BankAccounts *ngIf="step === 2" text="step2" [(bankAccounts)]="bankAccounts"></BankAccounts>
+    </DockLayout>
+</ScrollView>

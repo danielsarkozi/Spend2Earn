@@ -24,6 +24,10 @@ import { FinancesComponent } from './finances/finances.component';
 import { HistoryComponent } from './history/history.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { LoadingButtonComponent } from "./components/loading-button/loading-button.component";
+import { RegistrationComponent } from "./registration/registration.component";
+import { BankAccountFormComponent } from "./register/bank-account-form/bank-account-form.component";
+import { FormFieldComponent } from "./components/form-field/form-field.component";
+import { CardFormComponent } from "./register/card-form/card-form.component";
 
 @NgModule({
     bootstrap: [
@@ -56,7 +60,15 @@ import { LoadingButtonComponent } from "./components/loading-button/loading-butt
         FinancesComponent,
         HistoryComponent,
         StatisticsComponent,
-        LoadingButtonComponent
+        LoadingButtonComponent,
+        RegistrationComponent,
+        BankAccountFormComponent,
+        FormFieldComponent,
+        CardFormComponent
+    ],
+    entryComponents: [
+        BankAccountFormComponent,
+        CardFormComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

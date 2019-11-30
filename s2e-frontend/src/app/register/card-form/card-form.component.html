@@ -1,0 +1,10 @@
+<StackLayout class="bg-white p">
+    <Label text="Add Bank Card" class="heading"></Label>
+
+    <FormField [(value)]="card.number" label="Card Number" [validator]="validateCardNumber" className="m-b"></FormField>
+
+    <FlexboxLayout>
+        <LoadingButton text="Cancel" (tap)="close(null)" secondary="true"></LoadingButton>
+        <LoadingButton text="Save" (tap)="close(card)" style="flex-grow: 1; margin-left: 20" [isLoading]="isSaving"></LoadingButton>
+    </FlexboxLayout>
+</StackLayout>

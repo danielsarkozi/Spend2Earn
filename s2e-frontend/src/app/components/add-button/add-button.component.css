@@ -1,11 +1,8 @@
-StackLayout {
-    color: lightseagreen;
-}
-
-Label {
+.icon {
     font-family: IcoFont, 'IcoFont Regular';
 }
 
-Button {
+.btn-add {
+    margin-left: 5;
     text-align: left;
 }

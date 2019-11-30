@@ -1,7 +1,7 @@
-<GridLayout rows="auto, auto" columns="*,*,*" >
+<GridLayout rows="auto, auto" columns="*,*" >
     <Label row="1" column="0" text="Personal Data" textWrap="true"></Label>
     <Label row="1" column="1" text="Bank Accounts" textWrap="true" [ngClass]="{'translucent': step < 2}"></Label>
-    <Label row="1" column="2" text="Agreement" textWrap="true" [ngClass]="{'translucent': step < 3}"></Label>
+    <!---<Label row="1" column="2" text="Agreement" textWrap="true" [ngClass]="{'translucent': step < 3}"></Label>--->
     <FlexboxLayout row="0" column="0">
         <Label class="line invisible"></Label>
         <Label class="dot"></Label>
@@ -10,11 +10,12 @@
     <FlexboxLayout row="0" column="1">
         <Label [ngClass]="{'line': true, 'translucent': step < 2}"></Label>
         <Label [ngClass]="{'dot': true, 'translucent': step < 2}"></Label>
-        <Label [ngClass]="{'line': true, 'translucent': step < 3}"></Label>
+        <!---<Label [ngClass]="{'line': true, 'translucent': step < 3}"></Label>--->
+        <Label class="line invisible"></Label>
     </FlexboxLayout>
-    <FlexboxLayout row="0" column="2">
+    <!---<FlexboxLayout row="0" column="2">
         <Label [ngClass]="{'line': true, 'translucent': step < 3}"></Label>
         <Label [ngClass]="{'dot': true, 'translucent': step < 3}"></Label>
         <Label class="line invisible"></Label>
-    </FlexboxLayout>
+    </FlexboxLayout>--->
 </GridLayout>

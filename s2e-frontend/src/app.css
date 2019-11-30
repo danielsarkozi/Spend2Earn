@@ -20,13 +20,15 @@ components that have the btn class name.
     font-family: Nunito-Regular, Nunito;
 }
 
+.ns-root, .ns-modal {
+    --brand: lightseagreen;
+}
+
 ActionBar {
     background-color:  white;
-    color: lightseagreen;
 }
 
 .btn {
-    background: lightseagreen;
     border-radius: 5;
     color: white;
     font-size: 20;
@@ -34,14 +36,51 @@ ActionBar {
 }
 
 .link {
-    color: lightseagreen;
     text-decoration: underline;
 }
 
 .input {
     background: white;
     border-color: silver;
-    border-radius: 5;
     border-width: 1;
     padding: 10;
 }
+
+.text-red { color: #EE6352; }
+.text-yellow { color: #FAC05E; }
+.text-green { color: #59CD90; }
+.text-white { color: white; }
+.text-brand, .link, ActionBar { color: var(--brand); }
+
+.bg-red { background: #EE6352; }
+.bg-yellow { background: #FAC05E; }
+.bg-green { background: #59CD90; }
+.bg-brand, .btn { background: var(--brand); }
+.bg-silver { background: silver; }
+.bg-white { background: white; }
+
+.rounded-corners, .input { border-radius: 5 }
+
+.border-brand { border-color: var(--brand); }
+.border-silver { border-color: silver; }
+
+.heading {
+    font-size: 25;
+    margin-bottom: 20;
+    border-bottom-width: 1;
+    padding-bottom: 5;
+    font-weight: bold;
+    border-color: var(--brand);
+}
+
+.m { margin: 20; }
+.m-t { margin-top: 20; }
+.m-r { margin-right: 20; }
+.m-b { margin-bottom: 20; }
+.m-l { margin-left: 20; }
+
+.p { padding: 20; }
+.p-t { padding-top: 20; }
+.p-r { padding-right: 20; }
+.p-b { padding-bottom: 20; }
+.p-l { padding-left: 20; }

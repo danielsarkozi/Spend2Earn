@@ -1,64 +1,78 @@
-import { Component } from "@angular/core";
-import { RouterExtensions } from "nativescript-angular/router";
-import { UserService } from "~/app/services/user.service";
-import * as dialogs from "tns-core-modules/ui/dialogs";
+import { Component, Input, Output, EventEmitter, OnInit } from "@angular/core";
+import { User } from "~/app/interfaces";
 
 @Component({
     selector: "PersonalDetails",
     templateUrl: "./personal-details.component.html"
 })
-export class PersonalDetailsComponent {
-    private email: string = '';
-    private username: string = '';
-    private password: string = '';
-    private pin: string = '';
-    private emailEmpty: boolean;
-    private usernameEmpty: boolean;
-    private passwordEmpty: boolean;
-    private pinEmpty: boolean;
-    private isSaving: boolean = false;
+export class PersonalDetailsComponent implements OnInit {
+    @Input() private user;
 
-    constructor(private routerExtensions: RouterExtensions, private userService: UserService) { }
+    @Output() private userChanged = new EventEmitter<User>();
 
-    async continue() {
-        this.validateEmail();
-        this.validateUsername();
-        this.validatePassword();
-        this.validatePin();
+    @Output() private isDataValid: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-        if(!this.emailEmpty && !this.usernameEmpty && !this.passwordEmpty) {
-            this.isSaving = true;
+    ngOnInit() {
+        this.isDataValid.emit(false);
+    }
 
-            const userData = await this.userService.register(this.username, this.password, this.email, this.pin);
-            if(userData) {
-                await this.userService.logIn(this.username, this.password);
-                this.routerExtensions.navigate(['/bank-accounts']);
-            }
-            else {
-                dialogs.alert({
-                    title: 'Registration unsuccessful',
-                    message: 'Please check your data and try again',
-                    okButtonText: 'Close'
-                });
-            }
-
-            this.isSaving = false;
+    private checkValidity(): void {
+        if (this.validateEmail(this.user.email, true) ||
+            this.validateUsername(this.user.username, true) ||
+            this.validatePassword(this.user.password, true) ||
+            this.validatePin(this.user.pin, true)) {
+            this.isDataValid.emit(false);
+        }
+        else {
+            this.isDataValid.emit(true);
         }
     }
 
-    validateEmail() {
-        this.emailEmpty = this.email.length === 0;
+    private validateEmail(email: string, checkValidity: boolean = false): string {
+        if (!checkValidity) {
+            //this.userChanged.emit(this.user);
+            //this.checkValidity();
+        }
+        if (!email.length) {
+            return 'The field is empty';
+        }
+        const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+        if (!emailRegex.test(email)) {
+            return 'Your email address is in an incorrect format';
+        }
+        return null;
     }
 
-    validateUsername() {
-        this.usernameEmpty = this.username.length === 0;
+    private validateUsername(username: string, checkValidity: boolean = false): string {
+        if (!checkValidity) {
+            //this.userChanged.emit(this.user);
+            //this.checkValidity();
+        }
+        if (!username.length) {
+            return 'The field is empty';
+        }
+        return null;
     }
 
-    validatePassword() {
-        this.passwordEmpty = this.password.length === 0;
+    private validatePassword(password: string, checkValidity: boolean = false): string {
+        if (!checkValidity) {
+            //this.userChanged.emit(this.user);
+            //this.checkValidity();
+        }
+        if (!password.length) {
+            return 'The field is empty';
+        }
+        return null;
     }
 
-    validatePin() {
-        this.pinEmpty = this.pin.length === 0;
+    private validatePin(pin: string, checkValidity: boolean = false): string {
+        if (!checkValidity) {
+            //this.userChanged.emit(this.user);
+            //this.checkValidity();
+        }
+        if (!/^\d{4,6}$/.test(pin)) {
+            return 'Your PIN must contain between 4 and 6 digits';
+        }
+        return null;
     }
 }

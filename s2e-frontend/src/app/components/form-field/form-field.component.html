@@ -1,0 +1,6 @@
+<StackLayout [class]="className || ''">
+    <Label [text]="label"></Label>
+    <TextField [(ngModel)]="value" class="input" autocorrect="false" returnKeyType="next" autocapitalizationType="none"
+        (blur)="onBlur(value)" [keyboardType]="keyboardType" [secure]="secure"></TextField>
+    <Label [text]="error" class="text-red" *ngIf="error"></Label>
+</StackLayout>

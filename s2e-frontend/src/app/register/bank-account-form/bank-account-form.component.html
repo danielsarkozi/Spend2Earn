@@ -1,0 +1,14 @@
+<StackLayout class="bg-white p">
+    <Label text="Add Bank Account" class="heading"></Label>
+
+    <FormField [(value)]="bankAccount.number" label="IBAN" [validator]="validateIban" className="m-b"></FormField>
+
+    <FormField [(value)]="bankAccount.accountOwner" label="Account Owner" className="m-b"></FormField>
+
+    <FormField [(value)]="bankAccount.alias" label="Account Name" className="m-b"></FormField>
+
+    <FlexboxLayout>
+        <LoadingButton text="Cancel" (tap)="close(null)" secondary="true"></LoadingButton>
+        <LoadingButton text="Save" (tap)="close(bankAccount)" style="flex-grow: 1; margin-left: 20" [isLoading]="isSaving"></LoadingButton>
+    </FlexboxLayout>
+</StackLayout>

@@ -9,6 +9,8 @@ export class LoadingButtonComponent implements OnInit {
 
     @Input() text: string;
     @Input() isLoading: boolean;
+    @Input() style: string;
+    @Input() secondary: boolean;
 
     @Output() tap = new EventEmitter();
 
