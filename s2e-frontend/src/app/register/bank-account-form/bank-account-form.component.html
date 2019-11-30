@@ -9,6 +9,6 @@
 
     <FlexboxLayout>
         <LoadingButton text="Cancel" (tap)="close(null)" secondary="true"></LoadingButton>
-        <LoadingButton text="Save" (tap)="close(bankAccount)" style="flex-grow: 1; margin-left: 20"></LoadingButton>
+        <LoadingButton text="Save" (tap)="close(bankAccount)" style="flex-grow: 1; margin-left: 20" [isLoading]="isSaving"></LoadingButton>
     </FlexboxLayout>
 </StackLayout>

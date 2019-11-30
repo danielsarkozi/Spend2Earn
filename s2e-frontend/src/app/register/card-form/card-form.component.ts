@@ -1,6 +1,8 @@
 import { Component } from "@angular/core";
 import { Card } from '../../interfaces';
 import { ModalDialogParams } from "nativescript-angular/modal-dialog";
+import { UserService } from "~/app/services/user.service";
+import * as dialogs from 'tns-core-modules/ui/dialogs';
 
 @Component({
     selector: "CardForm",
@@ -13,9 +15,36 @@ export class CardFormComponent {
 
     private isSaving: boolean = false;
 
-    constructor(private params: ModalDialogParams) { }
+    constructor(private params: ModalDialogParams, private userService: UserService) { }
 
-    private close(card: Card): void {
+    private async close(card: Card): Promise<void> {
+        if(card) {
+            this.isSaving = true;
+
+            const request = await fetch('https://spend2earn.herokuapp.com/cards/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `token ${this.userService.token}`
+                },
+                body: JSON.stringify({
+                    number: card.number,
+                    iban: this.params.context.bankAccount
+                })
+            });
+
+            this.isSaving = false;
+
+            if(!request.ok) {
+                request.text().then(console.error);
+                dialogs.alert({
+                    title: 'Save unsuccessful',
+                    message: 'Please check your data and try again',
+                    okButtonText: 'Close'
+                });
+                return;
+            }
+        }
         this.params.closeCallback(card);
     }
 
@@ -28,23 +57,4 @@ export class CardFormComponent {
         }
         return null;
     }
-
-    /*private async saveCards(cards: Card[], iban: string): Promise<void> {
-        const requests = [];
-        for (let card of cards) {
-            const request = fetch('https://spend2earn.herokuapp.com/cards/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    Authorization: `token ${this.userService.token}`
-                },
-                body: JSON.stringify({
-                    number: card.number,
-                    iban: iban
-                })
-            });
-            requests.push(request);
-        }
-        await Promise.all(requests);
-    }*/
 }
