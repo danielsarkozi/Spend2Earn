@@ -7,12 +7,13 @@ import * as dialogs from 'tns-core-modules/ui/dialogs';
 @Component({
     selector: "Registration",
     templateUrl: "./registration.component.html",
-    styleUrls: ['./registration.component.css']
 })
-export class RegistrationComponent implements OnInit {
+export class RegistrationComponent {
     private step: number = 1;
 
     private isSaving: boolean = false;
+
+    private arePersonalDetailsValid: boolean;
 
     private user: User = {
         username: '',
@@ -22,7 +23,7 @@ export class RegistrationComponent implements OnInit {
     };
 
     private bankAccounts: BankAccount[] = [
-        {
+        /*{
             accountOwner: 'Joe Biden',
             alias: 'Money',
             number: 'HU69696969',
@@ -44,12 +45,10 @@ export class RegistrationComponent implements OnInit {
                     number: '0000000'
                 },
             ]
-        },
+        },*/
     ];
 
     constructor(private routerExtensions: RouterExtensions, private userService: UserService) { }
-
-    ngOnInit(): void { }
 
     private async continue(): Promise<void> {
         switch(this.step) {
@@ -57,7 +56,16 @@ export class RegistrationComponent implements OnInit {
                 await this.saveUser();
                 break;
             case 2:
-                this.routerExtensions.navigate(['/menu'], { clearHistory: true });
+                if(this.bankAccounts.length > 0) {
+                    this.routerExtensions.navigate(['/menu'], { clearHistory: true });
+                }
+                else {
+                    dialogs.alert({
+                        title: 'Registration unsuccessful',
+                        message: 'You must provide at least one bank account to register',
+                        okButtonText: 'Close'
+                    });
+                }
                 break;
         }
     }

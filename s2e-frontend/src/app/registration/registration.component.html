@@ -10,6 +10,6 @@
             <Label [text]="hasBankAccount"></Label>
         </StackLayout>
         <PersonalDetails *ngIf="step === 1" text="step1" [(user)]="user"></PersonalDetails>
-        <BankAccounts *ngIf="step === 2" text="step2" [bankAccounts]="bankAccounts"></BankAccounts>
+        <BankAccounts *ngIf="step === 2" text="step2" [(bankAccounts)]="bankAccounts"></BankAccounts>
     </DockLayout>
 </ScrollView>

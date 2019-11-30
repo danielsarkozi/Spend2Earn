@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewContainerRef } from "@angular/core";
+import { Component, OnInit, Input, ViewContainerRef, Output, EventEmitter } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 import { UserService } from "~/app/services/user.service";
 import { BankAccount, Card } from '../../interfaces';
@@ -17,7 +17,7 @@ export class BankAccountsComponent implements OnInit {
     private isSaving: boolean = false;
 
     @Input() private bankAccounts: BankAccount[];
-    //@Output() private bankAccountsChanged = new EventEmitter<BankAccount[]>();
+    @Output() private bankAccountsChange: EventEmitter<BankAccount[]> = new EventEmitter<BankAccount[]>();
 
     constructor(private routerExtensions: RouterExtensions, private userService: UserService, private modalService: ModalDialogService, private vcRef: ViewContainerRef) { }
 
@@ -34,13 +34,14 @@ export class BankAccountsComponent implements OnInit {
         
         if(bankAccount) {
             this.bankAccounts.push(bankAccount);
+            this.bankAccountsChange.emit(this.bankAccounts);
         }
     }
 
     private async openCardForm(bankAccount: BankAccount): Promise<void> {
         const options: ModalDialogOptions = {
             viewContainerRef: this.vcRef,
-            context: {},
+            context: { bankAccount: bankAccount.url },
             fullscreen: true
         };
 
@@ -48,6 +49,7 @@ export class BankAccountsComponent implements OnInit {
         
         if(card) {
             bankAccount.cards.push(card);
+            this.bankAccountsChange.emit(this.bankAccounts);
         }
     }
     
@@ -55,12 +57,14 @@ export class BankAccountsComponent implements OnInit {
         const response = await confirm(`Are you sure you want to remove ${this.bankAccounts[index].alias}?`);
         if(response) {
             this.bankAccounts.splice(index, 1);
+            this.bankAccountsChange.emit(this.bankAccounts);
         }
     }
 
     private async removeCard(bankAccount: BankAccount, index: number): Promise<void> {
         if(await confirm(`Are you sure you want to remove CARD NAME?`)) {
-            this.bankAccounts.splice(index, 1);
+            bankAccount.cards.splice(index, 1);
+            this.bankAccountsChange.emit(this.bankAccounts);
         }
     }
 
