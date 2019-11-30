@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Card, BankAccount } from '../interfaces';
+import { Card, BankAccount, User } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,8 @@ export class UserService {
   public url: string;
   public token: string;
 
-  public async register(username: string, password: string, email: string, pin: string): Promise<object> {
+  public async register(user: User): Promise<object> {
+    const { username, password, email, pin } = user;
     const response = await fetch('https://spend2earn.herokuapp.com/customusers/', {
       method:'POST',
       headers: {
