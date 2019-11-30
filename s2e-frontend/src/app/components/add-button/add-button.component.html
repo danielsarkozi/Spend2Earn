@@ -1,4 +1,4 @@
-<StackLayout orientation="horizontal" (tap)="onTap($event)">
-    <Label text="&#xefc0;&nbsp;"></Label>
-    <Button (tap)="onTap($event)" class="btn-add"  [text]="text"></Button>
+<StackLayout [dock]="dock" orientation="horizontal" (tap)="onTap($event)" [ngClass]="{'text-red': delete, 'text-green': !delete}">
+    <Label class="icon" [text]="delete ? '&#xef98;' : '&#xefc0;'"></Label>
+    <Label (tap)="onTap($event)" class="btn-add"  [text]="text"></Label>
 </StackLayout>
