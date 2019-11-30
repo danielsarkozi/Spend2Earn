@@ -9,6 +9,8 @@ export class FormFieldComponent {
     @Input() private value: string;
     @Input() private validator: (value: string) => string;
     @Input() private className: string;
+    @Input() private keyboardType: string;
+    @Input() private secure: boolean;
 
     @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
 
