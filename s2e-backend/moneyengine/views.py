@@ -74,8 +74,14 @@ class TransactionViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
+        filter_type = self.request.query_params.get('role', None)
         users_ibans = Iban.objects.filter(owner=self.request.user.id)
-        return Transaction.objects.filter(Q(source_iban__in=users_ibans) | Q(destination_iban__in=users_ibans))
+        if filter_type == "payee":
+            return Transaction.objects.filter(destination_iban__in=users_ibans)
+        elif filter_type == "payer":
+            return Transaction.objects.filter(source_iban__in=users_ibans)
+        else:
+            return Transaction.objects.filter(Q(source_iban__in=users_ibans) | Q(destination_iban__in=users_ibans))
 
     def create(self, request):
         serializer = CreateTransactionSerializer(data=request.data, context={'request': request})
@@ -88,7 +94,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
             return Response("OK this was a regular POS transaction", status=http_codes.HTTP_200_OK)
 
         transaction = serializer.save()
-        return Response(transaction.id, status=http_codes.HTTP_201_CREATED)  
+        return Response(serializer.data, status=http_codes.HTTP_201_CREATED)  
 
 
 class TransactionStatusChangeViewSet(viewsets.ModelViewSet):

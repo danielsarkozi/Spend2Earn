@@ -7,6 +7,7 @@ router.register(r'customusers', CustomUserViewSet)
 router.register(r'ibans', IbanViewSet)
 router.register(r'cards', CardViewSet)
 router.register(r'transactions', TransactionViewSet)
+router.register(r'transactions/(?P<role>.+)/$', TransactionViewSet)
 router.register(r'validation', TransactionStatusChangeViewSet)
 
 urlpatterns = [ 

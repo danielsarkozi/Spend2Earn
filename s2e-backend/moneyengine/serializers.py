@@ -14,7 +14,7 @@ class CustomUserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ['url', 'pin', 'password', 'username', 'email', 'is_staff', 'is_superuser']
+        fields = ['url', 'pin', 'password', 'email', 'is_staff', 'is_superuser']
 
 class TransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

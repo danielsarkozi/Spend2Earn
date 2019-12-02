@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
+from django.utils.translation import ugettext_lazy as _
 from enum import Enum, auto
 import random
 
@@ -17,7 +18,12 @@ class TransactionManager(models.Manager):
         return transaction
 
 class CustomUser(AbstractUser):
+    username = None
+    email = models.EmailField(_('email address'), unique=True)
     pin = models.CharField(max_length=256, blank=True)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     def save(self, **kwargs):
         some_salt = 's2e-backend-special-high-mountain-salt' 
@@ -40,12 +46,12 @@ class Iban(models.Model):
     account_owner = models.CharField(max_length=255)
     alias = models.CharField(max_length=255)
     check_digit = models.CharField(max_length=2)
-    bank = models.IntegerField()
+    country = models.CharField(max_length=2)
     number = models.CharField(max_length=30)
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.id) + ": " + str(self.owner.username) + "'s " + self.alias + " account"
+        return str(self.id) + ": " + str(self.owner.email) + "'s " + self.alias + " account"
 
 class Transaction(models.Model):
     source_iban = models.ForeignKey(Iban, on_delete = models.CASCADE, related_name='%(class)s_payeriban')
@@ -77,14 +83,16 @@ class Transaction(models.Model):
 
         success = random.choices([True, False], [0.95, 0.05])[0]
         if success:
-            status = TransactionStatus.approved_by_bank
+            status = TransactionStatus.approved_by_bank.value
         else:
-            status = TransactionStatus.denied_by_bank
+            status = TransactionStatus.denied_by_bank.value
 
         TransactionStatusChange(
             subject_transaction = self,
             new_status = status
         ).save()
+
+        return success
 
     def __str__(self):
         return str(self.id) + ": " + str(self.amount) + " " + self.currency + " from " + str(self.source_iban) + " to " + str(self.destination_iban)
@@ -98,5 +106,6 @@ class TransactionStatusChange(models.Model):
         get_latest_by = 'timestamp'
 
 class Card(models.Model):
-	number = models.CharField(max_length=255)
-	iban = models.ForeignKey(Iban, on_delete=models.CASCADE)
+    number = models.CharField(max_length=255)
+    alias = models.CharField(max_length=255)
+    iban = models.ForeignKey(Iban, on_delete=models.CASCADE)
