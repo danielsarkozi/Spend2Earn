@@ -22,7 +22,7 @@ components that have the btn class name.
 
 ActionBar {
     background-color:  white;
-    color: lightseagreen;
+    color: rgb(32, 178, 170);
 }
 
 .btn {
@@ -44,4 +44,21 @@ ActionBar {
     border-radius: 5;
     border-width: 1;
     padding: 10;
+}
+
+.sideStackLayout {
+    background-color: rgb(253, 251, 250);
+}
+
+.sideTitleStackLayout {
+    text-align: center;
+    vertical-align: center;
+}
+
+.sideLabel {
+    padding: 10;
+}
+
+.sideLightGrayLabel {
+    background-color: lightgray;
 }

@@ -10,10 +10,14 @@ import { AgreementComponent } from "./register/agreement/agreement.component";
 import { TerminalComponent } from "./terminal/terminal.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { MenuComponent } from "./menu/menu.component";
+import { FinancesComponent } from "./finances/finances.component";
+import { StatisticsComponent } from "./statistics/statistics.component";
+import { ProfileComponent } from "./profile/profile.component";
+import { HistoryComponent } from "./history/history.component";
 
 
 const routes: Routes = [
-    { path: "", redirectTo: "/menu", pathMatch: "full" },
+    { path: "", redirectTo: "/landing", pathMatch: "full" },
     { path: "home", component: HomeComponent },
     { path: "login", component: LoginComponent },
     { path: "landing", component: LandingComponent },
@@ -22,7 +26,11 @@ const routes: Routes = [
     { path: "agreement", component: AgreementComponent },
     { path: "terminal", component: TerminalComponent },
     { path: "dashboard", component: DashboardComponent },
-    { path: "menu", component: MenuComponent }
+    { path: "menu", component: MenuComponent },
+    { path: "finances", component: FinancesComponent },
+    { path: "statistics", component: StatisticsComponent },
+    { path: "profile", component: ProfileComponent },
+    { path: "history", component: HistoryComponent },
 ];
 
 @NgModule({

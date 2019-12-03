@@ -1,1 +1,15 @@
-<Label text={{text}}></Label>
+<RadSideDrawer tkExampleTitle tkToggleNavButton>
+    <GridLayout tkDrawerContent rows="56, *" class="sideStackLayout">
+        <StackLayout class="sideTitleStackLayout">
+            <Label text="Navigation Menu"></Label>
+        </StackLayout>
+        <ScrollView row="1">
+            <Menu></Menu>
+        </ScrollView>
+    </GridLayout>
+
+    <StackLayout style="vertical-align: center; padding: 0 30; text-align: center" tkMainContent>
+        <Label text={{text}}></Label>
+    </StackLayout>
+    
+</RadSideDrawer>

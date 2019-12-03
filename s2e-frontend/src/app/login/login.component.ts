@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
             this.isLoggingIn = true;
             const success = await this.userService.logIn(this.username, this.password);
             if (success) {
-                this.routerExtensions.navigate(['/home'], { clearHistory: true });
+                this.routerExtensions.navigate(['/dashboard'], { clearHistory: true });
             }
             else {
                 dialogs.alert({

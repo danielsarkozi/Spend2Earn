@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Card, Iban } from '../interfaces';
+import { Card, Iban, Transaction } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
@@ -70,6 +70,15 @@ export class UserService {
 
   public async getCards(): Promise<Card[]> {
     const response = await fetch('https://spend2earn.herokuapp.com/cards/', {
+      headers: {
+        Authorization: `token ${this.token}`
+      }
+    });
+    return await response.json();
+  }
+
+  public async getTransactions(): Promise<Transaction[]> {
+    const response = await fetch('https://spend2earn.herokuapp.com/transactions/', {
       headers: {
         Authorization: `token ${this.token}`
       }

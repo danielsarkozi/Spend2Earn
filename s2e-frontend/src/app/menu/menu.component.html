@@ -1,27 +1,7 @@
-<RadSideDrawer tkExampleTitle tkToggleNavButton>
-    <GridLayout tkDrawerContent rows="56, *" class="sideStackLayout">
-        <StackLayout class="sideTitleStackLayout">
-            <Label text="Navigation Menu"></Label>
-        </StackLayout>
-        <ScrollView row="1">
-            <StackLayout class="sideStackLayout">
-                <StackLayout *ngFor="let item of menuItems" (tap)="onItemTap(item)">
-                    <Label [text]="item" class="sideLabel"></Label>
-                    <StackLayout class="hr-light m-10"></StackLayout>
-                </StackLayout>
-            </StackLayout>
-        </ScrollView>
-    </GridLayout>
-    <StackLayout [ngSwitch]="currentPage" tkMainContent (swipe)="openDrawer($event)">
-        <Dashboard *ngSwitchCase="'Dashboard'"></Dashboard>
-        <Profile *ngSwitchCase="'Profile'"></Profile>
-        <Finances *ngSwitchCase="'Finances'"></Finances>
-        <History *ngSwitchCase="'History'"></History>
-        <Statistics *ngSwitchCase="'Statistics'"></Statistics>
+<StackLayout class="sideStackLayout">
+    <StackLayout *ngFor="let item of menuItems" (tap)="onItemTap(item)" >
+        <Label [text]="item" class="sideLabel"></Label>
+        <StackLayout class="hr-light m-10"></StackLayout>
     </StackLayout>
-    <!--
-    <StackLayout tkMainContent (swipe)="openDrawer($event)">
-        <Dashboard></Dashboard>
-    </StackLayout>
-    -->
-</RadSideDrawer>
+</StackLayout>
+
