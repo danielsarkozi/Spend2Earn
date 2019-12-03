@@ -49,7 +49,7 @@ export class MenuComponent implements OnInit {
     onItemTap( item: string ){
       console.log(item == "Logout");
       if(item == "Logout"){
-        this.routerExtensions.navigate(["landing"])
+        this.routerExtensions.navigate(["landing"], { clearHistory: true })
       }else{
         this.routerExtensions.navigate([item.toLowerCase()])
       }
