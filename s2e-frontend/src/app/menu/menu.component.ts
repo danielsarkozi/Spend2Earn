@@ -19,6 +19,7 @@ export class MenuComponent implements OnInit {
       "Finances",
       "History",
       "Statistics",
+      "Terminal",
       "Logout"
     ]
 
