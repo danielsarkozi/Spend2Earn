@@ -10,13 +10,7 @@ import { AgreementComponent } from "./register/agreement/agreement.component";
 import { TerminalComponent } from "./terminal/terminal.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { MenuComponent } from "./menu/menu.component";
-<<<<<<< HEAD
 import { RegistrationComponent } from "./registration/registration.component";
-
-
-const routes: Routes = [
-    { path: "", redirectTo: "/register", pathMatch: "full" },
-=======
 import { FinancesComponent } from "./finances/finances.component";
 import { StatisticsComponent } from "./statistics/statistics.component";
 import { ProfileComponent } from "./profile/profile.component";
@@ -25,7 +19,6 @@ import { HistoryComponent } from "./history/history.component";
 
 const routes: Routes = [
     { path: "", redirectTo: "/landing", pathMatch: "full" },
->>>>>>> b8a04e39ee84602e7cfd01778ded39cc92275665
     { path: "home", component: HomeComponent },
     { path: "login", component: LoginComponent },
     { path: "landing", component: LandingComponent },

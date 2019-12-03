@@ -1,9 +1,5 @@
 import { Injectable } from '@angular/core';
-<<<<<<< HEAD
-import { Card, BankAccount, User } from '../interfaces';
-=======
-import { Card, Iban, Transaction } from '../interfaces';
->>>>>>> b8a04e39ee84602e7cfd01778ded39cc92275665
+import { Card, BankAccount, User, Transaction } from '../interfaces';
 
 @Injectable({
   providedIn: 'root',
