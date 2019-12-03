@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BankAccount } from '../interfaces';
 
 @Component({
   selector: 'Finances',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FinancesComponent implements OnInit {
 
-  text = "You got 17$, nigga!"
+  private bankAccounts: BankAccount[] = [];
 
   constructor() { }
 
