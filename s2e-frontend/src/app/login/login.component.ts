@@ -17,10 +17,30 @@ export class LoginComponent implements OnInit {
     ngOnInit(): void {}
 
     async logIn(): Promise<void> {
+<<<<<<< HEAD
         this.isLoggingIn = true;
         const success = await this.userService.logIn(this.email, this.password);
         if (success) {
             this.routerExtensions.navigate(['/terminal'], { clearHistory: true });
+=======
+        this.validateUsername();
+        this.validatePassword();
+
+        if(!this.usernameEmpty && !this.passwordEmpty) {
+            this.isLoggingIn = true;
+            const success = await this.userService.logIn(this.username, this.password);
+            if (success) {
+                this.routerExtensions.navigate(['/dashboard'], { clearHistory: true });
+            }
+            else {
+                dialogs.alert({
+                    title: 'Login unsuccessful',
+                    message: 'You have supplied invalid credentials',
+                    okButtonText: 'Close'
+                });
+            }
+            this.isLoggingIn = false;
+>>>>>>> b8a04e39ee84602e7cfd01778ded39cc92275665
         }
         else {
             dialogs.alert({

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'Dashboard',
@@ -6,8 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-
-  user = "Árpád"
+  user = ''
   data = [
     { Month: "Jan", Amount: 15, SecondVal: 14, ThirdVal: 24, Impact: 0, Year: 0 },
     { Month: "Feb", Amount: 13, SecondVal: 23, ThirdVal: 25, Impact: 0, Year: 0 },
@@ -16,7 +16,7 @@ export class DashboardComponent implements OnInit {
     { Month: "May", Amount: 18, SecondVal: 8, ThirdVal: 21, Impact: 0, Year: 0 }
   ]
 
-  constructor() {
+  constructor(private userService: UserService) {
   }
 
   ngOnInit() {
