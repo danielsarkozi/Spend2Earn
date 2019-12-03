@@ -35,14 +35,14 @@ export class UserService {
     return userData;
   }
 
-  public async logIn(username: string, password: string): Promise<boolean> {
+  public async logIn(email: string, password: string): Promise<boolean> {
     const response = await fetch('https://spend2earn.herokuapp.com/api-token-auth/', {
       method:'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username,
+        username: email,
         password
       })
     });
@@ -50,6 +50,9 @@ export class UserService {
     if(response.ok) {
       const { token } = await response.json();
       this.token = token;
+    }
+    else {
+      response.text().then(console.error);
     }
 
     return response.ok;

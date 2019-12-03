@@ -1,16 +1,9 @@
 <FlexboxLayout flexDirection="column" padding="30">
     <Logo size="100"></Logo>
     <StackLayout verticalAlignment="center" flexGrow="1">
-        <Label text="Username"></Label>
-        <TextField [(ngModel)]="username" class="input" autocorrect="false" returnKeyType="next"
-            (returnPress)="focusOnPassword()" autocapitalizationType="none" (blur)="validateUsername()"
-            [editable]="!isLoggingIn"></TextField>
-        <Label *ngIf="usernameEmpty" text="Please enter your username" color="red"></Label>
-        <Label text="Password" marginTop="20"></Label>
-        <TextField [(ngModel)]="password" class="input" autocorrect="false" returnKeyType="go"
-            autocapitalizationType="none" secure="true" (blur)="validatePassword()" (returnPress)="logIn()"
-            [editable]="!isLoggingIn"></TextField>
-        <Label *ngIf="passwordEmpty" text="Please enter your password" color="red"></Label>
+        <FormField label="Email" [(value)]="email" className="m-b" [validator]="validateFieldNotEmpty"></FormField>
+        <FormField label="Password" secure="true" [(value)]="password" className="m-b"
+            [validator]="validateFieldNotEmpty"></FormField>
     </StackLayout>
     <LoadingButton text="Log In" [isLoading]="isLoggingIn" (tap)="logIn()"></LoadingButton>
 </FlexboxLayout>
