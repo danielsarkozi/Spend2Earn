@@ -123,23 +123,33 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
             return [TransactionStatusChange.objects.filter(subject_transaction=transaction).latest('timestamp'),]
 
     def create(self, request):
-        if 'pin' not in request.headers:
-            return Response("pin required", status=http_codes.HTTP_401_UNAUTHORIZED)
         serializer = TransactionStatusChangeSerializer(data=request.data, context={'request': request})
         if serializer.is_valid():
             requested_status = serializer.validated_data['new_status']
-            if requested_status != TransactionStatus.denied_by_payer.value and requested_status != TransactionStatus.approved_by_payer.value:
-                return Response("only payer approvement / deniement should be requested here", status=http_codes.HTTP_400_BAD_REQUEST)                
-
             transaction = serializer.validated_data['subject_transaction']
             payer_user_id_in_transaction = transaction.source_iban.owner.id
             user_in_token = request.user
-            some_salt = 's2e-backend-special-high-mountain-salt'
-            pin_in_request_hashed = make_password(request.headers['pin'], some_salt)   
-            if (payer_user_id_in_transaction != user_in_token.id or pin_in_request_hashed != user_in_token.pin):
-                return Response("User id or pin mismatch", status=http_codes.HTTP_401_UNAUTHORIZED)
+            print(payer_user_id_in_transaction)
+            print(user_in_token.id)
 
-            transaction.updateStatus(requested_status)
-            return Response(transaction.makePayment(), status=http_codes.HTTP_201_CREATED)
+            if payer_user_id_in_transaction != user_in_token.id:
+                return Response("User id mismatch", status=http_codes.HTTP_401_UNAUTHORIZED)
+
+            if requested_status == TransactionStatus.approved_by_payer:
+                if 'pin' not in request.headers:
+                    return Response("pin required", status=http_codes.HTTP_401_UNAUTHORIZED)
+
+                some_salt = 's2e-backend-special-high-mountain-salt'
+                pin_in_request_hashed = make_password(request.headers['pin'], some_salt)   
+                if pin_in_request_hashed != user_in_token.pin:
+                    return Response("User pin mismatch", status=http_codes.HTTP_401_UNAUTHORIZED)
+
+                transaction.updateStatus(requested_status)
+                return Response(transaction.makePayment(), status=http_codes.HTTP_201_CREATED)
+            elif requested_status == TransactionStatus.denied_by_payer:
+                transaction.updateStatus(requested_status)
+                return Response(status=http_codes.HTTP_201_CREATED)
+            else:
+                return Response("only payer approvement / deniement should be requested here", status=http_codes.HTTP_400_BAD_REQUEST)                
         else:
             return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)
