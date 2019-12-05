@@ -16,12 +16,18 @@ export class ApprovalComponent implements OnInit {
     }
 
     private async onDeny() {
-        this.userService.denyTransaction('https://spend2earn.herokuapp.com/transactions/1/', this.pin);
+        const { transactionId } = this.params.context;
+        if(transactionId) {
+            this.userService.denyTransaction(`https://spend2earn.herokuapp.com/transactions/${transactionId}/`, this.pin);
+        }
         this.params.closeCallback(false);
     }
 
     private async onApprove() {
-        this.userService.approveTransaction('https://spend2earn.herokuapp.com/transactions/1/', this.pin);
+        const { transactionId } = this.params.context;
+        if(transactionId) {
+            this.userService.approveTransaction(`https://spend2earn.herokuapp.com/transactions/${transactionId}/`, this.pin);
+        }
         this.params.closeCallback(true);
     }
 }

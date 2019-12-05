@@ -98,8 +98,8 @@ export class UserService {
       url: rawBankAccount.url,
       accountOwner: rawBankAccount.account_owner,
       alias: rawBankAccount.alias,
-      number: rawBankAccount.country + rawBankAccount.check_digit + rawBankAccount.number,
-      currency: rawBankAccount.currency,
+      number: rawBankAccount.country.toUpperCase() + rawBankAccount.check_digit + rawBankAccount.number,
+      currency: rawBankAccount.currency.toUpperCase(),
       cards: rawBankAccount.cards || []
     }));
 
@@ -155,7 +155,7 @@ export class UserService {
       returnValue = null;
     }
     else {
-      returnValue = JSON.parse(response);
+      returnValue = JSON.parse(response).id;
     }
 
     console.log(response, returnValue);
