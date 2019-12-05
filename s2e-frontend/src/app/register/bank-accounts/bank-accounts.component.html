@@ -21,7 +21,7 @@
         </DockLayout>
         <StackLayout *ngFor="let card of bankAccount.cards; let cardIndex = index" class="border-radius card">
             <DockLayout stretchLastChild="false">
-                <Label dock="left" text="CARD NAME" class="title"></Label>
+                <Label dock="left" [text]="card.alias" class="title"></Label>
                 <AddButton dock="right" text="Remove" delete="true" (tap)="removeCard(bankAccount, cardIndex)"></AddButton>
             </DockLayout>
             <Label text="Number"></Label>

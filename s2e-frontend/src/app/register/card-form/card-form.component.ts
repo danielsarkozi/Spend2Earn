@@ -10,7 +10,8 @@ import * as dialogs from 'tns-core-modules/ui/dialogs';
 })
 export class CardFormComponent {
     private card: Card = {
-        number: ''
+        number: '',
+        alias: ''
     };
 
     private isSaving: boolean = false;
@@ -29,6 +30,7 @@ export class CardFormComponent {
                 },
                 body: JSON.stringify({
                     number: card.number,
+                    alias: card.alias,
                     iban: this.params.context.bankAccount
                 })
             });

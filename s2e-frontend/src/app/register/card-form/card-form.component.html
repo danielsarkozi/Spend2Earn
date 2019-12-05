@@ -1,6 +1,8 @@
 <StackLayout class="bg-white p">
     <Label text="Add Bank Card" class="heading"></Label>
 
+    <FormField [(value)]="card.alias" label="Card Name" className="m-b"></FormField>
+
     <FormField [(value)]="card.number" label="Card Number" [validator]="validateCardNumber" className="m-b"></FormField>
 
     <FlexboxLayout>
