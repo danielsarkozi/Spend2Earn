@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
         this.isLoggingIn = true;
         const success = await this.userService.logIn(this.email, this.password);
         if (success) {
-            this.routerExtensions.navigate(['/dashboard'], { clearHistory: true });
+            this.routerExtensions.navigate(['/history'], { clearHistory: true });
         }
         else {
             dialogs.alert({

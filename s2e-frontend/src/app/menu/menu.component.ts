@@ -14,7 +14,7 @@ import { RouterExtensions } from "nativescript-angular/router";
 export class MenuComponent implements OnInit {
 
     public menuItems = [
-      "Dashboard",
+      //"Dashboard",
       "Profile",
       "Finances",
       "History",

@@ -56,7 +56,7 @@ export class RegistrationComponent {
                 break;
             case 2:
                 if(this.bankAccounts.length > 0) {
-                    this.routerExtensions.navigate(['/menu'], { clearHistory: true });
+                    this.routerExtensions.navigate(['/history'], { clearHistory: true });
                 }
                 else {
                     dialogs.alert({
