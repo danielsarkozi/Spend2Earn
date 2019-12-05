@@ -85,6 +85,13 @@ ActionBar {
 .p-r { padding-right: 20; }
 .p-b { padding-bottom: 20; }
 .p-l { padding-left: 20; }
+
+.t-center { text-align: center; }
+
+.f-bold { font-weight: bold; }
+
+.f-big { font-size: 25; }
+
 .sideStackLayout {
     background-color: rgb(253, 251, 250);
 }
