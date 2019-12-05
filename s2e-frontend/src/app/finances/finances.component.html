@@ -8,9 +8,11 @@
         </ScrollView>
     </GridLayout>
 
-    <StackLayout class="p" tkMainContent>
-        <Label text="Finances" class="heading"></Label>
-        <BankAccounts [(bankAccounts)]="bankAccounts"></BankAccounts>
-    </StackLayout>
+    <ScrollView tkMainContent>
+        <StackLayout class="p">
+                <Label text="Finances" class="heading"></Label>
+                <BankAccounts [(bankAccounts)]="bankAccounts"></BankAccounts>
+        </StackLayout>
+    </ScrollView>
     
 </RadSideDrawer>
