@@ -68,7 +68,7 @@ class CardViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)
 
 
-class TransactionViewSet(viewsets.ViewSet):
+class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transaction.objects.all().order_by('id')
     serializer_class = CreateTransactionSerializer
     permission_classes = (IsAuthenticated,)
