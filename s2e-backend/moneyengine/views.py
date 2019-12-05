@@ -105,7 +105,7 @@ class TransactionViewSet(viewsets.ViewSet):
             return Response("OK this was a regular POS transaction", status=http_codes.HTTP_200_OK)
 
         transaction = serializer.save()
-        return Response(serializer.data, status=http_codes.HTTP_201_CREATED)  
+        return Response(dict(serializer.data, **{'id': transaction.id}), status=http_codes.HTTP_201_CREATED)  
 
 
 class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
