@@ -1,5 +1,5 @@
 <FlexboxLayout flexDirection="column">
-    <ListPicker [items]="listItems | async" selectedIndex="0" flexGrow="1" flexShrink="1" style="color: black" [(ngModel)]="selectedIndex"
+    <ListPicker [items]="listItems | async" selectedIndex="0" flexGrow="1" flexShrink="1" style="color: black; height: 50" [(ngModel)]="selectedIndex"
         [isUserInteractionEnabled]="!awaitingPayment" [isEnabled]="!awaitingPayment"
         [ngClass]="{disabled: awaitingPayment}"></ListPicker>
     <FlexboxLayout margin="0 20">
