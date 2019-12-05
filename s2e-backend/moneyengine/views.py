@@ -129,8 +129,6 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
             transaction = serializer.validated_data['subject_transaction']
             payer_user_id_in_transaction = transaction.source_iban.owner.id
             user_in_token = request.user
-            print(payer_user_id_in_transaction)
-            print(user_in_token.id)
 
             if payer_user_id_in_transaction != user_in_token.id:
                 return Response("User id mismatch", status=http_codes.HTTP_401_UNAUTHORIZED)
