@@ -69,7 +69,7 @@ export class TerminalComponent implements OnInit {
             const options: ModalDialogOptions = {
                 viewContainerRef: this.vcRef,
                 context: {
-                    transaction: transactionId
+                    transactionId
                 },
                 fullscreen: true
             };

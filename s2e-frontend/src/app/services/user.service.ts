@@ -185,9 +185,13 @@ export class UserService {
       })
     });
 
-    response.text().then(console.log);
+    const responseData = await response.json();
 
-    return response;
+    if(!response.ok) {
+      console.error(responseData);
+    }
+
+    return responseData;
   }
 
 }

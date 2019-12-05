@@ -18,7 +18,11 @@ export class ApprovalComponent implements OnInit {
     private async onDeny() {
         const { transactionId } = this.params.context;
         if(transactionId) {
-            this.userService.denyTransaction(`https://spend2earn.herokuapp.com/transactions/${transactionId}/`, this.pin);
+            const response = await this.userService.denyTransaction(`https://spend2earn.herokuapp.com/transactions/${transactionId}/`, this.pin);
+            console.log(response);
+        }
+        else {
+            console.log('Transaction ID missing');
         }
         this.params.closeCallback(false);
     }
@@ -26,7 +30,11 @@ export class ApprovalComponent implements OnInit {
     private async onApprove() {
         const { transactionId } = this.params.context;
         if(transactionId) {
-            this.userService.approveTransaction(`https://spend2earn.herokuapp.com/transactions/${transactionId}/`, this.pin);
+            const response = this.userService.approveTransaction(`https://spend2earn.herokuapp.com/transactions/${transactionId}/`, this.pin);
+            console.log(response);
+        }
+        else {
+            console.log('Transaction ID missing');
         }
         this.params.closeCallback(true);
     }
