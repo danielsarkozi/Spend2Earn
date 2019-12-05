@@ -48,6 +48,7 @@ class Iban(models.Model):
     check_digit = models.CharField(max_length=2)
     country = models.CharField(max_length=2)
     number = models.CharField(max_length=30)
+    currency = models.CharField(max_length=3)
     owner = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
 
     def __str__(self):
