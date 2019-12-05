@@ -68,7 +68,7 @@ class CardViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)
 
 
-class TransactionViewSet(viewsets.ViewSet):
+class TransactionViewSet(viewsets.ModelViewSet):
     queryset = Transaction.objects.all().order_by('id')
     serializer_class = CreateTransactionSerializer
     permission_classes = (IsAuthenticated,)
@@ -120,7 +120,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
             transaction = Transaction.objects.get(id=self.request.data['transaction_id'])
             if self.request.user != transaction.source_iban.owner and self.request.user != transaction.destination_iban.owner:
                 return []
-            return [TransactionStatusChange.objects.filter(subject_transaction=transaction).latest('timestamp'),]
+            return TransactionStatusChange.objects.filter(subject_transaction=transaction)
 
     def create(self, request):
         serializer = TransactionStatusChangeSerializer(data=request.data, context={'request': request})
@@ -133,7 +133,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
             if payer_user_id_in_transaction != user_in_token.id:
                 return Response("User id mismatch", status=http_codes.HTTP_401_UNAUTHORIZED)
 
-            if requested_status == TransactionStatus.approved_by_payer:
+            if requested_status == TransactionStatus.approved_by_payer.value:
                 if 'pin' not in request.headers:
                     return Response("pin required", status=http_codes.HTTP_401_UNAUTHORIZED)
 
@@ -144,7 +144,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
 
                 transaction.updateStatus(requested_status)
                 return Response(transaction.makePayment(), status=http_codes.HTTP_201_CREATED)
-            elif requested_status == TransactionStatus.denied_by_payer:
+            elif requested_status == TransactionStatus.denied_by_payer.value:
                 transaction.updateStatus(requested_status)
                 return Response(status=http_codes.HTTP_201_CREATED)
             else:
