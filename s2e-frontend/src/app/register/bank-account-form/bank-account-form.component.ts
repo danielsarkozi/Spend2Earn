@@ -14,6 +14,7 @@ export class BankAccountFormComponent implements OnInit {
         alias: '',
         number: '',
         cards: [],
+        currency: ''
     };
 
     private isSaving: boolean = false;
