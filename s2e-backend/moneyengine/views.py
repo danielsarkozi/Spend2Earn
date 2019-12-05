@@ -133,7 +133,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
             if payer_user_id_in_transaction != user_in_token.id:
                 return Response("User id mismatch", status=http_codes.HTTP_401_UNAUTHORIZED)
 
-            if requested_status == TransactionStatus.approved_by_payer:
+            if requested_status == TransactionStatus.approved_by_payer.value:
                 if 'pin' not in request.headers:
                     return Response("pin required", status=http_codes.HTTP_401_UNAUTHORIZED)
 
@@ -144,7 +144,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
 
                 transaction.updateStatus(requested_status)
                 return Response(transaction.makePayment(), status=http_codes.HTTP_201_CREATED)
-            elif requested_status == TransactionStatus.denied_by_payer:
+            elif requested_status == TransactionStatus.denied_by_payer.value:
                 transaction.updateStatus(requested_status)
                 return Response(status=http_codes.HTTP_201_CREATED)
             else:
