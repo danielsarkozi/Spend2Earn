@@ -12,14 +12,13 @@ export class UserService {
   public token: string = 'fa9344624776efcdfd6360481d3f613d8a74285d';
 
   public async register(user: User): Promise<object> {
-    const { username, password, email, pin } = user;
+    const { password, email, pin } = user;
     const response = await fetch('https://spend2earn.herokuapp.com/customusers/', {
       method:'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        username,
         password,
         email,
         pin
@@ -123,6 +122,15 @@ export class UserService {
       }
     });
     return await response.json();
+  }
+
+  public async getEmail(): Promise<string> {
+    const response = await fetch('https://spend2earn.herokuapp.com/customusers/', {
+      headers: {
+        Authorization: `token ${this.token}`
+      }
+    });
+    return (await response.json())[0].email;
   }
 
   public async createTransaction(destination: string, amount: number, savings: number, currency: string, source: string): Promise<string> {

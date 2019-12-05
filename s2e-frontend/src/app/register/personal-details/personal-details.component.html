@@ -2,8 +2,6 @@
     <FormField label="Email address" [(value)]="user.email" className="m-b" [validator]="validateEmail"
         keyboardType="email"></FormField>
 
-    <FormField label="Username" [(value)]="user.username" className="m-b" [validator]="validateUsername"></FormField>
-
     <FormField label="Password" [(value)]="user.password" className="m-b" [validator]="validatePassword" secure="true">
     </FormField>
 

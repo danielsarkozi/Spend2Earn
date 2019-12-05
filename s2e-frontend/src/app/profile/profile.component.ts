@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from '../interfaces';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'Profile',
@@ -9,15 +10,15 @@ import { User } from '../interfaces';
 export class ProfileComponent implements OnInit {
 
   private user: User = {
-    username: 'Fake Data',
-    email: 'Email',
-    password: 'PW',
-    pin: 'PIN'
+    email: '',
+    password: '',
+    pin: ''
   };
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.user.email = await this.userService.getEmail();
   }
 
 }

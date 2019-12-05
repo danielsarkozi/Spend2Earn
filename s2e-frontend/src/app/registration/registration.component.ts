@@ -16,7 +16,6 @@ export class RegistrationComponent {
     private arePersonalDetailsValid: boolean;
 
     private user: User = {
-        username: '',
         email: '',
         password: '',
         pin: ''
@@ -77,7 +76,7 @@ export class RegistrationComponent {
             const userData = await this.userService.register(this.user);
             
             if(userData) {
-                await this.userService.logIn(this.user.username, this.user.password);
+                await this.userService.logIn(this.user.email, this.user.password);
                 this.step = 2;
             }
             else {
