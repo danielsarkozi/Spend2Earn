@@ -61,7 +61,7 @@ class CardViewSet(viewsets.ModelViewSet):
             return Response(serializer.errors, status=http_codes.HTTP_400_BAD_REQUEST)
 
 
-class TransactionViewSet(viewsets.ModelViewSet):
+class TransactionViewSet(viewsets.ViewSet):
     queryset = Transaction.objects.all().order_by('id')
     serializer_class = CreateTransactionSerializer
     permission_classes = (IsAuthenticated,)
@@ -70,6 +70,17 @@ class TransactionViewSet(viewsets.ModelViewSet):
         users_ibans = Iban.objects.filter(owner=self.request.user.id)
         return Transaction.objects.filter(Q(source_iban__in=users_ibans) | Q(destination_iban__in=users_ibans))
 
+    def list(self, request):
+        ret = []
+
+        for transaction in self.get_queryset():
+            d = transaction.__dict__
+            del d['_state']
+            d['status'] = transaction.status
+            d['last_changed'] = transaction.last_changed
+            ret.append(d)
+
+        return Response(ret)
     def create(self, request):
         serializer = CreateTransactionSerializer(data=request.data, context={'request': request})
         if not serializer.is_valid():

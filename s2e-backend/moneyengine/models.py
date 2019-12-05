@@ -60,6 +60,12 @@ class Transaction(models.Model):
             .filter(subject_transaction = self) \
             .latest().new_status
 
+    @property
+    def last_changed(self):
+        return TransactionStatusChange.objects \
+            .filter(subject_transaction = self) \
+            .latest().timestamp
+
     def updateStatus(self, new_status):
         TransactionStatusChange(
             subject_transaction = self,
@@ -85,7 +91,7 @@ class Transaction(models.Model):
         ).save()
 
     def __str__(self):
-        return str(self.transaction_id) + ": " + str(self.amount) + "$ from " + str(self.source_iban) + " to " + str(self.destination_iban)
+        return str(self.id) + ": " + str(self.amount) + "$ from " + str(self.source_iban) + " to " + str(self.destination_iban)
 
 class TransactionStatusChange(models.Model):
     subject_transaction = models.ForeignKey(Transaction, on_delete=models.CASCADE, related_name='%(class)s_subjecttransaction')
