@@ -1,0 +1,10 @@
+<DockLayout class="bg-white p">
+    <StackLayout dock="top">
+        <Label text="Customer Approval" class="heading"></Label>
+        <Label class="m-b" text="You are about to pay HUF 69 to Merchant. Please enter your Spend2Earn PIN to approve this payment." textWrap="true"></Label>
+    </StackLayout>
+    <StackLayout dock="bottom" class="m-t">
+        <Keyboard type="pin" [(value)]="pin" (deny)="onDeny()" (approve)="onApprove()"></Keyboard>
+    </StackLayout>
+    <TextField editable="false" secure="true" [ngModel]="pin" class="t-center f-big f-bold"></TextField>
+</DockLayout>
