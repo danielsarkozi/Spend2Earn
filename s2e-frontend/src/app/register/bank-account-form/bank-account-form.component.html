@@ -3,6 +3,8 @@
 
     <FormField [(value)]="bankAccount.number" label="IBAN" [validator]="validateIban" className="m-b"></FormField>
 
+    <FormField [(value)]="bankAccount.currency" label="Currency" className="m-b"></FormField>
+
     <FormField [(value)]="bankAccount.accountOwner" label="Account Owner" className="m-b"></FormField>
 
     <FormField [(value)]="bankAccount.alias" label="Account Name" className="m-b"></FormField>

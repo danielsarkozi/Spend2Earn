@@ -36,7 +36,7 @@ export class BankAccountFormComponent implements OnInit {
                 body: JSON.stringify({
                     account_owner: bankAccount.accountOwner,
                     alias: bankAccount.alias,
-                    bank: 0,
+                    currency: bankAccount.currency,
                     check_digit: bankAccount.number.substr(2, 2),
                     country: bankAccount.number.substr(0, 2),
                     number: bankAccount.number.substr(4),
