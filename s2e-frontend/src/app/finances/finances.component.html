@@ -8,8 +8,11 @@
         </ScrollView>
     </GridLayout>
 
-    <StackLayout style="vertical-align: center; padding: 0 30; text-align: center" tkMainContent>
-        <Label text={{text}}></Label>
-    </StackLayout>
+    <ScrollView tkMainContent>
+        <StackLayout class="p">
+                <Label text="Finances" class="heading"></Label>
+                <BankAccounts [(bankAccounts)]="bankAccounts"></BankAccounts>
+        </StackLayout>
+    </ScrollView>
     
 </RadSideDrawer>

@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-
-interface BankAccount {
-    alias: string,
-    currency: string,
-    flag: string
-}
+import { Component, OnInit, ViewContainerRef } from '@angular/core';
+import { UserService } from '../services/user.service';
+import { BankAccount } from '../interfaces';
+import { ModalDialogOptions, ModalDialogService } from "nativescript-angular/modal-dialog";
+import { LandingComponent } from '../landing/landing.component';
+import { ApprovalComponent } from '../approval/approval.component';
 
 @Component({
     selector: 'Terminal',
@@ -15,35 +14,17 @@ export class TerminalComponent implements OnInit {
     private amount: string = '';
     private awaitingPayment: boolean = false;
 
-    private bankAccounts: BankAccount[] = [
-        {
-            alias: 'Hungarian IBAN Account',
-            currency: 'HUF',
-            flag: '\uD83C\uDDED\ud83c\uddfa'
-        },
-        {
-            alias: 'French IBAN Account',
-            currency: 'EUR',
-            flag: '\uD83C\uDDEB\uD83C\uDDF7'
-        },
-        {
-            alias: 'Guinea-Bissau IBAN Account',
-            currency: 'XOF',
-            flag: '\uD83C\uDDEC\uD83C\uDDFC'
-        }
-    ];
+    private bankAccounts: BankAccount[];
 
-    private listItems: {} = {
-        length: this.bankAccounts.length,
-        getItem: (index: number) => this.bankAccounts[index].flag + ' ' + this.bankAccounts[index].alias
-    };
+    private listItems: Promise<string[]>;
 
     private selectedIndex: number = 0;
  
-    constructor() { }
+    constructor(private modalService: ModalDialogService, private vcRef: ViewContainerRef, private userService: UserService) { }
 
-    ngOnInit(): void {
-        // Init your component properties here.
+    async ngOnInit(): Promise<void> {
+        this.bankAccounts = await this.userService.getIbans();
+        this.listItems = Promise.resolve(this.bankAccounts.map((bankAccount: BankAccount) => bankAccount.alias));
     }
 
     input(symbol: string): void {
@@ -77,17 +58,32 @@ export class TerminalComponent implements OnInit {
         return parseFloat(this.amount) > 0;
     }
 
-    enter() {
+    async enter() {
         this.awaitingPayment = true;
-        setTimeout(async () => {
-            if(await confirm("DEBUG: Did payer approve payment?")) {
-                alert('Mr. Payer has paid you ' + this.bankAccounts[this.selectedIndex].currency + ' ' + this.amount + '.');
+        const tapDetails = <any>await prompt('DEBUG: If customer tapped card, enter card number here');
+        if(tapDetails.result) {
+            const amount = parseFloat(this.amount);
+            const selectedAccount = this.bankAccounts[this.selectedIndex];
+            await this.userService.createTransaction(selectedAccount.url, amount, amount * 0.005, selectedAccount.currency, tapDetails.text);
+
+            const options: ModalDialogOptions = {
+                viewContainerRef: this.vcRef,
+                context: {
+                    cardNumber: tapDetails.text
+                },
+                fullscreen: true
+            };
+            
+            const success: boolean = await this.modalService.showModal(ApprovalComponent, options);
+
+            if(success) {
+                alert('You got paid');
             }
             else {
-                alert('Mr. Payer refused to pay you ' + this.bankAccounts[this.selectedIndex].currency + ' ' + this.amount + '.');
+                alert('User refused');
             }
-            this.awaitingPayment = false;
-        }, 1000);
+        }
+        this.awaitingPayment = false;
     }
 
     floor(n: number): number {

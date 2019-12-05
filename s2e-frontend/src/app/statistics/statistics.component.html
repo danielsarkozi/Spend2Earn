@@ -8,8 +8,25 @@
         </ScrollView>
     </GridLayout>
 
-    <StackLayout style="vertical-align: center; padding: 0 30; text-align: center" tkMainContent>
-        <Label text="Statistics"></Label>
+    <StackLayout style="padding: 0 30; text-align: center" tkMainContent>
+        <Label text="Statistics" style="font-size: 25; margin: 30 0 30; text-align: center;" ></Label>
+        <StackLayout class="hr-light m-10"></StackLayout>
+
+        <Label text="Your spendings:" style="text-align: center"></Label>
+
+        <RadCartesianChart tkExampleTitle tkToggleNavButton style="height: 50%;">
+            <SplineAreaSeries tkCartesianSeries seriesName="Area" [items]="data" categoryProperty="Month" valueProperty="ThirdVal"></SplineAreaSeries>
+    
+            <Palette tkCartesianPalette seriesName="Area">
+                <PaletteEntry tkCartesianPaletteEntry fillColor="#97DDD6" strokeColor="#64C8C0" strokeWidth="8"></PaletteEntry>
+            </Palette>
+        
+            <CategoricalAxis tkCartesianHorizontalAxis></CategoricalAxis>
+            <LinearAxis tkCartesianVerticalAxis></LinearAxis>
+        </RadCartesianChart>
+
+        <Label text="Your savings: {{savings}} " style="text-align: left; font-size:x-large;"></Label>
+
     </StackLayout>
     
 </RadSideDrawer>

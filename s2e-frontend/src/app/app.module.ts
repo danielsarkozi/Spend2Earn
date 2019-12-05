@@ -28,6 +28,8 @@ import { RegistrationComponent } from "./registration/registration.component";
 import { BankAccountFormComponent } from "./register/bank-account-form/bank-account-form.component";
 import { FormFieldComponent } from "./components/form-field/form-field.component";
 import { CardFormComponent } from "./register/card-form/card-form.component";
+import { ApprovalComponent } from "./approval/approval.component";
+import { KeyboardComponent } from "./components/keyboard/keyboard.component";
 
 @NgModule({
     bootstrap: [
@@ -64,11 +66,14 @@ import { CardFormComponent } from "./register/card-form/card-form.component";
         RegistrationComponent,
         BankAccountFormComponent,
         FormFieldComponent,
-        CardFormComponent
+        CardFormComponent,
+        ApprovalComponent,
+        KeyboardComponent
     ],
     entryComponents: [
         BankAccountFormComponent,
-        CardFormComponent
+        CardFormComponent,
+        ApprovalComponent
     ],
     schemas: [
         NO_ERRORS_SCHEMA

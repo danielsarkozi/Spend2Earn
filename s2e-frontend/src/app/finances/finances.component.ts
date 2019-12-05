@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { BankAccount } from '../interfaces';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'Finances',
@@ -7,11 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FinancesComponent implements OnInit {
 
-  text = "You got 17$, nigga!"
+  private bankAccounts: BankAccount[] = [];
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
-  ngOnInit() {
+  async ngOnInit(): Promise<void> {
+    this.bankAccounts = await this.userService.getIbans(true);
   }
 
 }

@@ -1,9 +1,9 @@
 <FlexboxLayout flexDirection="column">
-    <ListPicker [items]="listItems" selectedIndex="0" flexGrow="1" flexShrink="1" style="color: black" [(ngModel)]="selectedIndex"
+    <ListPicker [items]="listItems | async" selectedIndex="0" flexGrow="1" flexShrink="1" style="color: black" [(ngModel)]="selectedIndex"
         [isUserInteractionEnabled]="!awaitingPayment" [isEnabled]="!awaitingPayment"
         [ngClass]="{disabled: awaitingPayment}"></ListPicker>
     <FlexboxLayout margin="0 20">
-        <Label [text]="bankAccounts[selectedIndex].currency"></Label>
+        <Label [text]="bankAccounts && bankAccounts.length ? bankAccounts[selectedIndex].currency : ''"></Label>
         <TextField marginLeft="20" flexGrow="1" class="input" editable="false" [ngModel]="amount"></TextField>
         <ActivityIndicator *ngIf="awaitingPayment" marginLeft="20" busy="true" color="lightseagreen"></ActivityIndicator>
     </FlexboxLayout>

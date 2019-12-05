@@ -1,0 +1,15 @@
+<GridLayout columns="*,*,*" rows="auto,auto,auto,auto,auto">
+    <Button *ngFor="let symbol of ['1','2','3','4','5','6','7','8','9']; let i = index" [text]="symbol"
+        [row]="floor(i/3)" [col]="i%3" (tap)="input(symbol)" [isEnabled]="isSymbolEnabled(symbol)" ƒ
+        [ngClass]="{disabled: !isSymbolEnabled(symbol)}">
+    </Button>
+    <Button text="0" row="3" col="1" (tap)="input('0')" [isEnabled]="isSymbolEnabled('0')" ƒ
+        [ngClass]="{disabled: !isSymbolEnabled('0')}">
+    </Button>
+
+    <Button text="Approve" row="3" col="2" class="green" rowSpan="2" (tap)="onApprove()" [isEnabled]="value.length >= 3"
+        [ngClass]="{disabled: value.length < 4}"></Button>
+    <Button text="Refuse" row="3" col="0" class="red" (tap)="onDeny()" rowSpan="2"></Button>
+    <Button text="Delete" row="4" col="1" class="yellow" (tap)="onDelete()" [isEnabled]="value.length"
+        [ngClass]="{disabled: !value.length}"></Button>
+</GridLayout>

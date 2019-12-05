@@ -6,4 +6,5 @@ export default interface BankAccount {
     accountOwner: string,
     cards?: Card[],
     url?: string
+    currency: string
 }

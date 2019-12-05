@@ -8,10 +8,8 @@ import * as dialogs from "tns-core-modules/ui/dialogs";
     templateUrl: "./login.component.html"
 })
 export class LoginComponent implements OnInit {
-    private username: string = '';
+    private email: string = '';
     private password: string = '';
-    private usernameEmpty: boolean;
-    private passwordEmpty: boolean;
     private isLoggingIn: boolean = false;
 
     constructor(private routerExtensions: RouterExtensions, private userService: UserService) {}
@@ -19,31 +17,22 @@ export class LoginComponent implements OnInit {
     ngOnInit(): void {}
 
     async logIn(): Promise<void> {
-        this.validateUsername();
-        this.validatePassword();
-
-        if(!this.usernameEmpty && !this.passwordEmpty) {
-            this.isLoggingIn = true;
-            const success = await this.userService.logIn(this.username, this.password);
-            if (success) {
-                this.routerExtensions.navigate(['/dashboard'], { clearHistory: true });
-            }
-            else {
-                dialogs.alert({
-                    title: 'Login unsuccessful',
-                    message: 'You have supplied invalid credentials',
-                    okButtonText: 'Close'
-                });
-            }
-            this.isLoggingIn = false;
+        this.isLoggingIn = true;
+        const success = await this.userService.logIn(this.email, this.password);
+        if (success) {
+            this.routerExtensions.navigate(['/dashboard'], { clearHistory: true });
         }
+        else {
+            dialogs.alert({
+                title: 'Login unsuccessful',
+                message: 'You have supplied invalid credentials',
+                okButtonText: 'Close'
+            });
+        }
+        this.isLoggingIn = false;
     }
 
-    validateUsername() {
-        this.usernameEmpty = this.username.length === 0;
-    }
-
-    validatePassword() {
-        this.passwordEmpty = this.password.length === 0;
+    validateFieldNotEmpty(value: string): string {
+        return value.length ? null : 'This field cannot be empty';
     }
 }

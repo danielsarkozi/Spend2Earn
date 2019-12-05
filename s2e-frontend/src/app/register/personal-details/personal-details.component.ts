@@ -18,7 +18,6 @@ export class PersonalDetailsComponent implements OnInit {
 
     private checkValidity(): void {
         if (this.validateEmail(this.user.email, true) ||
-            this.validateUsername(this.user.username, true) ||
             this.validatePassword(this.user.password, true) ||
             this.validatePin(this.user.pin, true)) {
             this.isDataValid.emit(false);
@@ -39,17 +38,6 @@ export class PersonalDetailsComponent implements OnInit {
         const emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
         if (!emailRegex.test(email)) {
             return 'Your email address is in an incorrect format';
-        }
-        return null;
-    }
-
-    private validateUsername(username: string, checkValidity: boolean = false): string {
-        if (!checkValidity) {
-            //this.userChanged.emit(this.user);
-            //this.checkValidity();
-        }
-        if (!username.length) {
-            return 'The field is empty';
         }
         return null;
     }
