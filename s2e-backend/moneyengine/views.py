@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from django.db.models import Q
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import AnonymousUser
 from .models import Transaction, TransactionStatusChange, Iban, Card, CustomUser, TransactionStatus
 from .serializers import CustomUserSerializer, TransactionSerializer, TransactionStatusChangeSerializer, IbanSerializer, CardSerializer, CreateTransactionSerializer
 
@@ -13,9 +14,15 @@ class CustomUserViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all()
     serializer_class = CustomUserSerializer
 
+    def get_queryset(self):
+        if not self.request.user.is_anonymous:
+            return [self.request.user,]
+        else:
+            return []
+
 
 class IbanViewSet(viewsets.ModelViewSet):
-    queryset = Iban.objects.all().order_by('id')
+    queryset = Iban.objects.all()
     serializer_class = IbanSerializer
     permission_classes = (IsAuthenticated,)
 
@@ -67,8 +74,14 @@ class TransactionViewSet(viewsets.ViewSet):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
+        filter_type = self.request.query_params.get('role', None)
         users_ibans = Iban.objects.filter(owner=self.request.user.id)
-        return Transaction.objects.filter(Q(source_iban__in=users_ibans) | Q(destination_iban__in=users_ibans))
+        if filter_type == "payee":
+            return Transaction.objects.filter(destination_iban__in=users_ibans)
+        elif filter_type == "payer":
+            return Transaction.objects.filter(source_iban__in=users_ibans)
+        else:
+            return Transaction.objects.filter(Q(source_iban__in=users_ibans) | Q(destination_iban__in=users_ibans))
 
     def list(self, request):
         ret = []
@@ -92,7 +105,7 @@ class TransactionViewSet(viewsets.ViewSet):
             return Response("OK this was a regular POS transaction", status=http_codes.HTTP_200_OK)
 
         transaction = serializer.save()
-        return Response(transaction.id, status=http_codes.HTTP_201_CREATED)  
+        return Response(serializer.data, status=http_codes.HTTP_201_CREATED)  
 
 
 class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
@@ -104,7 +117,7 @@ class TransactionStatusChangeViewSet(viewsets.ModelViewSet):
         if 'transaction_id' not in self.request.data:
             return []
         else:
-            transaction = Transaction.objects.get(transaction_id=self.request.data['transaction_id'])
+            transaction = Transaction.objects.get(id=self.request.data['transaction_id'])
             if self.request.user != transaction.source_iban.owner and self.request.user != transaction.destination_iban.owner:
                 return []
             return [TransactionStatusChange.objects.filter(subject_transaction=transaction).latest('timestamp'),]
