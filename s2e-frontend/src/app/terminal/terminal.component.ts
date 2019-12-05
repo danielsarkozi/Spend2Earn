@@ -64,12 +64,12 @@ export class TerminalComponent implements OnInit {
         if(tapDetails.result) {
             const amount = parseFloat(this.amount);
             const selectedAccount = this.bankAccounts[this.selectedIndex];
-            await this.userService.createTransaction(selectedAccount.url, amount, amount * 0.005, selectedAccount.currency, tapDetails.text);
+            const transactionId = await this.userService.createTransaction(selectedAccount.url, amount, amount * 0.005, selectedAccount.currency, tapDetails.text);
 
             const options: ModalDialogOptions = {
                 viewContainerRef: this.vcRef,
                 context: {
-                    cardNumber: tapDetails.text
+                    transaction: transactionId
                 },
                 fullscreen: true
             };

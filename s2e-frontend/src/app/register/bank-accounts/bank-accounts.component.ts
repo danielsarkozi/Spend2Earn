@@ -62,7 +62,7 @@ export class BankAccountsComponent implements OnInit {
     }
 
     private async removeCard(bankAccount: BankAccount, index: number): Promise<void> {
-        if(await confirm(`Are you sure you want to remove CARD NAME?`)) {
+        if(await confirm(`Are you sure you want to remove ${bankAccount.cards[index].alias}?`)) {
             bankAccount.cards.splice(index, 1);
             this.bankAccountsChange.emit(this.bankAccounts);
         }
