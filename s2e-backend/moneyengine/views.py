@@ -88,12 +88,17 @@ class TransactionViewSet(viewsets.ModelViewSet):
 
         for transaction in self.get_queryset():
             d = transaction.__dict__
+            d['destination_alias'] = transaction.destination_iban.alias
+            d['destination_account_owner'] = transaction.destination_iban.account_owner
+            d['destination_account_user'] = transaction.destination_iban.owner.email
             del d['_state']
             d['status'] = transaction.status
             d['last_changed'] = transaction.last_changed
             ret.append(d)
 
         return Response(ret)
+
+
     def create(self, request):
         serializer = CreateTransactionSerializer(data=request.data, context={'request': request})
         if not serializer.is_valid():
