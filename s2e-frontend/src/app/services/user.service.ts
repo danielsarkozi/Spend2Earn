@@ -9,7 +9,7 @@ export class UserService {
   constructor() { }
 
   public url: string;
-  public token: string = 'fa9344624776efcdfd6360481d3f613d8a74285d';
+  public token: string = '015d8d54bee50357b830c479047d1c2b2912c15c';
 
   public async register(user: User): Promise<object> {
     const { password, email, pin } = user;
@@ -185,7 +185,7 @@ export class UserService {
       })
     });
 
-    const responseData = await response.json();
+    const responseData = await response.text();
 
     if(!response.ok) {
       console.error(responseData);
