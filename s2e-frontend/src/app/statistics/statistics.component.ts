@@ -26,13 +26,21 @@ export class StatisticsComponent implements OnInit {
   async ngOnInit() {
     var ret = await this.userService.getTransactions();
     ret.forEach(element => {
-      var tr = new TransactionView( element["source_iban"].split(": ")[1], element["destination_iban"].split(": ")[1], element["amount"], element["savings"], element["currency"] )
+      var tr = new TransactionView( /*element["source_iban"].split(": ")[1], element["destination_iban"].split(": ")[1]*/ element["destination_account_owner"], element["destination_alias"], element["amount"], element["savings"], element["currency"], this.getColor(element["status"]))
       this.savings = this.savings + element["savings"]
       this.transaction_list.push(tr)
     });
     console.log(this.transaction_list)
-    
+  }
 
+  private getColor(status: string): string {
+    if(status === 'created') {
+      return 'yellow';
+    }
+    else if(status.includes('denied')) {
+      return 'red';
+    }
+    return 'lightseagreen';
   }
 
 }

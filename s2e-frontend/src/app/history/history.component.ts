@@ -16,7 +16,7 @@ export class HistoryComponent implements OnInit {
   async ngOnInit() {
     var ret = await this.userService.getTransactions();
     ret.forEach((element: any) => {
-      var tr = new TransactionView( /*element["source_iban"].split(": ")[1], element["destination_iban"].split(": ")[1]*/ element["destination_account_owner"], element["destination_alias"], element["amount"], element["savings"], element["currency"], this.getColor(element.status))
+      var tr = new TransactionView( /*element["source_iban"].split(": ")[1], element["destination_iban"].split(": ")[1]*/ element["destination_account_owner"], element["destination_alias"], element["amount"], element["savings"], element["currency"], this.getColor(element["status"]))
       this.transaction_list.push(tr)
     });
     console.log(this.transaction_list)
