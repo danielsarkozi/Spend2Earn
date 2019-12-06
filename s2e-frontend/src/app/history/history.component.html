@@ -12,12 +12,15 @@
         <Label text="History" style="font-size: 25; margin: 30 0 30; vertical-align: center; text-align: center;"></Label>
         <StackLayout class="hr-light m-10"></StackLayout>
         <StackLayout *ngFor="let transaction of transaction_list">
-            <StackLayout orientation="horizontal" style="padding: 0 20 0 20; margin: 0 0 10; height: 50; background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 59%, rgba(32,178,170,0.5835376386882878) 100%);">
+            <StackLayout orientation="horizontal" style="padding: 0 20 0 20; margin: 0 0 10; height: 50; background: linear-gradient(90deg, rgba(255,255,255,1) 0%, rgba(255,255,255,1) 59%, {{transaction.color}} 100%);">
                 <StackLayout  orientation="vertical">
                     <Label text="{{transaction.source_iban}}"></Label>
                     <Label text="{{transaction.destination_iban}}"></Label>
                 </StackLayout>
-                <Label text="{{transaction.amount}} {{transaction.currency}}" style="position: relative; right: 10px; vertical-align: middle; text-align:right; width: 100%;"></Label>
+                <StackLayout style="position: relative; right: 10px; vertical-align: middle; text-align:right; width: 100%;" orientation="vertical">
+                    <Label text="{{transaction.amount}} {{transaction.currency.toUpperCase()}}" ></Label>
+                    <Label text="saved {{transaction.savings}} {{transaction.currency.toUpperCase()}}" ></Label>
+                </StackLayout>
             </StackLayout>
         </StackLayout>
     </StackLayout>
