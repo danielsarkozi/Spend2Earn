@@ -1,17 +1,20 @@
 <RadSideDrawer tkExampleTitle tkToggleNavButton>
     <GridLayout tkDrawerContent rows="56, *" class="sideStackLayout">
         <StackLayout class="sideTitleStackLayout">
-            <Label text="Navigation Menu"></Label>
+            <Label text="Spend2Earn"></Label>
         </StackLayout>
         <ScrollView row="1">
             <Menu></Menu>
         </ScrollView>
     </GridLayout>
 
-    <StackLayout class="p" tkMainContent>
-        <Label text="Profile" class="heading"></Label>
-        <PersonalDetails [(user)]="user"></PersonalDetails>
-    </StackLayout>
+    <DockLayout tkMainContent>
+        <Label dock="top" text="Profile" class="header"></Label>
+        <ScrollView>
+            <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+            <PersonalDetails *ngIf="!isLoading" [(user)]="user" class="p"></PersonalDetails>
+        </ScrollView>
+    </DockLayout>
     
 </RadSideDrawer>
 

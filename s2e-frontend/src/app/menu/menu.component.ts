@@ -18,7 +18,7 @@ export class MenuComponent implements OnInit {
       "Profile",
       "Finances",
       "History",
-      "Statistics",
+      //"Statistics",
       "Terminal",
       "Logout"
     ]
@@ -52,7 +52,7 @@ export class MenuComponent implements OnInit {
       if(item == "Logout"){
         this.routerExtensions.navigate(["landing"], { clearHistory: true })
       }else{
-        this.routerExtensions.navigate([item.toLowerCase()])
+        this.routerExtensions.navigate([item.toLowerCase()], { clearHistory: true })
       }
     }
 

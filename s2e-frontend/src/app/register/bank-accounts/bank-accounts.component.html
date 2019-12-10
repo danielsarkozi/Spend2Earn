@@ -1,4 +1,4 @@
-<StackLayout>
+<StackLayout [class]="className || ''">
     <DockLayout stretchLastChild="false">
         <Label dock="left" [text]="bankAccounts.length + ' Accounts'" class="title"></Label>
         <AddButton dock="right" text="Add New" (tap)="openBankAccountForm()"></AddButton>

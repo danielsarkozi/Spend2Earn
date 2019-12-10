@@ -10,11 +10,13 @@ import { UserService } from '../services/user.service';
 export class FinancesComponent implements OnInit {
 
   private bankAccounts: BankAccount[] = [];
+  private isLoading: boolean = true;
 
   constructor(private userService: UserService) { }
 
   async ngOnInit(): Promise<void> {
     this.bankAccounts = await this.userService.getIbans(true);
+    this.isLoading = false;
   }
 
 }

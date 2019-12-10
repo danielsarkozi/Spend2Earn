@@ -1,18 +1,19 @@
 <RadSideDrawer tkExampleTitle tkToggleNavButton>
     <GridLayout tkDrawerContent rows="56, *" class="sideStackLayout">
         <StackLayout class="sideTitleStackLayout">
-            <Label text="Navigation Menu"></Label>
+            <Label text="Spend2Earn"></Label>
         </StackLayout>
         <ScrollView row="1">
             <Menu></Menu>
         </ScrollView>
     </GridLayout>
 
-    <ScrollView tkMainContent>
-        <StackLayout class="p">
-                <Label text="Finances" class="heading"></Label>
-                <BankAccounts [(bankAccounts)]="bankAccounts"></BankAccounts>
-        </StackLayout>
-    </ScrollView>
-    
+    <DockLayout tkMainContent>
+        <Label dock="top" text="Finances" class="header"></Label>
+        <ScrollView>
+            <ActivityIndicator [busy]="isLoading"></ActivityIndicator>
+            <BankAccounts *ngIf="!isLoading" class="p" [(bankAccounts)]="bankAccounts"></BankAccounts>
+        </ScrollView>
+    </DockLayout>
+
 </RadSideDrawer>

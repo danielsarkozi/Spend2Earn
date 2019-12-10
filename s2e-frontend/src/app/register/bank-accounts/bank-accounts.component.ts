@@ -19,6 +19,8 @@ export class BankAccountsComponent implements OnInit {
     @Input() private bankAccounts: BankAccount[];
     @Output() private bankAccountsChange: EventEmitter<BankAccount[]> = new EventEmitter<BankAccount[]>();
 
+    @Input('class') className: string;
+
     constructor(private routerExtensions: RouterExtensions, private userService: UserService, private modalService: ModalDialogService, private vcRef: ViewContainerRef) { }
 
     ngOnInit(): void { }

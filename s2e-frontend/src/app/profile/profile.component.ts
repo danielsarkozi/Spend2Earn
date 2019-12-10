@@ -15,10 +15,13 @@ export class ProfileComponent implements OnInit {
     pin: ''
   };
 
+  private isLoading: boolean = true;
+
   constructor(private userService: UserService) { }
 
   async ngOnInit() {
     this.user.email = await this.userService.getEmail();
+    this.isLoading = false;
   }
 
 }

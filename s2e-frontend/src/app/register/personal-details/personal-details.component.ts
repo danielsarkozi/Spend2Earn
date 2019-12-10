@@ -12,6 +12,8 @@ export class PersonalDetailsComponent implements OnInit {
 
     @Output() private isDataValid: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+    @Input('class') className: string;
+
     ngOnInit() {
         this.isDataValid.emit(false);
     }
