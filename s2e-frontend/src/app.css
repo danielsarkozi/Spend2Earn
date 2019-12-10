@@ -74,6 +74,14 @@ ActionBar {
     border-color: var(--brand);
 }
 
+.header {
+    font-size: 25;
+    border-bottom-width: 1;
+    padding: 10 20;
+    font-weight: bold;
+    border-color: var(--brand);
+}
+
 .m { margin: 20; }
 .m-t { margin-top: 20; }
 .m-r { margin-right: 20; }
